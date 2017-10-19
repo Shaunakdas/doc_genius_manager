@@ -1,0 +1,34 @@
+defaults: &default
+  adapter: postgresql
+  encoding: utf8
+development:
+  <<: *default
+  database: docgenius_dev
+  pool: 5
+  username: shaunakdas2020
+  password: 
+
+test:
+  <<: *default
+  database: docgenius_test
+  pool: 5
+  username: shaunakdas2020
+  password: 
+
+staging:
+  <<: *default
+  database: docgenius_stage
+  pool: 5
+  host: ENV['db_staging_host']
+  port: 5432
+  username: docgenius
+  password: docgenius
+
+production:
+  <<: *default
+  database: docgenius_prod
+  pool: 5
+  host: ENV['db_prod_host']
+  port: 5432
+  username: docgenius
+  password: docgenius
