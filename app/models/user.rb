@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -9,4 +10,8 @@ class User < ApplicationRecord
   validates_format_of :email, with: /@/
 
   validates_presence_of :first_name, :last_name
+  # attr_accessor :first_name, :last_name, :email
+  def to_s
+    "#{self.first_name} #{self.last_name}"
+  end
 end
