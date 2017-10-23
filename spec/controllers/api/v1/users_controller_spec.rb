@@ -4,7 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "GET #index" do
     context "with no paramaeters" do
       it "gives first page with given page number" do
-        DatabaseCleaner.clean
+        FactoryGirl.create_list(:user, 10)
         get :index,format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -18,7 +18,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context "with page params as 2" do
       it "gives page with given page number" do
-        DatabaseCleaner.clean
+        FactoryGirl.create_list(:user, 20)
         get :index,params:{page:2},format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context "with limit params as 5" do
       it "gives list of 5 users" do
-        DatabaseCleaner.clean
+        FactoryGirl.create_list(:user, 20)
         get :index,params:{limit:5} ,format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -49,8 +49,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context "with search params" do
       it "gives list of users with search results" do
-        DatabaseCleaner.clean
-        query = 'Eddie'
+        # DatabaseCleaner.clean
+        user_list = FactoryGirl.create_list(:user, 10)
+        query = user_list[0].first_name
         get :index,params:{search: query} ,format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -66,8 +67,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context "with email params" do
       it "gives 1 user with given email" do
-        DatabaseCleaner.clean
-        query = 'desmond@bernhard.io'
+        # DatabaseCleaner.clean
+        user_list = FactoryGirl.create_list(:user, 10)
+        query = user_list[0].email
         get :index,params:{email: query} ,format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -85,7 +87,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "POST #create" do
     context "with valid attributes" do
       it "gives the new user with attributes" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         post :create,params: { user: FactoryGirl.attributes_for(:user) },format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -99,7 +101,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "without email" do
       it "gives the error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         post :create,params: { user: FactoryGirl.attributes_for(:user).except(:email) },format: :json
         expect(response.status).to eq(422)
         json = JSON.parse(response.body)
@@ -109,7 +111,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "with incorrect email format" do
       it "gives the error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         user_attr = FactoryGirl.attributes_for(:user)
         user_attr[:email]='shaunak'
         post :create,params: { user: user_attr },format: :json
@@ -121,7 +123,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "with duplicate email" do
       it "gives the error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         user_attr = FactoryGirl.attributes_for(:user)
         post :create,params: { user: user_attr },format: :json
         expect(response).to be_success
@@ -137,7 +139,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "without first_name" do
       it "gives the error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         post :create,params: { user: FactoryGirl.attributes_for(:user).except(:first_name) },format: :json
         expect(response.status).to eq(422)
         json = JSON.parse(response.body)
@@ -157,7 +159,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "with valid id" do
       it "gives the existing user with attributes" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         get :details,params: { id: @user_json['id'] },format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -171,7 +173,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end    
     context "with invalid id" do
       it "gives the existing user with attributes" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         get :details,params: { id: @user_json['id']+100 },format: :json
         expect(response.status).to eq(404)
         json = JSON.parse(response.body)
@@ -191,7 +193,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "with valid id" do
       it "gives the existing user with attributes" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         updated_attr = FactoryGirl.attributes_for(:user)
         # puts updated_attr
         put :update,params: { id: @user_json['id'],user:updated_attr },format: :json
@@ -200,7 +202,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end 
     context "with valid id and incorrect email" do
       it "gives error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         updated_attr = FactoryGirl.attributes_for(:user)
         updated_attr[:email] = ''
         # puts updated_attr
@@ -212,7 +214,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end    
     context "with invalid id" do
       it "gives error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         put :details,params: { id: @user_json['id']+100 },format: :json
         expect(response.status).to eq(404)
         json = JSON.parse(response.body)
@@ -233,7 +235,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     context "with valid id" do
       it "gives success response" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         # puts updated_attr
         delete :delete,params: { id: @user_json['id']},format: :json
         expect(response.status).to eq(200)
@@ -248,7 +250,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end    
     context "with invalid id" do
       it "gives error" do
-        DatabaseCleaner.clean
+        # DatabaseCleaner.clean
         put :delete,params: { id: @user_json['id']+100 },format: :json
         expect(response.status).to eq(404)
         json = JSON.parse(response.body)
