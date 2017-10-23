@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023065300) do
+ActiveRecord::Schema.define(version: 20171023132522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 20171023065300) do
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_question_types_on_slug", unique: true
     t.index ["sub_topic_id"], name: "index_question_types_on_sub_topic_id"
+  end
+
+  create_table "rank_names", force: :cascade do |t|
+    t.string "slug"
+    t.integer "sequence"
+    t.string "display_text"
+    t.string "explainer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_rank_names_on_slug", unique: true
   end
 
   create_table "standards", force: :cascade do |t|
