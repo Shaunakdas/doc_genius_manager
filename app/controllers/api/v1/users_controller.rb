@@ -89,11 +89,6 @@ module Api::V1
       end
     end
 
-    def show
-      user = User.first
-      respond_with user, serializer: Api::V1::UserSerializer
-    end
-
     private
 
     def user_params
