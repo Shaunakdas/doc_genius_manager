@@ -1,0 +1,3 @@
+class WorkingRule < Game
+  
+end

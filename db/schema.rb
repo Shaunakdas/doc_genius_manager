@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023133907) do
+ActiveRecord::Schema.define(version: 20171023143134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,10 +150,23 @@ ActiveRecord::Schema.define(version: 20171023133907) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "working_rules", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.integer "sequence"
+    t.string "question_text"
+    t.bigint "difficulty_level_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["difficulty_level_id"], name: "index_working_rules_on_difficulty_level_id"
+    t.index ["slug"], name: "index_working_rules_on_slug", unique: true
+  end
+
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "question_types", "sub_topics"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"
   add_foreign_key "topics", "chapters"
+  add_foreign_key "working_rules", "difficulty_levels"
 end
