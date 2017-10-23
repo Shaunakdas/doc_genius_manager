@@ -8,8 +8,8 @@ module Api::V1
     def error_response(message, status = :ok)
       render json: {error: message}, status: status
     end
-    def success_response(message, status = :ok)
-      render json: {success: message}, status: status
+    def success_response(message, status = :ok, payload={})
+      render json: {success: message, payload: payload}, status: status
     end
 
     def json_response(object, status = :ok)

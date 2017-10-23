@@ -14,4 +14,12 @@ class User < ApplicationRecord
   def to_s
     "#{self.first_name} #{self.last_name}"
   end
+
+  def self.search(search)
+    where('first_name LIKE :search OR last_name LIKE :search OR email LIKE :search', search: "%#{search}%")
+  end
+
+  def self.search_email(search)
+    where('email LIKE :search', search: "#{search}")
+  end
 end

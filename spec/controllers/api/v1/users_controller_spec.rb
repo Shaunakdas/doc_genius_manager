@@ -2,20 +2,83 @@ require 'rails_helper'
 require 'spec_helper'
 RSpec.describe Api::V1::UsersController, type: :controller do
   describe "GET #index" do
-    context "with valid attributes" do
-      it "gives whole list" do
+    context "with no paramaeters" do
+      it "gives first page with given page number" do
         DatabaseCleaner.clean
         get :index,format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
-        puts json
-
-        # get :show,format: :json
-        # expect(response).to be_success
-        # json = JSON.parse(response.body)
         # puts json
-        # expect(json).to have_key("directory_items")
-        # expect(json['directory_items'].length).not_to eq(0)
+        expect(json).to have_key("users")
+        expect(json["meta"]).to have_key("total_count")
+        expect(json["meta"]).to have_key("page")
+        expect(json["meta"]).to have_key("limit")
+      end
+    end
+
+    context "with page params as 2" do
+      it "gives page with given page number" do
+        DatabaseCleaner.clean
+        get :index,params:{page:2},format: :json
+        expect(response).to be_success
+        json = JSON.parse(response.body)
+        # puts json
+        expect(json).to have_key("users")
+        expect(json["meta"]).to have_key("total_count")
+        expect(json["meta"]).to have_key("page")
+        expect(json["meta"]).to have_key("limit")
+        expect(json["meta"]["page"]).to eq(2)
+      end
+    end
+
+    context "with limit params as 5" do
+      it "gives list of 5 users" do
+        DatabaseCleaner.clean
+        get :index,params:{limit:5} ,format: :json
+        expect(response).to be_success
+        json = JSON.parse(response.body)
+        # puts json
+        expect(json).to have_key("users")
+        expect(json["meta"]).to have_key("total_count")
+        expect(json["meta"]).to have_key("page")
+        expect(json["meta"]).to have_key("limit")
+        expect(json["meta"]["limit"]).to eq(5)
+        expect(json["users"].count).to eq(5)
+      end
+    end
+
+    context "with search params" do
+      it "gives list of users with search results" do
+        DatabaseCleaner.clean
+        query = 'Eddie'
+        get :index,params:{search: query} ,format: :json
+        expect(response).to be_success
+        json = JSON.parse(response.body)
+        # puts json
+        expect(json).to have_key("users")
+        expect(json["meta"]).to have_key("total_count")
+        expect(json["meta"]).to have_key("page")
+        expect(json["meta"]).to have_key("limit")
+        expect(json["meta"]).to have_key("search")
+        expect(json["meta"]["search"]).to eq(query)
+      end
+    end
+
+    context "with email params" do
+      it "gives 1 user with given email" do
+        DatabaseCleaner.clean
+        query = 'desmond@bernhard.io'
+        get :index,params:{email: query} ,format: :json
+        expect(response).to be_success
+        json = JSON.parse(response.body)
+        # puts json
+        expect(json).to have_key("users")
+        expect(json["meta"]).to have_key("total_count")
+        expect(json["meta"]).to have_key("page")
+        expect(json["meta"]).to have_key("limit")
+        expect(json["meta"]).to have_key("search")
+        expect(json["meta"]["search"]).to eq(query)
+        expect(json["users"].count).to eq(1)
       end
     end
   end
@@ -165,7 +228,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       post :create,params: { user: @user_attr },format: :json
       expect(response).to be_success
       json = JSON.parse(response.body)
-      puts 'User created before Delete Test suite: '+json.to_s
+      # puts 'User created before Delete Test suite: '+json.to_s
       @user_json = json["user"]
     end
     context "with valid id" do
@@ -176,7 +239,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(response.status).to eq(200)
         json = JSON.parse(response.body)
         expect(json).to have_key("success")
-        puts json
+        # puts json
         get :details,params: { id: @user_json['id'] },format: :json
         expect(response.status).to eq(404)
         json = JSON.parse(response.body)
