@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023052455) do
+ActiveRecord::Schema.define(version: 20171023063324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 20171023052455) do
     t.index ["slug"], name: "index_subjects_on_slug", unique: true
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.integer "sequence"
+    t.bigint "chapter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_topics_on_chapter_id"
+    t.index ["slug"], name: "index_topics_on_slug", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
@@ -88,4 +99,5 @@ ActiveRecord::Schema.define(version: 20171023052455) do
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "streams", "subjects"
+  add_foreign_key "topics", "chapters"
 end
