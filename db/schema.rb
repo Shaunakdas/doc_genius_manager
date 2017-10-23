@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023132522) do
+ActiveRecord::Schema.define(version: 20171023133040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20171023132522) do
     t.index ["slug"], name: "index_chapters_on_slug", unique: true
     t.index ["standard_id"], name: "index_chapters_on_standard_id"
     t.index ["stream_id"], name: "index_chapters_on_stream_id"
+  end
+
+  create_table "difficulty_levels", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.integer "sequence"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_difficulty_levels_on_slug", unique: true
   end
 
   create_table "question_types", force: :cascade do |t|
