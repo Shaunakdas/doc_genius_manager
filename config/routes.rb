@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
@@ -24,6 +25,22 @@ Rails.application.routes.draw do
           post "photo/profile" => "users#photo_upload"
           # Delete User Req: (Admin AuthToken, User Id)
           delete "user/:id" => "users#delete"
+        end
+      end
+
+      resources :standards  do 
+        collection do
+          # Standards
+          # Get Standards List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
+          get "standards" => "standards#index"
+          # Create Standard. Req: (Auth token, Name, Email, Standardname, Mobile, OAuth/Password, Age). Response: (Auth token)
+          post "standards" => "standards#create"
+          # Get Standard Details. Req: (Auth token, id, login)
+          get "standard/:id" => "standards#details"
+          # Updates Standard Details. Req: (Auth token)
+          put "standard/:id" => "standards#update"
+          # Delete Standard Req: (Admin AuthToken, User Id)
+          delete "standard/:id" => "standards#delete"
         end
       end
       resources :login  do 
