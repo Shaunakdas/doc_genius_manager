@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024153822) do
+ActiveRecord::Schema.define(version: 20171024173259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,16 @@ ActiveRecord::Schema.define(version: 20171024153822) do
     t.index ["slug"], name: "index_topics_on_slug", unique: true
   end
 
+  create_table "user_regions", force: :cascade do |t|
+    t.date "registration_date"
+    t.bigint "user_id"
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_user_regions_on_region_id"
+    t.index ["user_id"], name: "index_user_regions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
@@ -266,6 +276,8 @@ ActiveRecord::Schema.define(version: 20171024153822) do
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"
   add_foreign_key "topics", "chapters"
+  add_foreign_key "user_regions", "regions"
+  add_foreign_key "user_regions", "users"
   add_foreign_key "users", "roles"
   add_foreign_key "working_rules", "difficulty_levels"
 end

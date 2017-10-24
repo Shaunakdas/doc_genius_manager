@@ -12,5 +12,6 @@ RSpec.describe Region, type: :model do
   describe "Associations" do
     it { should belong_to(:parent_region) }
     it { should have_many(:sub_regions) }
+    it { should have_many(:user_regions) }
   end
 end
