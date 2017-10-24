@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+['student', 'teacher', 'admin'].each do |role|
+  Role.create_with(
+    name: role.capitalize
+  ).find_or_create_by(
+    slug: role
+  )
+end

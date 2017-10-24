@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates_format_of :email, with: /@/
 
   validates_presence_of :first_name, :last_name
+  belongs_to :role
+  before_create :set_default_role
   # attr_accessor :first_name, :last_name, :email
   def to_s
     "#{self.first_name} #{self.last_name}"
@@ -21,5 +23,10 @@ class User < ApplicationRecord
 
   def self.search_email(search)
     where('email LIKE :search', search: "#{search}")
+  end
+
+  private
+  def set_default_role
+    self.role ||= Role.find_by_name('student')
   end
 end
