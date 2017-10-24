@@ -11,4 +11,8 @@ RSpec.describe Subject, type: :model do
   describe "Associations" do
     it { should have_many(:streams) }
   end
+  describe "Acad Profile Associations" do
+    it { should have_many(:acad_profiles) }
+    it { should have_many(:users) }
+  end
 end

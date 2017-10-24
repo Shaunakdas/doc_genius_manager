@@ -12,4 +12,8 @@ RSpec.describe SubTopic, type: :model do
     it { should belong_to(:topic) }
     it { should have_many(:question_types) }
   end
+  describe "Acad Profile Associations" do
+    it { should have_many(:acad_profiles) }
+    it { should have_many(:users) }
+  end
 end
