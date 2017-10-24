@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024150652) do
+ActiveRecord::Schema.define(version: 20171024152034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "acad_entity_scores", force: :cascade do |t|
+    t.decimal "average"
+    t.decimal "maximum"
+    t.decimal "last"
+    t.time "time_spent"
+    t.integer "passed_count"
+    t.integer "failed_count"
+    t.integer "seen_count"
+    t.decimal "percentile"
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.bigint "session_score_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_acad_entity_scores_on_acad_entity_type_and_acad_entity_id"
+    t.index ["session_score_id"], name: "index_acad_entity_scores_on_session_score_id"
+  end
 
   create_table "acad_profiles", force: :cascade do |t|
     t.string "acad_entity_type"
@@ -225,6 +243,7 @@ ActiveRecord::Schema.define(version: 20171024150652) do
     t.index ["slug"], name: "index_working_rules_on_slug", unique: true
   end
 
+  add_foreign_key "acad_entity_scores", "session_scores"
   add_foreign_key "acad_profiles", "users"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"

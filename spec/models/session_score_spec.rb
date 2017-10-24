@@ -7,5 +7,6 @@ RSpec.describe SessionScore, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:game_session) }
+    it { should have_many(:acad_entity_scores) }
   end
 end

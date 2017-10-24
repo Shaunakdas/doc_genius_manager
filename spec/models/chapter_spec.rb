@@ -16,5 +16,6 @@ RSpec.describe Chapter, type: :model do
   describe "Acad Profile Associations" do
     it { should have_many(:acad_profiles) }
     it { should have_many(:users) }
+    it { should have_many(:acad_entity_scores) }
   end
 end
