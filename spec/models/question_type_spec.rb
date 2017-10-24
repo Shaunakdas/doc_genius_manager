@@ -10,5 +10,6 @@ RSpec.describe QuestionType, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:sub_topic) }
+    it { should have_many(:game_holders) }
   end
 end

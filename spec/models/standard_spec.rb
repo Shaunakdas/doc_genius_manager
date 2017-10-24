@@ -5,7 +5,6 @@ RSpec.describe Standard, type: :model do
     expect(FactoryGirl.create(:standard)).to be_valid
   end
   describe "Associations" do
-    it { should belong_to(:standard) }
-    it { should belong_to(:stream) }
+    it { should have_many(:chapters) }
   end
 end

@@ -8,4 +8,7 @@ RSpec.describe Subject, type: :model do
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:name) }
   end
+  describe "Associations" do
+    it { should have_many(:streams) }
+  end
 end

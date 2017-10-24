@@ -10,5 +10,7 @@ RSpec.describe WorkingRule, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:difficulty_level) }
+    it { should have_many(:game_holders) }
+    it { should have_many(:question_types) }
   end
 end

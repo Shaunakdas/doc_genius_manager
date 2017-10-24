@@ -10,5 +10,6 @@ RSpec.describe Stream, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:subject) }
+    it { should have_many(:chapters) }
   end
 end

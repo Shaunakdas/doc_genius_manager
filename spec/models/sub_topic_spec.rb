@@ -10,5 +10,6 @@ RSpec.describe SubTopic, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:topic) }
+    it { should have_many(:question_types) }
   end
 end

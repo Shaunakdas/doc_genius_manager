@@ -10,5 +10,6 @@ RSpec.describe Topic, type: :model do
   end
   describe "Associations" do
     it { should belong_to(:chapter) }
+    it { should have_many(:sub_topics) }
   end
 end

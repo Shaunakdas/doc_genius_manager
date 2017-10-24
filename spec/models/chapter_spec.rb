@@ -11,5 +11,6 @@ RSpec.describe Chapter, type: :model do
   describe "Associations" do
     it { should belong_to(:standard) }
     it { should belong_to(:stream) }
+    it { should have_many(:topics) }
   end
 end
