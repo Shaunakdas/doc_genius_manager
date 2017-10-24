@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024173259) do
+ActiveRecord::Schema.define(version: 20171024173906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,18 @@ ActiveRecord::Schema.define(version: 20171024173259) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_rank_names_on_slug", unique: true
+  end
+
+  create_table "region_percentile_scores", force: :cascade do |t|
+    t.integer "percentile_count"
+    t.decimal "score"
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_region_percentile_scores_on_acad_entity"
+    t.index ["region_id"], name: "index_region_percentile_scores_on_region_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -272,6 +284,7 @@ ActiveRecord::Schema.define(version: 20171024173259) do
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "users"
   add_foreign_key "question_types", "sub_topics"
+  add_foreign_key "region_percentile_scores", "regions"
   add_foreign_key "session_scores", "game_sessions"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"

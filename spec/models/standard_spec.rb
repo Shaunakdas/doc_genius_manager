@@ -11,5 +11,6 @@ RSpec.describe Standard, type: :model do
     it { should have_many(:acad_profiles) }
     it { should have_many(:users) }
     it { should have_many(:acad_entity_scores) }
+    it { should have_many(:region_percentile_scores) }
   end
 end

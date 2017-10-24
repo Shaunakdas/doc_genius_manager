@@ -13,5 +13,6 @@ RSpec.describe Region, type: :model do
     it { should belong_to(:parent_region) }
     it { should have_many(:sub_regions) }
     it { should have_many(:user_regions) }
+    it { should have_many(:region_percentile_scores) }
   end
 end
