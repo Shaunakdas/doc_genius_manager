@@ -9,9 +9,10 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of(:last_name) }
   it { is_expected.to validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email).case_insensitive }
-  it { should validate_uniqueness_of(:mobile_number) }
+  it { should validate_uniqueness_of(:mobile_number).case_insensitive }
 
   describe "Associations" do
     it { should belong_to(:role) }
+    it { should have_many(:acad_profiles) }
   end
 end

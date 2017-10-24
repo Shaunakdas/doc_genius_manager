@@ -7,4 +7,8 @@ RSpec.describe Standard, type: :model do
   describe "Associations" do
     it { should have_many(:chapters) }
   end
+  describe "Acad Profile Associations" do
+    it { should have_many(:acad_profiles) }
+    it { should have_many(:users) }
+  end
 end

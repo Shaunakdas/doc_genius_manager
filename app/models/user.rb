@@ -10,9 +10,10 @@ class User < ApplicationRecord
   validates_format_of :email, with: /@/
 
   validates_presence_of :first_name, :last_name
-  validates_uniqueness_of :mobile_number
+  validates_uniqueness_of :mobile_number, case_sensitive: false
   belongs_to :role
   before_create :set_default_role
+  has_many :acad_profiles
   # attr_accessor :first_name, :last_name, :email
   def to_s
     "#{self.first_name} #{self.last_name}"

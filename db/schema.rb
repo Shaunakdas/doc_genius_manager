@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024131433) do
+ActiveRecord::Schema.define(version: 20171024133338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "acad_profiles", force: :cascade do |t|
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_acad_profiles_on_acad_entity_type_and_acad_entity_id"
+    t.index ["user_id"], name: "index_acad_profiles_on_user_id"
+  end
 
   create_table "benefits", force: :cascade do |t|
     t.string "name"
@@ -190,6 +200,7 @@ ActiveRecord::Schema.define(version: 20171024131433) do
     t.index ["slug"], name: "index_working_rules_on_slug", unique: true
   end
 
+  add_foreign_key "acad_profiles", "users"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "game_holders", "question_types"
