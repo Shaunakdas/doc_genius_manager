@@ -11,5 +11,6 @@ RSpec.describe GameHolder, type: :model do
   describe "Associations" do
     it { should belong_to(:question_type) }
     it { should belong_to(:game) }
+    it { should have_many(:game_sessions) }
   end
 end

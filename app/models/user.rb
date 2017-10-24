@@ -14,6 +14,7 @@ class User < ApplicationRecord
   belongs_to :role
   before_create :set_default_role
   has_many :acad_profiles
+  has_many :game_sessions
   # attr_accessor :first_name, :last_name, :email
   def to_s
     "#{self.first_name} #{self.last_name}"

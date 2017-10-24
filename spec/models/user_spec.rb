@@ -14,5 +14,6 @@ RSpec.describe User, type: :model do
   describe "Associations" do
     it { should belong_to(:role) }
     it { should have_many(:acad_profiles) }
+    it { should have_many(:game_sessions) }
   end
 end
