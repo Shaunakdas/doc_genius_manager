@@ -11,5 +11,6 @@ RSpec.describe GameSession, type: :model do
   describe "Associations" do
     it { should belong_to(:game_holder) }
     it { should belong_to(:user) }
+    it { should have_one(:session_score) }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024144733) do
+ActiveRecord::Schema.define(version: 20171024150652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,20 @@ ActiveRecord::Schema.define(version: 20171024144733) do
     t.index ["slug"], name: "index_roles_on_slug", unique: true
   end
 
+  create_table "session_scores", force: :cascade do |t|
+    t.decimal "value"
+    t.time "time_taken"
+    t.integer "correct_count"
+    t.integer "incorrect_count"
+    t.boolean "seen"
+    t.boolean "passed"
+    t.boolean "failed"
+    t.bigint "game_session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_session_id"], name: "index_session_scores_on_game_session_id"
+  end
+
   create_table "standards", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -218,6 +232,7 @@ ActiveRecord::Schema.define(version: 20171024144733) do
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "users"
   add_foreign_key "question_types", "sub_topics"
+  add_foreign_key "session_scores", "game_sessions"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"
   add_foreign_key "topics", "chapters"
