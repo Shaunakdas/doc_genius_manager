@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates_format_of :email, with: /@/
 
   validates_presence_of :first_name, :last_name
+  validates_uniqueness_of :mobile_number
   belongs_to :role
   before_create :set_default_role
   # attr_accessor :first_name, :last_name, :email
