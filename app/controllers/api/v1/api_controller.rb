@@ -2,6 +2,12 @@ module Api::V1
   class ApiController < ApplicationController
     # Generic API stuff here
     include ActionController::Serialization
+
+
+    def add_verification_code(params)
+      params[:user][:verification_code] = [*1..9].sample(6)
+    end
+
     def error_params(message)
       return {error: message}
     end

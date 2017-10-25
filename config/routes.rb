@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
@@ -43,17 +44,20 @@ Rails.application.routes.draw do
           delete "standard/:id" => "standards#delete"
         end
       end
-      resources :login  do 
+      resources :registrations  do 
         collection do
-          # Login
-          # Sign up User. Req: (Name, Email, Username, Mobile, OAuth/Password, Age). Response: ()
-          post "sign_up" => "login#sign_up"
-          # Login User. Req: (Login(Email/Username/Mobile), OAuth/Password). Response: (Auth token)
-          post "login" => "login#login"
+          # Registrations
+          # Sign up User by Number. Req: (Mobile  Number, Password). Response: ()
+          # post "registrations/sign_up_number" => "registrations#sign_up_number"
+          post "sign_up/number" => "registrations#sign_up_number"
+          # Activate User by verifying OTP. Req: (Number, OTP). Response: (Auth Token)
+          post "activate" => "registrations#activate"
+          # Fill User Details. Req: (Auth Token, First Name, Last Name, Date of birth, Sex, EMail, First Time). Response: (Success)
+          put "fill_form" => "registrations#update"
+          # Login User using Mobile Number. Req: (Mobile Number, Password). Response: (Auth Token)
+          post "login/number" => "registrations#login_number"
           # Logout User. Req: (Auth token). Response: ()
-          post "logout" => "login#logout"
-          # Activate User by verifying OTP. Req: (Login, OTP). Response: ()
-          post "activate" => "login#activate"
+          post "logout" => "registrations#logout"
         end
       end
       resources :passwords  do 
