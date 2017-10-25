@@ -47,9 +47,9 @@ Rails.application.routes.draw do
       resources :registrations  do 
         collection do
           # Registrations
-          # Sign up User by Number. Req: (Mobile  Number, Password). Response: ()
+          # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
           # post "registrations/sign_up_number" => "registrations#sign_up_number"
-          post "sign_up/number" => "registrations#sign_up_number"
+          post "sign_up/email" => "registrations#sign_up_email"
           # Activate User by verifying OTP. Req: (Number, OTP). Response: (Auth Token)
           post "activate" => "registrations#activate"
           # Fill User Details. Req: (Auth Token, First Name, Last Name, Date of birth, Sex, EMail, First Time). Response: (Success)

@@ -2,7 +2,7 @@ module Api::V1
   class RegistrationsController < ApiController
     respond_to :json
     # post "sign_up/number"
-    def sign_up_number
+    def sign_up_email
       begin
         # add_verification_code(params)
         user = User.new(user_params)
@@ -10,10 +10,11 @@ module Api::V1
         # user.send_otp
         # puts user.to_json
         success_response("User created")
-      rescue Exception => e
-        puts "caught exception #{e}! ohnoes!"
+      # rescue Exception => e
+      #   puts "caught exception #{e}! ohnoes!"
+      #   error_response(e, :unprocessable_entity) 
       rescue ActiveRecord::RecordInvalid => invalid
-        puts user.errors
+        # puts user.errors
         error_response(user.errors.full_messages[0], :unprocessable_entity) 
       end
     end
