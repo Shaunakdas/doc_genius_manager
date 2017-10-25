@@ -4,16 +4,12 @@ module Api::V1
     # post "sign_up/number"
     def sign_up_number
       begin
-        add_verification_code(params)
-        puts '1'
+        # add_verification_code(params)
         user = User.new(user_params)
-        puts '2'
         user.save! 
-        puts '3'
-        user.send_otp
-        puts '4'
-        puts user.to_json
-        success_response("OTP sent to #{user.mobile_number}")
+        # user.send_otp
+        # puts user.to_json
+        success_response("User created")
       rescue Exception => e
         puts "caught exception #{e}! ohnoes!"
       rescue ActiveRecord::RecordInvalid => invalid

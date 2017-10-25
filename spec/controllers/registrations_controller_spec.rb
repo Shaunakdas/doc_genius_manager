@@ -4,9 +4,8 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
   describe "POST #create" do
     context "with valid attributes" do
       it "gives the new standard with attributes" do
-        # DatabaseCleaner.clean
-        post :sign_up_number,params: {user: {mobile_number: '9740644522',
-         password: 'password', password_confirmation: 'password'} }, format: :json
+        create_params = FactoryGirl.attributes_for(:user).slice(:email, :password, :password_confirmation)
+        post :sign_up_number,params: {user: create_params }, format: :json
         expect(response).to be_success
         puts response.status
         json = JSON.parse(response.body)
