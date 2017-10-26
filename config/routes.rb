@@ -54,8 +54,10 @@ Rails.application.routes.draw do
           post "activate" => "registrations#activate"
           # Fill User Details. Req: (Auth Token, First Name, Last Name, Date of birth, Sex, EMail, First Time). Response: (Success)
           put "fill_form" => "registrations#update"
+          # Get User details. Req: (Auth Token, First Name, Last Name, Date of birth, Sex, EMail, First Time). Response: (Success)
+          get "me" => "registrations#details"
           # Login User using Mobile Number. Req: (Mobile Number, Password). Response: (Auth Token)
-          post "login/number" => "registrations#login_number"
+          post "login/email" => "registrations#login_email"
           # Logout User. Req: (Auth token). Response: ()
           post "logout" => "registrations#logout"
         end

@@ -1,10 +1,11 @@
 module Api::V1
   class RegistrationsController < ApiController
-    before_action :authenticate_request!, :only => [ :update, :logout]
+    before_action :authenticate_request!, :only => [ :update, :logout, :details]
     respond_to :json
-    # post "sign_up/number"
+    # post "sign_up/email"
     def sign_up_email
       begin
+        params[:user][:registration_method] = :email
         user = User.new(user_params)
         user.save! 
         render json: payload(user)
@@ -36,9 +37,26 @@ module Api::V1
       end
     end
     
-    # post "login/number"
+    def details
+      if @current_user
+        respond_with @current_user, serializer: Api::V1::UserSerializer
+      else
+        error_response("Auth Token is not valid") 
+      end
+    end
+
+    # post "login/email"
     def login_email
-      render json: {}
+      user = User.find_for_database_authentication(email: params[:email])
+      if user
+        if user.valid_password?(params[:password])
+          json_response(payload(user), status = :ok)
+        else
+          error_response("Invalid Username/Password", :unauthorized) 
+        end
+      else
+        error_response("Couldn't find User with 'email'=#{params[:email]}", :not_found) 
+      end
     end
     
     # post "logout"
