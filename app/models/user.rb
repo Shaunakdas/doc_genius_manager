@@ -37,7 +37,14 @@ class User < ApplicationRecord
   #     puts "Sending OTP to #{self.mobile_number} with code #{self.verification_code}"
   #   end
   # end
-
+  def map_enums params
+    if params[:sex]
+      params[:sex] = User.sexes.key(params[:sex].to_i)
+    end
+    if params[:registration_method]
+      params[:registration_method] = User.registration_methods.key(params[:registration_method].to_i)
+    end
+  end
   private
   def set_default_role
     self.role ||= Role.find_by_name('student')

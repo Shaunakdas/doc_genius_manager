@@ -53,6 +53,7 @@ module Api::V1
       if params[:id]
         begin
           user = User.find(params[:id])  
+          user.map_enums(params[:user])
           user.update_attributes!(user_params)
           respond_with user, serializer: Api::V1::UserSerializer
         rescue ActiveRecord::RecordNotFound

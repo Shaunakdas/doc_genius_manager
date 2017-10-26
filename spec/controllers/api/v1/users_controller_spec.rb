@@ -138,13 +138,17 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
     context "without first_name" do
-      it "gives the error" do
+      it "allows the creation" do
         # DatabaseCleaner.clean
         post :create,params: { user: FactoryGirl.attributes_for(:user).except(:first_name) },format: :json
-        expect(response.status).to eq(422)
+        expect(response.status).to eq(201)
         json = JSON.parse(response.body)
         # puts json
-        expect(json).to have_key("error")
+        expect(json).to have_key("user")
+        expect(json["user"]).to have_key("email")
+        expect(json["user"]).to have_key("id")
+        expect(json["user"]).to have_key("first_name")
+        expect(json["user"]).to have_key("last_name")
       end
     end
   end
