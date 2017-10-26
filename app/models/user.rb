@@ -62,6 +62,15 @@ class User < ApplicationRecord
     list_response = {result: user_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
 
+  def standard
+    profile = object.acad_profiles.where(acad_entity_type: 'Standard').first
+    if profile
+      standard = Standard.find(profile.acad_entity_id)
+    else
+      return nil
+    end
+  end
+
   def update_acad_entity(params)
     if params.keys.count > 0
       acad_entity = AcadProfile.find_acad_entity(params)

@@ -7,9 +7,9 @@ module Api::V1
     def standard
       profile = object.acad_profiles.where(acad_entity_type: 'Standard').first
       if profile
-        standard = Standard.find(profile.acad_entity_id)
+        # standard = Standard.find(profile.acad_entity_id)
         if standard
-          StandardSerializer.new(standard, scope: scope, root: false)
+          StandardSerializer.new(object.standard, scope: scope, root: false)
         end
       end
     end
