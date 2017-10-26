@@ -83,12 +83,19 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
         updated_attr = FactoryGirl.attributes_for(:user).slice(:sex, :birth, :first_name, :last_name)
         request.headers["Authorization"] = @user_json['auth_token']
         updated_attr[:standard_id] = random_standard(@user_json['standards'])
+        puts updated_attr
         put :update,params: { user:updated_attr },format: :json
         expect(response.status).to eq(204)
         get :details,params: {},format: :json
         expect(response.status).to eq(200)
         json = JSON.parse(response.body)
-        # puts json
+        puts json
+        expect(json).to have_key("user")
+        expect(json["user"]).to have_key("standard")
+        expect(json["user"]["standard"]).to have_key("name")
+        expect(json["user"]["standard"]).to have_key("id")
+        expect(json["user"]["standard"]).to have_key("slug")
+        expect(json["user"]["standard"]["id"]).to eq(updated_attr[:standard_id])
       end
     end
   end
