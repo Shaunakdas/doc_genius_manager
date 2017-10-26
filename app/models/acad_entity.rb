@@ -3,6 +3,8 @@ class AcadEntity < ApplicationRecord
   validates_presence_of :slug
   validates_presence_of :name
 
+  validates_uniqueness_of :slug
+
   def to_s
     "#{self.name}"
   end
@@ -14,4 +16,6 @@ class AcadEntity < ApplicationRecord
   def self.search_slug(search)
     where('slug LIKE :search', search: "#{search}")
   end
+
+
 end

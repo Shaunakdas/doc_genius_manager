@@ -3,21 +3,8 @@ module Api::V1
     respond_to :json
     # GET /api/v1/users
     def index
-      user_list = User.all
-      if params["search"]
-        query = params["search"]
-        user_list = User.search(params[:search]).order('created_at DESC')
-      elsif params["email"]
-        query = params["email"]
-        user_list = User.search_email(params[:email]).order('created_at DESC')
-      end
-      total_count = user_list.count
-      page_num = (params.has_key?("page"))? (params["page"].to_i-1):(0)
-      limit = (params.has_key?("limit"))? (params["limit"].to_i):(10)
-      # puts "Page Number"+page_num.to_s
-      # puts "Limit"+page_num.to_s
-      user_list = user_list.drop(page_num * limit).first(limit)
-      respond_with user_list, each_serializer: Api::V1::UserSerializer, meta: { total_count: total_count, page: page_num+1, limit: limit, search: query}, location: '/user'
+      list_response = User.list(params)
+      respond_with list_response[:result], each_serializer: Api::V1::UserSerializer, meta: list_response.except!(:result), location: '/user'
     end
 
     # POST /api/v1/user

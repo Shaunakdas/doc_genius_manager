@@ -7,8 +7,10 @@ module Api::V1
       begin
         params[:user][:registration_method] = :email
         user = User.new(user_params)
-        user.save! 
-        render json: payload(user)
+        user.save!
+        response = payload(user)
+        response[:standards] = Standard.list({})
+        render json: response
       rescue ActiveRecord::RecordInvalid => invalid
         error_response(user.errors.full_messages[0], :unprocessable_entity) 
       end
@@ -25,6 +27,7 @@ module Api::V1
         begin
           @current_user.map_enums(params[:user])
           @current_user.update_attributes!(user_params)
+          @current_user.update_acad_entity(params[:user].slice(:standard_id))
           # puts @current_user.to_json
           respond_with @current_user, serializer: Api::V1::UserSerializer
         rescue ActiveRecord::RecordNotFound

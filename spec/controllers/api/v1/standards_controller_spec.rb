@@ -118,9 +118,9 @@ RSpec.describe Api::V1::StandardsController, type: :controller do
         # puts json
         expect(json).to have_key("standard")
         post :create,params: { standard: standard_attr },format: :json
-        expect(response.status).to eq(409)
+        expect(response.status).to eq(422)
         json = JSON.parse(response.body)
-        puts json
+        # puts json
         expect(json).to have_key("error")
       end
     end

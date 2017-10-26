@@ -45,6 +45,29 @@ class User < ApplicationRecord
       params[:registration_method] = User.registration_methods.key(params[:registration_method].to_i)
     end
   end
+
+  def self.list(params)
+    user_list = User.all
+    if params["search"]
+      query = params["search"]
+      user_list = User.search(params[:search]).order('created_at DESC')
+    elsif params["email"]
+      query = params["email"]
+      user_list = User.search_email(params[:email]).order('created_at DESC')
+    end
+    total_count = user_list.count
+    page_num = (params.has_key?("page"))? (params["page"].to_i-1):(0)
+    limit = (params.has_key?("limit"))? (params["limit"].to_i):(10)
+    user_list = user_list.drop(page_num * limit).first(limit)
+    list_response = {result: user_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
+  end
+
+  def update_acad_entity(params)
+    if params.keys.count > 0
+      acad_entity = AcadProfile.find_acad_entity(params)
+      profile =  acad_entity.acad_profiles.create!(user_id: self.id)
+    end
+  end
   private
   def set_default_role
     self.role ||= Role.find_by_name('student')

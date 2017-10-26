@@ -1,6 +1,11 @@
 require 'rails_helper'
 require 'spec_helper'
 RSpec.describe Api::V1::RegistrationsController, type: :controller do
+  def random_standard(standard_json)
+    limit = standard_json['limit']
+    standard_id = standard_json['result'][rand(limit)]['id']
+  end
+
   describe "POST #sign_up_email" do
     context "with valid attributes" do
       it "gives the new standard with attributes" do
@@ -70,6 +75,20 @@ RSpec.describe Api::V1::RegistrationsController, type: :controller do
         # puts @user_json['auth_token']
         put :update,params: { user:updated_attr },format: :json
         expect(response.status).to eq(204)
+      end
+    end
+    context "with valid id and standard_id" do
+      it "gives the existing user with attributes" do
+        # DatabaseCleaner.clean
+        updated_attr = FactoryGirl.attributes_for(:user).slice(:sex, :birth, :first_name, :last_name)
+        request.headers["Authorization"] = @user_json['auth_token']
+        updated_attr[:standard_id] = random_standard(@user_json['standards'])
+        put :update,params: { user:updated_attr },format: :json
+        expect(response.status).to eq(204)
+        get :details,params: {},format: :json
+        expect(response.status).to eq(200)
+        json = JSON.parse(response.body)
+        # puts json
       end
     end
   end

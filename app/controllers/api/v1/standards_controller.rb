@@ -2,21 +2,8 @@ class Api::V1::StandardsController < Api::V1::ApiController
   respond_to :json
   # GET /api/v1/standards
   def index
-    standard_list = Standard.all
-    if params["search"]
-      query = params["search"]
-      standard_list = Standard.search(params[:search]).order('created_at DESC')
-    elsif params["slug"]
-      query = params["slug"]
-      standard_list = Standard.search_slug(params[:slug]).order('created_at DESC')
-    end
-    total_count = standard_list.count
-    page_num = (params.has_key?("page"))? (params["page"].to_i-1):(0)
-    limit = (params.has_key?("limit"))? (params["limit"].to_i):(10)
-    # puts "Page Number"+page_num.to_s
-    # puts "Limit"+page_num.to_s
-    standard_list = standard_list.drop(page_num * limit).first(limit)
-    respond_with standard_list, each_serializer: Api::V1::StandardSerializer, meta: { total_count: total_count, page: page_num+1, limit: limit, search: query}, location: '/standard'
+    list_response = Standard.list(params)
+    respond_with list_response[:result], each_serializer: Api::V1::StandardSerializer, meta: list_response.except!(:result), location: '/standard'
   end
 
   # POST /api/v1/standard
