@@ -63,7 +63,7 @@ class User < ApplicationRecord
   end
 
   def standard
-    profile = object.acad_profiles.where(acad_entity_type: 'Standard').first
+    profile = self.acad_profiles.where(acad_entity_type: 'Standard').first
     if profile
       standard = Standard.find(profile.acad_entity_id)
     else
