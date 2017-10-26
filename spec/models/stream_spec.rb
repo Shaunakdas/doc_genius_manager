@@ -11,6 +11,9 @@ RSpec.describe Stream, type: :model do
   describe "Associations" do
     it { should belong_to(:subject) }
     it { should have_many(:chapters) }
+    it { should have_many(:topics) }
+    it { should have_many(:sub_topics) }
+    it { should have_many(:question_types) }
   end
   describe "Acad Profile Associations" do
     it { should have_many(:acad_profiles) }

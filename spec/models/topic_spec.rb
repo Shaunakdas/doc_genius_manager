@@ -11,6 +11,7 @@ RSpec.describe Topic, type: :model do
   describe "Associations" do
     it { should belong_to(:chapter) }
     it { should have_many(:sub_topics) }
+    it { should have_many(:question_types) }
   end
   describe "Acad Profile Associations" do
     it { should have_many(:acad_profiles) }

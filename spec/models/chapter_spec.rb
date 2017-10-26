@@ -12,6 +12,8 @@ RSpec.describe Chapter, type: :model do
     it { should belong_to(:standard) }
     it { should belong_to(:stream) }
     it { should have_many(:topics) }
+    it { should have_many(:sub_topics) }
+    it { should have_many(:question_types) }
   end
   describe "Acad Profile Associations" do
     it { should have_many(:acad_profiles) }
