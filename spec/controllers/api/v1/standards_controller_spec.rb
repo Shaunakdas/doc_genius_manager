@@ -15,6 +15,57 @@ RSpec.describe Api::V1::StandardsController, type: :controller do
         expect(json["meta"]).to have_key("limit")
       end
     end
+    context "with no parameters" do
+      it "gives first page with given page number" do
+        question_types = QuestionType.all.to_json
+        # QuestionType.all.each do |question|
+        #   puts question.sub_topic.topic.chapter.standard
+        # end
+        std = Standard.search_slug('standard_pmfczihj').last
+        # puts std.to_json
+        # chapters = FactoryGirl.create_list(:chapter, 2)
+        # chapters.each do |chapter|
+        #   chapter.standard = std
+        #   chapter.sequence_stream = Random.rand(200)
+        #   chapter.save!
+        #   puts chapter.to_json
+        #   topics = FactoryGirl.create_list(:topic, 2)
+        #   topics.each do |topic|
+        #     topic.chapter = chapter
+        #     topic.sequence = Random.rand(200)
+        #     topic.save!
+        #     sub_topics = FactoryGirl.create_list(:sub_topic, 2)
+        #     sub_topics.each do |sub_topic|
+        #       sub_topic.topic = topic
+        #       sub_topic.sequence = Random.rand(200)
+        #       sub_topic.save!
+        #       question_types = FactoryGirl.create_list(:question_type, 2)
+        #       question_types.each do |question_type|
+        #         question_type.sub_topic = sub_topic
+        #         question_type.sequence = Random.rand(200)
+        #         question_type.save!
+        #         puts question_type.to_json
+        #       end
+        #     end
+        #   end
+        # end
+        # puts std.chapters
+        std.question_types.each do |question|
+          puts question.to_json
+          puts question.sub_topic.to_json
+        end 
+        std.chapters.each do |chapter|
+          puts chapter.to_json
+        end 
+        # Standard.all.each do |standard|
+        #   # puts standard
+        #   standard.question_types.each do |question|
+        #     puts question
+        #   end
+        # end
+        # puts question_types
+      end
+    end
 
     context "with page params as 2" do
       it "gives page with given page number" do
