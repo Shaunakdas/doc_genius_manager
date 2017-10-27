@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   enum sex: [ :male, :female ]
   enum registration_method: [ :mobile, :email, :social ]
+
+  # scope :male, where(sex: :male)
   # attr_accessor :first_name, :last_name, :email
   def to_s
     "#{self.first_name} #{self.last_name}"

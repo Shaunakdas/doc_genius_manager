@@ -15,12 +15,8 @@ RSpec.describe Api::V1::StandardsController, type: :controller do
         expect(json["meta"]).to have_key("limit")
       end
     end
-    context "with no parameters" do
+    context "getting list of acad_entities associated with standard" do
       it "gives first page with given page number" do
-        question_types = QuestionType.all.to_json
-        # QuestionType.all.each do |question|
-        #   puts question.sub_topic.topic.chapter.standard
-        # end
         std = Standard.search_slug('standard_pmfczihj').last
         # puts std.to_json
         # chapters = FactoryGirl.create_list(:chapter, 2)
@@ -49,21 +45,41 @@ RSpec.describe Api::V1::StandardsController, type: :controller do
         #     end
         #   end
         # end
-        # puts std.chapters
         std.question_types.each do |question|
-          puts question.to_json
-          puts question.sub_topic.to_json
+          # puts question.to_json
+          # puts "    "+question.sub_topic.topic.chapter.sequence_standard.to_s
+          # puts "   "+question.sub_topic.topic.sequence.to_s
+          # puts "  "+question.sub_topic.sequence.to_s
+          # puts question.sequence
         end 
-        std.chapters.each do |chapter|
-          puts chapter.to_json
-        end 
-        # Standard.all.each do |standard|
-        #   # puts standard
-        #   standard.question_types.each do |question|
-        #     puts question
-        #   end
-        # end
-        # puts question_types
+      end
+    end
+    context "getting list of working_rules associated with working_rule" do
+      it "gives first page with given page number" do
+        question = QuestionType.last
+        puts question.to_json
+        game_holders = GameHolder.last(4)
+        puts game_holders.to_json
+        working_rules = WorkingRule.last(4)
+        puts working_rules.to_json
+        game_holders.each_with_index do |game,i|
+          game.question_type = question
+          game.game = working_rules[i]
+          game.sequence = Random.rand(200)
+          game.save!
+          puts game.to_json
+          working_rules[i].sequence = Random.rand(200)
+          working_rules[i].save!
+        end
+        question.game_holders.each do |holder|
+          puts "NEw Holder"
+          puts holder.to_json
+          puts holder.sequence
+          rule = WorkingRule.find(holder.game_id)
+          puts rule.to_json
+          puts rule.sequence
+        end
+        puts question.games.to_json
       end
     end
 
