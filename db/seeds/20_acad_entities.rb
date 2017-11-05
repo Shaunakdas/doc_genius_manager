@@ -71,25 +71,30 @@ master_sheet.each do |row|
     if (not chapter = Chapter.find_by(:slug => chapter_slug)) && chapter_name
       puts "Adding chapter #{chapter_name}"
       chapter = Chapter.create!(:name => chapter_name, :slug => chapter_slug,
-       :stream => stream, :standard => standard)
+       :stream => stream, :standard => standard, :sequence_standard => standard.chapters.length+1,
+       :sequence_stream => stream.chapters.length+1)
+      puts chapter.to_json
     end
 
     #Create or find topic
     if (not topic = Topic.find_by(:slug => topic_slug)) && topic_name  && chapter
       puts "Adding topic #{topic_name}, slug: #{topic_slug}"
-      topic = Topic.create!(:name => topic_name, :slug => topic_slug, :chapter => chapter)
+      topic = Topic.create!(:name => topic_name, :slug => topic_slug, :chapter => chapter,
+        :sequence => chapter.topics.length+1)
     end
 
     #Create or find sub_topic
     if (not sub_topic = SubTopic.find_by(:slug => sub_topic_slug)) && sub_topic_name && topic
       puts "Adding sub_topic #{sub_topic_name}, slug: #{sub_topic_slug}"
-      sub_topic = SubTopic.create!(:name => sub_topic_name, :slug => sub_topic_slug, :topic => topic)
+      sub_topic = SubTopic.create!(:name => sub_topic_name, :slug => sub_topic_slug, :topic => topic,
+        :sequence => topic.sub_topics.length+1)
     end
 
     #Create or find question_type 
     if (not question_type = QuestionType.find_by(:slug => question_type_slug)) && question_type_name && (question_type_name.length > 3) && sub_topic
       puts "Adding question_type #{question_type_name} , slug: #{question_type_slug}"
-      question_type = QuestionType.create!(:name => question_type_name, :slug => question_type_slug, :sub_topic => sub_topic)
+      question_type = QuestionType.create!(:name => question_type_name, :slug => question_type_slug, :sub_topic => sub_topic,
+        :sequence => sub_topic.question_types.length+1)
     end
 
     diff = DifficultyLevel.last
@@ -100,7 +105,7 @@ master_sheet.each do |row|
         :question_text => working_rule_ques, :difficulty_level => diff)
       
       game_holder = GameHolder.create!(:name => game_holder_name, :slug => game_holder_slug, :question_type => question_type,
-        :game => working_rule)
+        :game => working_rule, :sequence => question_type.game_holders.length+1)
     end
 
   end
