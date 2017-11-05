@@ -1,7 +1,7 @@
 class GameHolder < ApplicationRecord
   belongs_to :game, polymorphic: true
   belongs_to :question_type
-  validates :image_url, format: {with: /\.(png|jpg)\Z/i}
+  validates :image_url, format: {with: /\.(png|jpg)\Z/i}, :allow_blank => true
 
   validates_presence_of :slug
   validates_presence_of :name

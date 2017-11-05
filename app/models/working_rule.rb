@@ -1,7 +1,7 @@
 class WorkingRule < Game
   has_many :game_holders, as: :game
   has_many :question_types, through: :game_holders
-
+  belongs_to :difficulty_level , optional: true
   def self.list(list_params)
     working_rule_list = WorkingRule.all
     if list_params["search"]
