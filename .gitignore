@@ -18,3 +18,11 @@
 !/tmp/.keep
 
 .byebug_history
+
+*.tmp
+
+# Word temporary
+~$*.doc*
+
+# Excel temporary
+~$*.xls*
