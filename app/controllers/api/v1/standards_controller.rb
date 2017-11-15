@@ -1,4 +1,5 @@
 class Api::V1::StandardsController < Api::V1::ApiController
+  before_action :authenticate_request!, :only => [ :homepage ]
   respond_to :json
   # GET /api/v1/standards
   def index
@@ -62,6 +63,26 @@ class Api::V1::StandardsController < Api::V1::ApiController
       end
     else
       error_response("No id is present") 
+    end
+  end
+
+  # GET /api/v1/homepage
+  # shows one standard (based on the supplied id) 
+  def homepage
+    if @current_user
+      begin
+        @current_user.map_enums(params[:user])
+        @current_user.update_attributes!(user_params)
+        @current_user.update_acad_entity(params[:user].slice(:standard_id))
+        # puts @current_user.to_json
+        respond_with @current_user, serializer: Api::V1::UserSerializer
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(@current_user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    else
+      error_response("Auth Token is not valid") 
     end
   end
 
