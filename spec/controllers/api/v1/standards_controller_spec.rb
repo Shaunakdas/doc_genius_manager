@@ -17,7 +17,7 @@ RSpec.describe Api::V1::StandardsController, type: :controller do
     end
     context "getting list of acad_entities associated with standard" do
       it "gives first page with given page number" do
-        std = Standard.search_slug('standard_pmfczihj').last
+        std = Standard.first
         # puts std.to_json
         # chapters = FactoryGirl.create_list(:chapter, 2)
         # chapters.each do |chapter|
