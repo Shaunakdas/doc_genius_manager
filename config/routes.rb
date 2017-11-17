@@ -43,6 +43,8 @@ Rails.application.routes.draw do
       put "standard/:id" => "standards#update"
       # Delete Standard Req: (Admin AuthToken, User Id)
       delete "standard/:id" => "standards#delete"
+      # HomePage Req: (Admin AuthToken)
+      get "homepage" => "standards#homepage"
 
       # resources :standards  do 
       #   collection do

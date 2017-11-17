@@ -4,6 +4,7 @@ class Standard < AcadEntity
   has_many :topics, -> { order('chapters.sequence_stream, topics.sequence') }, through: :chapters
   has_many :sub_topics,  -> { order('chapters.sequence_stream, topics.sequence, sub_topics.sequence') }, through: :topics
   has_many :question_types,  -> { order('chapters.sequence_stream, topics.sequence, sub_topics.sequence, question_types.sequence') }, through: :sub_topics
+  
   has_many :acad_profiles, as: :acad_entity
   has_many :users, through: :acad_profiles
   has_many :acad_entity_scores, as: :acad_entity
@@ -25,6 +26,10 @@ class Standard < AcadEntity
     list_response = {result: standard_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
 
+  def recent_questions
+    question_types.sort_by { |v| v[:id] }[0..4]
+    # question_types
+  end
   # def question_types(list_params)
   #   question_types = self.question_types
   #   total_count = question_types.count

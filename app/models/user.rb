@@ -73,6 +73,14 @@ class User < ApplicationRecord
     end
   end
 
+  def question_types
+    return standard.question_types
+  end
+
+  def recent_questions
+    return standard.recent_questions
+  end
+
   def update_acad_entity(params)
     if params.keys.count > 0
       acad_entity = AcadProfile.find_acad_entity(params)

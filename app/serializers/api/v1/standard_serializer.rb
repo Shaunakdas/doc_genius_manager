@@ -1,3 +1,5 @@
-class Api::V1::StandardSerializer < ActiveModel::Serializer
-  attributes :id, :name, :slug, :sequence
+module Api::V1
+  class StandardSerializer < AcadEntitySerializer
+    attribute :sequence
+  end
 end

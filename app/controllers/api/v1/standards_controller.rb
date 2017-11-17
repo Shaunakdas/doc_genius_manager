@@ -71,11 +71,11 @@ class Api::V1::StandardsController < Api::V1::ApiController
   def homepage
     if @current_user
       begin
-        @current_user.map_enums(params[:user])
-        @current_user.update_attributes!(user_params)
-        @current_user.update_acad_entity(params[:user].slice(:standard_id))
-        # puts @current_user.to_json
-        respond_with @current_user, serializer: Api::V1::UserSerializer
+        puts @current_user.standard.question_types
+        # render json: @current_user.standard.question_types
+        puts @current_user.question_types.to_json
+        respond_with @current_user, serializer: Api::V1::HomepageSerializer
+        # respond_with @current_user.question_types, each_serializer: Api::V1::QuestionTypeSerializer, meta: @current_user, location: '/standard'
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
       rescue ActiveRecord::RecordInvalid => invalid
