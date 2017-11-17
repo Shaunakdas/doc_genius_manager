@@ -51,6 +51,20 @@ Rails.application.routes.draw do
       #   end
       # end
 
+
+
+      # QuestionType
+      # Get QuestionType List using search, filter and pagination. Req: (Auth token, Role, QuestionType, Region, TargetExam, Query, Board, Page, Limit). Response: (QuestionType Array)
+      get "question_types" => "question_types#index"
+      # Create QuestionType. Req: (Auth token, Name, Email, QuestionTypename, Mobile, OAuth/Password, Age). Response: (Auth token)
+      post "question_types" => "question_types#create"
+      # Get QuestionType Details. Req: (Auth token, id, login)
+      get "question_type/:id" => "question_types#details"
+      # Updates QuestionType Details. Req: (Auth token)
+      put "question_type/:id" => "question_types#update"
+      # Delete QuestionType Req: (Admin AuthToken, User Id)
+      delete "question_type/:id" => "question_types#delete"
+      
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
       # post "registrations/sign_up_number" => "registrations#sign_up_number"
