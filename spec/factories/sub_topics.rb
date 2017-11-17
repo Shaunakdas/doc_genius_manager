@@ -3,7 +3,8 @@ FactoryGirl.define do
     name {'SubTopic '+[*('A'..'Z')].sample(8).join}
     slug {'sub_topic_'+[*('a'..'z')].sample(8).join}
     add_attribute :sequence, Random.rand(200)
-    association :topic, factory: :topic
+    # association :topic, factory: :topic
+    topic_id {FactoryGirl.create(:topic).id}
   end
 
 end
