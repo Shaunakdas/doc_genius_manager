@@ -1,5 +1,5 @@
 class Api::V1::QuestionTypesController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage ]
+  before_action :authenticate_request!, :only => [ :show ]
   respond_to :json
   # GET /api/v1/question_types
   def index
@@ -66,20 +66,16 @@ class Api::V1::QuestionTypesController < Api::V1::ApiController
     end
   end
 
-  # GET /api/v1/homepage
+  # GET /api/v1/question_type/:id
   # shows one question_type (based on the supplied id) 
-  def homepage
+  def show
     if @current_user
       begin
-        puts @current_user.question_type.question_types
-        # render json: @current_user.question_type.question_types
-        puts @current_user.question_types.to_json
-        respond_with @current_user, serializer: Api::V1::HomepageSerializer
-        # respond_with @current_user.question_types, each_serializer: Api::V1::QuestionTypeSerializer, meta: @current_user, location: '/question_type'
+        question_type = QuestionType.find(params[:id]) 
+          # puts "Update method: updated question_type"+question_type.to_json
+        respond_with question_type, serializer: Api::V1::QuestionTypeSerializer
       rescue ActiveRecord::RecordNotFound
-        error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
-      rescue ActiveRecord::RecordInvalid => invalid
-        error_response(@current_user.errors.full_messages[0], :unprocessable_entity) 
+        error_response("Couldn't find QuestionType with 'id'=#{params[:id]}", :not_found) 
       end
     else
       error_response("Auth Token is not valid") 

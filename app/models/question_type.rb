@@ -5,6 +5,9 @@ class QuestionType < AcadEntity
   has_many :games, -> { order('game_holders.sequence') }, through: :game_holders, source_type: "WorkingRule"
   # scope :recent, -> { order('question_type.id ASC').limit(2) }
 
+  has_many :game_sessions, -> { order('game_sessions.id DESC') }, through: :game_holders
+  has_many :session_scores, -> { order('game_sessions.id DESC') }, through: :game_sessions
+
   def self.list(list_params)
     question_type_list = QuestionType.all
     if list_params["search"]

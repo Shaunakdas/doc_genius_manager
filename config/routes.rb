@@ -64,6 +64,8 @@ Rails.application.routes.draw do
       put "question_type/:id" => "question_types#update"
       # Delete QuestionType Req: (Admin AuthToken, User Id)
       delete "question_type/:id" => "question_types#delete"
+      # HomePage Req: (Admin AuthToken)
+      get "question_type/:id" => "question_types#show"
       
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)

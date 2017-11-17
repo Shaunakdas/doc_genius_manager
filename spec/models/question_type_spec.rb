@@ -12,5 +12,7 @@ RSpec.describe QuestionType, type: :model do
     it { should belong_to(:sub_topic) }
     it { should have_many(:game_holders) }
     it { should have_many(:games) }
+    it { should have_many(:game_sessions) }
+    it { should have_many(:session_scores) }
   end
 end
