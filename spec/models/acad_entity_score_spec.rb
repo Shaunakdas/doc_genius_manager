@@ -7,5 +7,6 @@ RSpec.describe AcadEntityScore, type: :model do
   describe "Associations" do
     it { should belong_to(:session_score) }
     it { should belong_to(:acad_entity) }
+    it { should belong_to(:user) }
   end
 end

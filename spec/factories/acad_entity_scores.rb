@@ -10,6 +10,7 @@ FactoryGirl.define do
     percentile {Faker::Number.decimal(2)}
     association :acad_entity, factory: :standard
     association :session_score, factory: :session_score
+    association :user, factory: :user
   end
 
 end

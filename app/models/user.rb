@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :acad_profiles
   has_many :game_sessions
   has_many :user_regions
+  has_many :acad_entity_scores
 
   enum sex: [ :male, :female ]
   enum registration_method: [ :mobile, :email, :social ]
