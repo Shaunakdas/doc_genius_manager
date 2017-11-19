@@ -12,7 +12,11 @@ module Api::V1
     def create
       begin
         game_session = GameSession.new(game_session_params)
-        game_session.save! 
+        if game_session.save! && params[:game_session][:session_score]
+          params[:game_session][:session_score][:game_session_id] = game_session.id
+          session_score = SessionScore.new(session_score_params)
+          session_score.save!
+        end
         respond_with game_session, serializer: GameSessionSerializer, location: '/game_session'
       rescue ActiveRecord::RecordInvalid => invalid
         error_response(game_session.errors.full_messages[0], :unprocessable_entity) 
@@ -36,6 +40,11 @@ module Api::V1
     private
     def game_session_params
       params.require(:game_session).permit(:start, :finish, :game_holder_id, :user_id )
+    end
+
+    def session_score_params
+      params[:game_session].require(:session_score).permit(:value, :time_taken, :correct_count,
+        :incorrect_count, :seen, :passed, :failed, :game_session_id )
     end
   end
 end

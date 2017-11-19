@@ -87,7 +87,7 @@ module Api::V1
     end
     describe "POST #create" do
       context "with valid attributes" do
-        it "gives the new question_type with attributes", :focus => true do
+        it "gives the new question_type with attributes" do
           # DatabaseCleaner.clean
           post :create,params: { question_type: FactoryGirl.attributes_for(:question_type) },format: :json
           expect(response).to be_success
@@ -189,7 +189,7 @@ module Api::V1
         @controller = QuestionTypesController.new
       end
       context "with valid id" do
-        it "gives the existing question_type with attributes", :focus => true do
+        it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           request.headers["Authorization"] = @user_json['auth_token']
           get :show,params: { id: @question_type_json['id'] },format: :json
@@ -204,7 +204,7 @@ module Api::V1
         end
       end    
       context "with invalid id" do
-        it "gives the existing question_type with attributes", :focus => true do
+        it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           request.headers["Authorization"] = @user_json['auth_token']
           get :show,params: { id: @question_type_json['id']+100 },format: :json

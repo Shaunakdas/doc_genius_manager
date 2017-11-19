@@ -122,9 +122,8 @@ module Api::V1
     describe "GET #details" do
       before(:each) do
         @game_session_attr = FactoryGirl.attributes_for(:game_session)
-        puts @game_session_attr
+        @game_session_attr[:session_score] = (FactoryGirl.attributes_for(:session_score))
         post :create,params: { game_session: @game_session_attr },format: :json
-        puts JSON.parse(response.body)
         expect(response).to be_success
         json = JSON.parse(response.body)
         # puts 'GameSession created before Get Test suite: '+json.to_s
@@ -140,6 +139,13 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          expect(json["game_session"]["session_score"]).to have_key("value")
+          expect(json["game_session"]["session_score"]).to have_key("time_taken")
+          expect(json["game_session"]["session_score"]).to have_key("correct_count")
+          expect(json["game_session"]["session_score"]).to have_key("incorrect_count")
+          expect(json["game_session"]["session_score"]).to have_key("seen")
+          expect(json["game_session"]["session_score"]).to have_key("passed")
+          expect(json["game_session"]["session_score"]).to have_key("failed")
           # puts json
         end
       end    
