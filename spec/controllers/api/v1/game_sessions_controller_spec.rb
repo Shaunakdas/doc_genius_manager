@@ -1,6 +1,25 @@
 require 'rails_helper'
 module Api::V1
   RSpec.describe GameSessionsController, type: :controller do
+    def user_login()
+      # User Creation
+      @controller = RegistrationsController.new
+      @user_attr = FactoryGirl.attributes_for(:user).slice(:email, :password, :password_confirmation)
+      post :sign_up_email,params: { user: @user_attr },format: :json
+      expect(response).to be_success
+      json = JSON.parse(response.body)
+      @user_json = json
+    end
+
+    def check_aggregates(user)
+      user.acad_entity_scores.each do |aggregate_score|
+        puts aggregate_score.to_json
+        puts user.session_scores.size
+        puts user.session_scores.reduce(0) { |sum, obj| sum + obj.value.to_f }
+        expect(aggregate_score.average).to eq (user.session_scores.reduce(0) { |sum, obj| sum + obj.value.to_f })/(user.session_scores.size)
+      end
+    end
+
     describe "GET #index" do
       context "with no parameters" do
         it "gives first page with given page number" do
@@ -129,7 +148,7 @@ module Api::V1
         # puts 'GameSession created before Get Test suite: '+json.to_s
         @game_session_json = json["game_session"]
       end
-      context "with valid id", :focus => true do
+      context "with valid id" do
         it "gives the existing game_session with attributes" do
           # DatabaseCleaner.clean
           get :details,params: { id: @game_session_json['id'] },format: :json
@@ -156,6 +175,51 @@ module Api::V1
           expect(response.status).to eq(404)
           json = JSON.parse(response.body)
           expect(json).to have_key("error")
+          # puts json
+        end
+      end
+    end
+    describe "Attempting multiple games" do
+      before(:each) do
+        # User Creation
+        user_login()
+        @controller = GameSessionsController.new
+      end
+      context "with same game_holder" do
+        it "calculates correct aggregate scores", :focus => true do
+          # DatabaseCleaner.clean
+          @game_holder = FactoryGirl.create(:game_holder)
+          # @session_scores = FactoryGirl.create_list( :session_score, 3, game_session: @game_session)
+          3.times do
+            @game_session_attr = FactoryGirl.attributes_for(:game_session).except(:user_id)
+            @game_session_attr[:session_score] = (FactoryGirl.attributes_for(:session_score))
+            @game_session_attr[:game_holder_id] = @game_holder.id
+            request.headers["Authorization"] = @user_json['auth_token']
+            post :create,params: { game_session: @game_session_attr },format: :json
+            expect(response).to be_success
+          end
+          json = JSON.parse(response.body)
+          expect(json).to have_key("game_session")
+          expect(json["game_session"]).to have_key("start")
+          expect(json["game_session"]).to have_key("finish")
+          expect(json["game_session"]).to have_key("session_score")
+          # puts @user_json['user']['id']
+          check_aggregates(User.find(@user_json['user']['id']))
+          # puts json
+        end
+      end
+      context "with same question_type" do
+        it "calculates correct aggregate scores" do
+          # DatabaseCleaner.clean
+          @game_holder = FactoryGirl.create(:gajme_holder)
+          @session_scores = 
+          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session) },format: :json
+          expect(response).to be_success
+          json = JSON.parse(response.body)
+          expect(json).to have_key("game_session")
+          expect(json["game_session"]).to have_key("start")
+          expect(json["game_session"]).to have_key("finish")
+          expect(json["game_session"]).to have_key("session_score")
           # puts json
         end
       end

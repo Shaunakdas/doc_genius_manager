@@ -15,6 +15,7 @@ RSpec.describe User, type: :model do
     it { should belong_to(:role) }
     it { should have_many(:acad_profiles) }
     it { should have_many(:game_sessions) }
+    it { should have_many(:session_scores) }
     it { should have_many(:user_regions) }
     it { should have_many(:acad_entity_scores) }
   end

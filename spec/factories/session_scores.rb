@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :session_score do
-    value "9.99"
+    value {Faker::Number.decimal(3, 2)}
     time_taken {Faker::Number.decimal(2, 3)}
     correct_count {Faker::Number.number(1)}
     incorrect_count {Faker::Number.number(1)}

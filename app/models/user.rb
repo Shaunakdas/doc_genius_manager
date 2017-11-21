@@ -15,6 +15,7 @@ class User < ApplicationRecord
   before_create :set_default_role
   has_many :acad_profiles
   has_many :game_sessions
+  has_many :session_scores, through: :game_sessions
   has_many :user_regions
   has_many :acad_entity_scores
 

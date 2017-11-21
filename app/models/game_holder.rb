@@ -18,4 +18,14 @@ class GameHolder < ApplicationRecord
   def self.search_slug(search)
     where('slug LIKE :search', search: "#{search}")
   end
+
+  def acad_entities
+    [ question_type,
+      question_type.sub_topic,
+      question_type.sub_topic.topic,
+      question_type.sub_topic.topic.chapter,
+      question_type.sub_topic.topic.chapter.standard,
+      question_type.sub_topic.topic.chapter.stream,
+      question_type.sub_topic.topic.chapter.stream.subject]
+  end
 end

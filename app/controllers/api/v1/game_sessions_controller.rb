@@ -1,6 +1,6 @@
 module Api::V1
   class GameSessionsController < ApiController
-    before_action :authenticate_request!, :only => [ :show ]
+    before_action :authenticate_request!, :only => [ :show, :create ]
     respond_to :json
     # GET /api/v1/game_sessions
     def index
@@ -10,18 +10,22 @@ module Api::V1
 
     # POST /api/v1/game_session
     def create
-      begin
-        game_session = GameSession.new(game_session_params)
-        if game_session.save! && params[:game_session][:session_score]
-          params[:game_session][:session_score][:game_session_id] = game_session.id
-          session_score = SessionScore.new(session_score_params)
-          session_score.save!
+      if @current_user
+        begin
+          game_session = GameSession.new(game_session_params.merge(user_id: @current_user.id))
+          if game_session.save! && params[:game_session][:session_score]
+            params[:game_session][:session_score][:game_session_id] = game_session.id
+            session_score = SessionScore.new(session_score_params)
+            session_score.save!
+          end
+          respond_with game_session, serializer: GameSessionSerializer, location: '/game_session'
+        rescue ActiveRecord::RecordInvalid => invalid
+          error_response(game_session.errors.full_messages[0], :unprocessable_entity) 
+        rescue ActiveRecord::RecordNotUnique => invalid
+          error_response(game_session.errors.full_messages[0],  :conflict) 
         end
-        respond_with game_session, serializer: GameSessionSerializer, location: '/game_session'
-      rescue ActiveRecord::RecordInvalid => invalid
-        error_response(game_session.errors.full_messages[0], :unprocessable_entity) 
-      rescue ActiveRecord::RecordNotUnique => invalid
-        error_response(game_session.errors.full_messages[0],  :conflict) 
+      else
+        error_response("Auth Token is not valid") 
       end
     end
 
