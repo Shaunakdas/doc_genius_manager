@@ -122,10 +122,16 @@ module Api::V1
       end
     end
     describe "POST #create" do
+      before(:each) do
+        # User Creation
+        user_login()
+        @controller = GameSessionsController.new
+      end
       context "with valid attributes" do
         it "gives the new game_session with attributes" do
-          # DatabaseCleaner.clean
-          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session) },format: :json
+          request.headers["Authorization"] = @user_json['auth_token']
+          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session).except(:user_id) },format: :json
+          puts JSON.parse(response.body)
           expect(response).to be_success
           json = JSON.parse(response.body)
           expect(json).to have_key("game_session")
@@ -138,28 +144,32 @@ module Api::V1
       context "without slug" do
         it "gives the error" do
           # DatabaseCleaner.clean
-          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session).except(:start) },format: :json
+          request.headers["Authorization"] = @user_json['auth_token']
+          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session).except(:user_id).except(:start) },format: :json
           expect(response.status).to eq(422)
           json = JSON.parse(response.body)
           # puts json
           expect(json).to have_key("error")
         end
       end
-      context "without name" do
-        it "gives the error" do
-          # DatabaseCleaner.clean
-          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session).except(:user_id) },format: :json
-          expect(response.status).to eq(422)
-          json = JSON.parse(response.body)
-          # puts json
-          expect(json).to have_key("error")
-        end
-      end
+      # context "without name" do
+      #   it "gives the error" do
+      #     # DatabaseCleaner.clean
+      #     post :create,params: { game_session: FactoryGirl.attributes_for(:game_session).except(:user_id) },format: :json
+      #     expect(response.status).to eq(422)
+      #     json = JSON.parse(response.body)
+      #     # puts json
+      #     expect(json).to have_key("error")
+      #   end
+      # end
     end
-    describe "GET #details" do
+    describe "GET #details", :focus => true do
       before(:each) do
+        user_login()
+        @controller = GameSessionsController.new
         @game_session_attr = FactoryGirl.attributes_for(:game_session)
         @game_session_attr[:session_score] = (FactoryGirl.attributes_for(:session_score))
+        request.headers["Authorization"] = @user_json['auth_token']
         post :create,params: { game_session: @game_session_attr },format: :json
         expect(response).to be_success
         json = JSON.parse(response.body)
@@ -242,7 +252,7 @@ module Api::V1
         end
       end
       context "with same sub_topic and multiple question_types" do
-        it "calculates correct aggregate scores", :focus => true do
+        it "calculates correct aggregate scores" do
           # DatabaseCleaner.clean
           sub_topic = FactoryGirl.create(:sub_topic)
           3.times do
