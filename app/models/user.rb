@@ -15,7 +15,7 @@ class User < ApplicationRecord
   before_create :set_default_role
   has_many :acad_profiles
   has_many :game_sessions
-  has_many :session_scores, through: :game_sessions
+  has_many :session_scores, -> { order('session_scores.id ASC') }, through: :game_sessions
   has_many :user_regions
   has_many :acad_entity_scores
 
@@ -89,6 +89,11 @@ class User < ApplicationRecord
       profile =  acad_entity.acad_profiles.create!(user_id: self.id)
     end
   end
+
+  def session_scores acad_entity
+    
+  end
+  
   private
   def set_default_role
     self.role ||= Role.find_by_name('student')

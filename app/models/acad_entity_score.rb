@@ -36,7 +36,7 @@ class AcadEntityScore < ApplicationRecord
   def self.update(session_score, acad_entity)
     score = self.where( acad_entity: acad_entity, user: session_score.game_session.user).first
     score.session_score = session_score
-    score.average = ((score.average*score.completed_count) + session_score.value)/( score.completed_count+1 ) if session_score.passed
+    score.average = ((score.average*score.completed_count) + session_score.value)/( score.completed_count+1 )
     score.maximum = [score.maximum, session_score.value].max
     score.passed_count += 1 if session_score.passed
     score.failed_count += 1 if session_score.failed
