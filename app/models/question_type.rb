@@ -10,6 +10,15 @@ class QuestionType < AcadEntity
   has_many :game_sessions, through: :game_holders
   has_many :session_scores, through: :game_sessions
 
+  has_many :benifits
+  
+  def display_benifits
+    if benifits.count == 0
+      benifits = Benifit.all
+    end
+    return benifits
+  end
+
   def self.list(list_params)
     question_type_list = QuestionType.all
     if list_params["search"]

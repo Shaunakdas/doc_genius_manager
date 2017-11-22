@@ -31,6 +31,19 @@ class User < ApplicationRecord
   def acad_scores(acad_entity)
     session_scores & acad_entity.session_scores
   end
+  
+  def top_score(acad_entity)
+    acad_entity_score = acad_entity_scores.find {|s| s.acad_entity == acad_entity }
+    top_score = (acad_entity_score != nil)?(acad_entity_score.maximum):(0)
+  end
+  
+  def display_scores(acad_entity)
+    scores = acad_scores(acad_entity)
+    display_scores = {}
+    display_scores[:recent] = scores.last(3).pluck(:value, :created_at)
+    sorted = scores.sort_by {|obj| obj.value}
+    display_scores[:top] = sorted.last(3).pluck(:value, :created_at)
+  end
 
   def self.search(search)
     where('first_name LIKE :search OR last_name LIKE :search OR email LIKE :search', search: "%#{search}%")

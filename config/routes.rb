@@ -65,7 +65,7 @@ Rails.application.routes.draw do
       # Delete QuestionType Req: (Admin AuthToken, User Id)
       delete "question_type/:id" => "question_types#delete"
       # HomePage Req: (Admin AuthToken)
-      get "question_type/:id" => "question_types#show"
+      get "question_type/:id/show" => "question_types#show"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
