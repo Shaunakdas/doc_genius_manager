@@ -7,6 +7,8 @@ class QuestionType < AcadEntity
 
   has_many :game_sessions, -> { order('game_sessions.id DESC') }, through: :game_holders
   has_many :session_scores, -> { order('game_sessions.id DESC') }, through: :game_sessions
+  has_many :game_sessions, through: :game_holders
+  has_many :session_scores, through: :game_sessions
 
   def self.list(list_params)
     question_type_list = QuestionType.all

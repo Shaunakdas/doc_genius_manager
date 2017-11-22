@@ -27,6 +27,10 @@ class User < ApplicationRecord
   def to_s
     "#{self.first_name} #{self.last_name}"
   end
+  
+  def acad_scores(acad_entity)
+    session_scores & acad_entity.session_scores
+  end
 
   def self.search(search)
     where('first_name LIKE :search OR last_name LIKE :search OR email LIKE :search', search: "%#{search}%")
@@ -88,10 +92,6 @@ class User < ApplicationRecord
       acad_entity = AcadProfile.find_acad_entity(params)
       profile =  acad_entity.acad_profiles.create!(user_id: self.id)
     end
-  end
-
-  def session_scores acad_entity
-    
   end
   
   private

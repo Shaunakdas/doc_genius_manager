@@ -13,12 +13,20 @@ module Api::V1
 
     def check_aggregates(user)
       user.acad_entity_scores.each do |aggregate_score|
-        average =  (user.session_scores.reduce(0) { |sum, obj| sum + obj.value.to_f })/(user.session_scores.size)
-        expect(aggregate_score.average).to be_within(0.1).of(average)
-        maximum = user.session_scores.max {|a,b| a.value.to_f <=> b.value.to_f }
-        expect(aggregate_score.maximum).to be_within(0.1).of(maximum.value)
-        expect(aggregate_score.last.to_f).to be_within(0.1).of(user.session_scores.last.value.to_f)
+        puts aggregate_score.acad_entity.to_json
+        check_aggregate(aggregate_score)
       end
+    end
+
+    def check_aggregate(acad_entity_score)
+      score_list =   acad_entity_score.user.acad_scores(acad_entity_score.acad_entity )
+      average =  (score_list.reduce(0) { |sum, obj| sum + obj.value.to_f })/(score_list.size)
+      expect(acad_entity_score.average).to be_within(0.1).of(average)
+      maximum = score_list.max {|a,b| a.value.to_f <=> b.value.to_f }
+      expect(acad_entity_score.maximum).to be_within(0.1).of(maximum.value)
+      expect(acad_entity_score.last.to_f).to be_within(0.1).of(score_list.last.value.to_f)
+      puts average
+      puts maximum.value
     end
 
     def create_game_session_call auth, game_holder_id
@@ -213,11 +221,11 @@ module Api::V1
         end
       end
       context "with same question_type and multiple game_holders" do
-        it "calculates correct aggregate scores", :focus => true do
+        it "calculates correct aggregate scores" do
           # DatabaseCleaner.clean
           @question_type = FactoryGirl.create(:question_type)
           3.times do
-            game_holder = FactoryGirl.create(:question_type, question_type: @question_type)
+            game_holder = FactoryGirl.create(:game_holder, question_type: @question_type)
             3.times do
               create_game_session_call( @user_json['auth_token'], game_holder.id )
             end
@@ -233,18 +241,27 @@ module Api::V1
           # puts json
         end
       end
-      context "with same question_type" do
-        it "calculates correct aggregate scores" do
+      context "with same sub_topic and multiple question_types" do
+        it "calculates correct aggregate scores", :focus => true do
           # DatabaseCleaner.clean
-          @game_holder = FactoryGirl.create(:gajme_holder)
-          @session_scores = 
-          post :create,params: { game_session: FactoryGirl.attributes_for(:game_session) },format: :json
-          expect(response).to be_success
+          sub_topic = FactoryGirl.create(:sub_topic)
+          3.times do
+            question_type = FactoryGirl.create(:question_type, sub_topic: sub_topic)
+            3.times do
+              game_holder = FactoryGirl.create(:game_holder, question_type: question_type)
+              3.times do
+                create_game_session_call( @user_json['auth_token'], game_holder.id )
+              end
+            end
+          end
+          
           json = JSON.parse(response.body)
           expect(json).to have_key("game_session")
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          # puts @user_json['user']['id']
+          check_aggregates(User.find(@user_json['user']['id']))
           # puts json
         end
       end

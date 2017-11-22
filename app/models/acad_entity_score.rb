@@ -8,7 +8,6 @@ class AcadEntityScore < ApplicationRecord
   end
 
   def self.update_aggregates(session_score)
-    puts session_score.to_json
     question_type =  session_score.game_session.game_holder.question_type
     user =  session_score.game_session.user
     session_score.game_session.game_holder.acad_entities.each do |acad_entity|
