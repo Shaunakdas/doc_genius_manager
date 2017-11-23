@@ -10,14 +10,14 @@ class QuestionType < AcadEntity
   has_many :game_sessions, through: :game_holders
   has_many :session_scores, through: :game_sessions
 
-  has_many :benifits
+  has_many :benifits, -> { order('benifits.sequence') }
   
-  def display_benifits
-    if benifits.count == 0
-      benefits = Benifit.all
-    end
-    return benefits
-  end
+  # def display_benifits
+  #   if benifits.count == 0
+  #     benefits = Benifit.all.order(:sequence)
+  #   end
+  #   return benefits
+  # end
 
   def self.list(list_params)
     question_type_list = QuestionType.all

@@ -283,6 +283,35 @@ module Api::V1
           expect(ques_json["sub_topic"]["topic"]).to include("slug","id","name","sequence","chapter")
         end
       end  
+      context "with valid id and benifits", focus: true do
+        it "gives the existing question_type with attributes" do
+          # DatabaseCleaner.clean
+          @benifits =[]
+          3.times do
+            @benifits << FactoryGirl.create(:benifit, question_type: @question_type, sequence: Random.rand(200))
+          end
+          @benifits = @benifits.sort_by { |benifit| benifit.sequence }
+          request.headers["Authorization"] = @user_json['auth_token']
+          get :show,params: { id: @question_type_json['id'] },format: :json
+          expect(response).to be_success
+          json = JSON.parse(response.body)
+          puts json
+          expect(json).to have_key("question_type")
+          ques_json = json["question_type"]
+          ques_json['benifits'].each_with_index do |benifit,i|
+            expect(benifit).to eq( 
+                {
+                  'id' => @benifits[i].id,
+                  'slug' => @benifits[i].slug,
+                  'name' => @benifits[i].name,
+                  'sequence' => @benifits[i].sequence,
+                  'explainer' => @benifits[i].explainer,
+                  'image_url' => @benifits[i].image_url
+                }
+              ) 
+          end
+        end
+      end  
       context "after 1 game_session" do
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
@@ -334,7 +363,7 @@ module Api::V1
           
         end
       end 
-      context "after 10 game_session", focus: true do
+      context "after 10 game_session" do
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           @game_holder = FactoryGirl.create(:game_holder, question_type: @question_type)
