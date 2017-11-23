@@ -72,16 +72,7 @@ class Api::V1::QuestionTypesController < Api::V1::ApiController
     if @current_user
       begin
         question_type = QuestionType.find(params[:id]) 
-        puts question_type.to_json
-        puts @current_user.top_score(question_type)
-        # question_type.merge( top_score:)
-        # question_type.top_score = 0
-        # question_type[:benifits] = question_type.display_benifits
-        # question_type[:challenges] = []
-
-
-          # puts "Update method: updated question_type"+question_type.to_json
-        respond_with question_type, serializer: Api::V1::QuestionTypeSerializer
+        respond_with question_type, serializer: Api::V1::QuestionTypeShowSerializer, user: @current_user
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find QuestionType with 'id'=#{params[:id]}", :not_found) 
       end

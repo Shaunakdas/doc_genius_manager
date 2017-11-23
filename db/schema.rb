@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171119060717) do
+ActiveRecord::Schema.define(version: 20171123071003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20171119060717) do
     t.index ["user_id"], name: "index_acad_profiles_on_user_id"
   end
 
-  create_table "benefits", force: :cascade do |t|
+  create_table "benifits", force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.string "explainer"
@@ -53,7 +53,9 @@ ActiveRecord::Schema.define(version: 20171119060717) do
     t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_benefits_on_slug", unique: true
+    t.bigint "question_type_id"
+    t.index ["question_type_id"], name: "index_benifits_on_question_type_id"
+    t.index ["slug"], name: "index_benifits_on_slug", unique: true
   end
 
   create_table "chapters", force: :cascade do |t|
@@ -284,6 +286,7 @@ ActiveRecord::Schema.define(version: 20171119060717) do
   add_foreign_key "acad_entity_scores", "session_scores"
   add_foreign_key "acad_entity_scores", "users"
   add_foreign_key "acad_profiles", "users"
+  add_foreign_key "benifits", "question_types"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "game_holders", "question_types"

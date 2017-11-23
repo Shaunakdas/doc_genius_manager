@@ -14,9 +14,9 @@ class QuestionType < AcadEntity
   
   def display_benifits
     if benifits.count == 0
-      benifits = Benifit.all
+      benefits = Benifit.all
     end
-    return benifits
+    return benefits
   end
 
   def self.list(list_params)

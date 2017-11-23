@@ -43,6 +43,7 @@ class User < ApplicationRecord
     display_scores[:recent] = scores.last(3).pluck(:value, :created_at)
     sorted = scores.sort_by {|obj| obj.value}
     display_scores[:top] = sorted.last(3).pluck(:value, :created_at)
+    return display_scores
   end
 
   def self.search(search)
