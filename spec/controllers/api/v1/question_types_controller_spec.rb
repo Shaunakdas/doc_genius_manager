@@ -192,7 +192,7 @@ module Api::V1
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :details,params: { id: @question_type_json['id'] },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           expect(json).to have_key("question_type")
@@ -207,7 +207,7 @@ module Api::V1
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id']+100 },format: :json
+          get :details,params: { id: @question_type_json['id']+100 },format: :json
           expect(response.status).to eq(404)
           json = JSON.parse(response.body)
           expect(json).to have_key("error")

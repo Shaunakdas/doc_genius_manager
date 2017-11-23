@@ -163,7 +163,7 @@ module Api::V1
       #   end
       # end
     end
-    describe "GET #details", :focus => true do
+    describe "GET #details" do
       before(:each) do
         user_login()
         @controller = GameSessionsController.new
