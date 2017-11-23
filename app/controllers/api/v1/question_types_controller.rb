@@ -72,7 +72,7 @@ class Api::V1::QuestionTypesController < Api::V1::ApiController
     if @current_user
       begin
         question_type = QuestionType.find(params[:id]) 
-        respond_with question_type, serializer: Api::V1::QuestionTypeShowSerializer, user: @current_user
+        respond_with question_type, root: "question_type", serializer: Api::V1::QuestionTypeShowSerializer, user: @current_user
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find QuestionType with 'id'=#{params[:id]}", :not_found) 
       end

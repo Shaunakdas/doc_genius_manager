@@ -40,9 +40,10 @@ class User < ApplicationRecord
   def display_scores(acad_entity)
     scores = acad_scores(acad_entity)
     display_scores = {}
-    display_scores[:recent] = scores.last(3).pluck(:value, :created_at)
-    sorted = scores.sort_by {|obj| obj.value}
-    display_scores[:top] = sorted.last(3).pluck(:value, :created_at)
+    sorted = scores.sort_by {|obj| obj.created_at}.reverse
+    display_scores[:recent] = sorted.first(3).as_json(only: [:value, :created_at])
+    sorted = scores.sort_by {|obj| obj.value}.reverse
+    display_scores[:top] = sorted.first(3).as_json(only: [:value, :created_at])
     return display_scores
   end
 

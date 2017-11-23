@@ -1,5 +1,5 @@
 module Api::V1
-  class QuestionTypeShowSerializer < ActiveModel::Serializer
+  class QuestionTypeShowSerializer < AcadEntitySerializer
     attributes :sub_topic, :sequence, :top_score, :challenges, :scores
     attribute :display_benifits, key: :benifits
     has_one :sub_topic, serializer: SubTopicSerializer

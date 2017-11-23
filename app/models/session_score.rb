@@ -4,7 +4,8 @@ class SessionScore < ApplicationRecord
   validates :value,presence:true, numericality: {only_float: true}
   after_save :update_aggregates
   before_save :update_failed
-
+  attr_accessor :time_passed
+  
   def update_failed
     self.failed = !self.passed
   end
@@ -16,4 +17,10 @@ class SessionScore < ApplicationRecord
   def update_aggregates
     AcadEntityScore.update_aggregates(self)
   end
+
+  def time_passed
+    @time_passed=1
+    return @time_passed
+  end
+
 end
