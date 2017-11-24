@@ -10,6 +10,7 @@ module Api::V1
 
     # POST /api/v1/game_session
     def create
+      # puts params
       if @current_user
         begin
           game_session = GameSession.new(game_session_params.merge(user_id: @current_user.id))

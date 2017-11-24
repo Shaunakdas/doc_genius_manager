@@ -306,7 +306,7 @@ module Api::V1
           end
         end
       end
-      context "with valid id and a working rule", focus: true do
+      context "with valid id and a working rule" do
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           working_rule = FactoryGirl.create(:working_rule)

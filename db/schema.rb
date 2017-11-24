@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123071003) do
+ActiveRecord::Schema.define(version: 20171124154227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,7 +163,6 @@ ActiveRecord::Schema.define(version: 20171123071003) do
 
   create_table "session_scores", force: :cascade do |t|
     t.decimal "value"
-    t.time "time_taken"
     t.integer "correct_count"
     t.integer "incorrect_count"
     t.boolean "seen"
@@ -172,6 +171,7 @@ ActiveRecord::Schema.define(version: 20171123071003) do
     t.bigint "game_session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "time_taken"
     t.index ["game_session_id"], name: "index_session_scores_on_game_session_id"
   end
 

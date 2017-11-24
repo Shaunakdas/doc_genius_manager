@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
       get "game_sessions" => "game_sessions#index"
       # Create GameSession. Req: (Auth token, Name, Email, GameSessionname, Mobile, OAuth/Password, Age). Response: (Auth token)
-      post "game_sessions" => "game_sessions#create"
+      post "game_session" => "game_sessions#create"
       # Get GameSession Details. Req: (Auth token, id, login)
       get "game_session/:id" => "game_sessions#details"
       

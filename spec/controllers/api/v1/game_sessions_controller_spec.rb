@@ -138,7 +138,6 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
-          # puts json
         end
       end
       context "without slug" do
