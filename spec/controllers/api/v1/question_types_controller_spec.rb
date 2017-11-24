@@ -252,13 +252,7 @@ module Api::V1
       before(:each) do
         @game_sessions =[]
         # Question Type creation
-        @question_type_attr = FactoryGirl.attributes_for(:question_type)
-        post :create,params: { question_type: @question_type_attr },format: :json
-        expect(response).to be_success
-        json = JSON.parse(response.body)
-        # puts 'QuestionType created before Get Test suite: '+json.to_s
-        @question_type_json = json["question_type"]
-        @question_type = QuestionType.find(@question_type_json['id'])
+        @question_type = FactoryGirl.create(:question_type)
         # User Creation
         @controller = RegistrationsController.new
         @user_attr = FactoryGirl.attributes_for(:user).slice(:email, :password, :password_confirmation)
@@ -272,18 +266,18 @@ module Api::V1
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :show,params: { id: @question_type.id },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           expect(json).to have_key("question_type")
           ques_json = json["question_type"]
-          expect(ques_json).to include("slug","id","name","sequence","sub_topic","top_score","scores","challenges","benifits")
+          expect(ques_json).to include("slug","id","name","sequence","sub_topic","top_score","scores","challenges","benifits","current")
           expect(ques_json["scores"]).to include("top","recent")
           expect(ques_json["sub_topic"]).to include("slug","id","name","sequence","topic")
           expect(ques_json["sub_topic"]["topic"]).to include("slug","id","name","sequence","chapter")
         end
       end  
-      context "with valid id and benifits", focus: true do
+      context "with valid id and benifits" do
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
           @benifits =[]
@@ -292,7 +286,7 @@ module Api::V1
           end
           @benifits = @benifits.sort_by { |benifit| benifit.sequence }
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :show,params: { id: @question_type.id },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           puts json
@@ -311,7 +305,29 @@ module Api::V1
               ) 
           end
         end
-      end  
+      end
+      context "with valid id and a working rule", focus: true do
+        it "gives the existing question_type with attributes" do
+          # DatabaseCleaner.clean
+          working_rule = FactoryGirl.create(:working_rule)
+          game_holder = FactoryGirl.create(:game_holder, game: working_rule, question_type: @question_type)
+          request.headers["Authorization"] = @user_json['auth_token']
+          get :show,params: { id: @question_type.id },format: :json
+          expect(response).to be_success
+          json = JSON.parse(response.body)
+          expect(json).to have_key("question_type")
+          ques_json = json["question_type"]
+          expect(ques_json['current']).to eq( 
+            {
+              'id' => working_rule.id,
+              'slug' => working_rule.slug,
+              'name' => working_rule.name,
+              'sequence' => working_rule.sequence,
+              'question_text' => working_rule.question_text
+            }
+          ) 
+        end
+      end
       context "after 1 game_session" do
         it "gives the existing question_type with attributes" do
           # DatabaseCleaner.clean
@@ -319,7 +335,7 @@ module Api::V1
           create_game_session_call( @user_json['auth_token'], @game_holder.id )
           @controller = QuestionTypesController.new
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :show,params: { id: @question_type.id },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           puts json
@@ -342,7 +358,7 @@ module Api::V1
           end
           @controller = QuestionTypesController.new
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :show,params: { id: @question_type.id },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           puts json
@@ -372,7 +388,7 @@ module Api::V1
           end
           @controller = QuestionTypesController.new
           request.headers["Authorization"] = @user_json['auth_token']
-          get :show,params: { id: @question_type_json['id'] },format: :json
+          get :show,params: { id: @question_type.id },format: :json
           expect(response).to be_success
           json = JSON.parse(response.body)
           puts json
