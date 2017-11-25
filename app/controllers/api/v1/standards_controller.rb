@@ -4,7 +4,7 @@ class Api::V1::StandardsController < Api::V1::ApiController
   # GET /api/v1/standards
   def index
     list_response = Standard.list(params)
-    respond_with list_response[:result], each_serializer: Api::V1::StandardSerializer, meta: list_response.except!(:result), location: '/standard'
+    respond_with list_response[:result], each_serializer: Api::V1::StandardOptionSerializer, meta: list_response.except!(:result), location: '/standard'
   end
 
   # POST /api/v1/standard

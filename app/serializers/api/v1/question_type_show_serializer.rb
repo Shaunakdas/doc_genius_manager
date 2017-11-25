@@ -1,7 +1,7 @@
 module Api::V1
-  class QuestionTypeShowSerializer < AcadEntitySerializer
-    attributes :sub_topic, :sequence, :top_score, :challenges, :scores,:benifits,:game_holder_id, :current
-    has_one :sub_topic, serializer: SubTopicSerializer
+  class QuestionTypeShowSerializer < QuestionTypeSerializer
+    attributes :best, :challenges, :scores,:benifits,:game_holder_id, :current
+    # has_one :sub_topic, serializer: SubTopicSerializer
     has_many :benifits, serializer: BenifitSerializer
     has_one :current, serializer: GameSerializer
 
@@ -21,7 +21,7 @@ module Api::V1
       end
     end
 
-    def top_score
+    def best
       @options[:user].top_score(object) if @options[:user]
     end
 
