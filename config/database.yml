@@ -13,18 +13,18 @@ test:
 
 staging:
   <<: *default
-  database: docgenius_stage
+  database: geniusdb
   pool: 5
-  host: <%= ENV['db_staging_host']
+  host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
-  username: docgenius
-  password: docgenius
+  username: geniusdb
+  password: geniusdb
 
 production:
   <<: *default
-  database: docgenius_prod
+  database: geniusdb
   pool: 5
-  host: <%= ENV['db_prod_host']
+  host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
-  username: docgenius
-  password: docgenius
+  username: geniusdb
+  password: geniusdb

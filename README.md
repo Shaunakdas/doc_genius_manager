@@ -22,3 +22,4 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+Postgres connect status: psql --host=geniusdb.c0xizcam615o.ap-south-1.rds.amazonaws.com --port=5432 --username geniusdb --password geniusdb --dbname geniusdb
