@@ -35,8 +35,9 @@ set :repo_url, "git@example.com:me/my_repo.git"
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :application, 'doc_genius_manager'
+set :user, 'ubuntu'
 set :repo_url, 'git@github.com:Shaunakdas/doc_genius_manager.git' # Edit this to match your repository
-set :branch, :master
+set :branch, :stage_setup
 set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
 set :pty, true
 set :linked_files, %w{config/application.yml}
@@ -60,7 +61,18 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
+# set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/github_rsa.pub) }
+
+task :seed do
+ puts "\n=== Seeding Database ===\n"
+ on primary :db do
+  within current_path do
+    with rails_env: fetch(:stage) do
+      execute :rake, 'db:seed'
+    end
+  end
+ end
+end
 
 # namespace :sidekiq do
 #   task :quiet do
