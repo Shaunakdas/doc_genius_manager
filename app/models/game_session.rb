@@ -35,4 +35,13 @@ class GameSession < ApplicationRecord
     game_session_list = game_session_list.drop(page_num * limit).first(limit)
     list_response = {result: game_session_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
+
+  def recent_scores
+    game_holder.question_type.session_scores
+  end
+
+  def score_rank
+    sorted = recent_scores.sort_by{ |score| score.value }.reverse
+    sorted.find_index(session_score)
+  end
 end

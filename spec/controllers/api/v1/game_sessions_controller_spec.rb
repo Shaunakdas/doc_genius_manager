@@ -38,6 +38,20 @@ module Api::V1
       expect(response).to be_success
     end
 
+    # Checking all recent scores to check order and value
+    def check_recent_scores(game_session_id, recent_scores)
+      game_session = GameSession.find(game_session_id)
+      scores = game_session.game_holder.question_type.session_scores
+      recent_scores.each_with_index do |score, i|
+        expect(score["value"].to_f).to be_within(0.1).of(scores[i].value)
+        expect(score["time_taken"]).to eq(scores[i].time_taken)
+        expect(score["correct_count"]).to eq(scores[i].correct_count)
+        expect(score["incorrect_count"]).to eq(scores[i].incorrect_count)
+        expect(score["seen"]).to eq(scores[i].seen)
+        expect(score["passed"]).to eq(scores[i].passed)
+        expect(score["failed"]).to eq(scores[i].failed)
+      end
+    end
     describe "GET #index" do
       context "with no parameters" do
         it "gives first page with given page number" do
@@ -138,6 +152,7 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          expect(json["game_session"]).to have_key("recent_scores")
         end
       end
       context "without slug" do
@@ -224,9 +239,13 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          expect(json["game_session"]).to have_key("recent_scores")
+          expect(json["game_session"]).to have_key("score_rank")
           # puts @user_json['user']['id']
           check_aggregates(User.find(@user_json['user']['id']))
-          # puts json
+          check_recent_scores(json["game_session"]["id"], json["game_session"]["recent_scores"])
+          expect(json["game_session"]["score_rank"]).to eq(GameSession.find(json["game_session"]["id"]).score_rank)
+          puts json
         end
       end
       context "with same question_type and multiple game_holders" do
@@ -245,8 +264,11 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          expect(json["game_session"]).to have_key("recent_scores")
           # puts @user_json['user']['id']
           check_aggregates(User.find(@user_json['user']['id']))
+          check_recent_scores(json["game_session"]["id"], json["game_session"]["recent_scores"])
+          expect(json["game_session"]["score_rank"]).to eq(GameSession.find(json["game_session"]["id"]).score_rank)
           # puts json
         end
       end
@@ -269,8 +291,11 @@ module Api::V1
           expect(json["game_session"]).to have_key("start")
           expect(json["game_session"]).to have_key("finish")
           expect(json["game_session"]).to have_key("session_score")
+          expect(json["game_session"]).to have_key("recent_scores")
           # puts @user_json['user']['id']
           check_aggregates(User.find(@user_json['user']['id']))
+          check_recent_scores(json["game_session"]["id"], json["game_session"]["recent_scores"])
+          expect(json["game_session"]["score_rank"]).to eq(GameSession.find(json["game_session"]["id"]).score_rank)
           # puts json
         end
       end
