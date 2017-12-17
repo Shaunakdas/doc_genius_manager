@@ -40,7 +40,9 @@ class Standard < AcadEntity
     chapters.each do |chapter|
       stream = chapter.stream.slice(:id, :name, :slug, :sequence)
       stream[:question_types] = chapter.stream.question_types.map { |h| h.slice(:id, :slug, :name, :sequence, :image_url) }
-      streams << stream
+      @stream_ids = streams.map{|x| x[:id]}
+      puts @stream_ids.index(stream[:id])
+      streams << stream if (!@stream_ids.index(stream[:id]))
     end
     return streams
   end
