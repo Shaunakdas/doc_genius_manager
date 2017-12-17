@@ -1,5 +1,5 @@
 class Api::V1::StandardsController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage ]
+  before_action :authenticate_request!, :only => [ :homepage,:streamwise_questions ]
   respond_to :json
   # GET /api/v1/standards
   def index
@@ -76,6 +76,22 @@ class Api::V1::StandardsController < Api::V1::ApiController
         puts @current_user.question_types.to_json
         respond_with @current_user, serializer: Api::V1::HomepageSerializer
         # respond_with @current_user.question_types, each_serializer: Api::V1::QuestionTypeSerializer, meta: @current_user, location: '/standard'
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(@current_user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    else
+      error_response("Auth Token is not valid") 
+    end
+  end
+
+  # GET /api/v1/question_types/all
+  # shows one standard (based on the supplied id) 
+  def streamwise_questions
+    if @current_user
+      begin
+        render json: {streams: @current_user.standard.streamwise_questions}
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
       rescue ActiveRecord::RecordInvalid => invalid

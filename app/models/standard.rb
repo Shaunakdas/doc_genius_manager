@@ -31,9 +31,20 @@ class Standard < AcadEntity
   end
 
   def recent_questions
-    question_types.sort_by { |v| v[:id] }[0..4]
+    question_types.sort_by { |v| v[:id] }[0..3]
     # question_types
   end
+
+  def streamwise_questions
+    streams = []
+    chapters.each do |chapter|
+      stream = chapter.stream.slice(:id, :name, :slug, :sequence)
+      stream[:question_types] = chapter.stream.question_types.map { |h| h.slice(:id, :slug, :name, :sequence, :image_url) }
+      streams << stream
+    end
+    return streams
+  end
+
   # def question_types(list_params)
   #   question_types = self.question_types
   #   total_count = question_types.count

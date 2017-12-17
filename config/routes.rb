@@ -43,8 +43,10 @@ Rails.application.routes.draw do
       put "standard/:id" => "standards#update"
       # Delete Standard Req: (Admin AuthToken, User Id)
       delete "standard/:id" => "standards#delete"
-      # HomePage Req: (Admin AuthToken)
+      # HomePage Req: ( AuthToken)
       get "homepage" => "standards#homepage"
+      # Streamwise Questions Req: ( AuthToken)
+      get "question_types/all" => "standards#streamwise_questions"
 
       # resources :standards  do 
       #   collection do
