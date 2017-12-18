@@ -71,6 +71,7 @@ class Api::V1::StandardsController < Api::V1::ApiController
   def homepage
     if @current_user
       begin
+        puts @current_user
         puts @current_user.standard.question_types
         # render json: @current_user.standard.question_types
         puts @current_user.question_types.to_json

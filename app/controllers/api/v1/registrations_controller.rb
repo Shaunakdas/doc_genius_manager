@@ -28,8 +28,9 @@ module Api::V1
           @current_user.map_enums(params[:user])
           @current_user.update_attributes!(user_params)
           @current_user.update_acad_entity(params[:user].slice(:standard_id))
-          # puts @current_user.to_json
-          respond_with @current_user, serializer: Api::V1::UserSerializer
+          @current_user.save!
+          puts @current_user.to_json
+          render json: @current_user
         rescue ActiveRecord::RecordNotFound
           error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
         rescue ActiveRecord::RecordInvalid => invalid
