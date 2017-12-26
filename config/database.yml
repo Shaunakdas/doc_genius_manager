@@ -1,34 +1,30 @@
 defaults: &default
   adapter: postgresql
   encoding: utf8
+  pool: 5
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
 development:
   <<: *default
-  database: docgenius_dev
-  pool: 5
-  username: shaunakdas2020
-  password: 
-
+  
 test:
   <<: *default
-  database: docgenius_test
-  pool: 5
-  username: shaunakdas2020
-  password: 
 
 staging:
   <<: *default
-  database: docgenius_stage
+  database: geniusdb
   pool: 5
-  host: ENV['db_staging_host']
+  host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
-  username: docgenius
-  password: docgenius
+  username: geniusdb
+  password: geniusdb
 
 production:
   <<: *default
-  database: docgenius_prod
+  database: geniusdb
   pool: 5
-  host: ENV['db_prod_host']
+  host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
-  username: docgenius
-  password: docgenius
+  username: geniusdb
+  password: geniusdb

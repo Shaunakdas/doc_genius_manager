@@ -18,3 +18,14 @@
 !/tmp/.keep
 
 .byebug_history
+
+*.tmp
+
+# Word temporary
+~$*.doc*
+
+# Excel temporary
+~$*.xls*
+
+# Ignore application configuration
+/config/application.yml

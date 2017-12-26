@@ -8,6 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '= 5.1.3'
+
+gem 'devise'
 # More info at https://github.com/lostisland/faraday . Make client in /lib folder,
 # put reference in application_controller and define a @ variable to use everywhere
 gem 'faraday'
@@ -28,6 +30,7 @@ gem 'rubocop', '~> 0.49.1', require: false
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
+gem 'active_model_serializers'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

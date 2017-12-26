@@ -1,0 +1,2 @@
+class DifficultyLevel < DisplayEntity
+end
