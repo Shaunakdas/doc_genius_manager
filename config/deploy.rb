@@ -37,7 +37,7 @@ set :repo_url, "git@example.com:me/my_repo.git"
 set :application, 'doc_genius_manager'
 set :user, 'ubuntu'
 set :repo_url, 'git@github.com:Shaunakdas/doc_genius_manager.git' # Edit this to match your repository
-set :branch, :stage_setup
+set :branch, :result_management
 set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
 set :pty, true
 set :linked_files, %w{config/application.yml}
