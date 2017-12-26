@@ -144,6 +144,7 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.21.0)
+    pgreset (0.1.1)
     powerpack (0.1.1)
     puma (3.10.0)
     rack (2.0.3)
@@ -282,6 +283,7 @@ DEPENDENCIES
   jwt
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.20)
+  pgreset (~> 0.1.1)
   puma (~> 3.7)
   rack-cors
   rails (= 5.1.3)
