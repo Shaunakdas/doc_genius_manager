@@ -2,7 +2,8 @@ require 'rubyXL'
 # require 'html_press'
 # require 'nokogiri'
 
-book = RubyXL::Parser.parse('db/seeds/excels/WorkingRules_Shaunak_v0.14.xlsx')
+# book = RubyXL::Parser.parse('db/seeds/excels/WorkingRules_Shaunak_v0.14.xlsx')
+book = RubyXL::Parser.parse('question_source/screenplays/scripts/Base_WorkingRule.xlsx')
 master_sheet = book[0]
 
 count = 0
