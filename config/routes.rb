@@ -68,6 +68,8 @@ Rails.application.routes.draw do
       delete "question_type/:id" => "question_types#delete"
       # HomePage Req: (Admin AuthToken)
       get "question_type/:id/show" => "question_types#show"
+      # Edit Working rule Question Text. Req: (id, rule_id, question_text)
+      post "question_type/:id/working_rule/:rule_id/edit" => "question_types#edit_working_rule"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)

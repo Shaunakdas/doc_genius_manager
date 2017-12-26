@@ -34,4 +34,13 @@ class QuestionType < AcadEntity
     question_type_list = question_type_list.drop(page_num * limit).first(limit)
     list_response = {result: question_type_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
+
+  def edit_working_rule id,question_text
+    games.each do |game|
+      if game.id == id
+        game.question_text = question_text
+        game.save!
+      end
+    end
+  end
 end

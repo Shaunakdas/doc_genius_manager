@@ -81,6 +81,18 @@ class Api::V1::QuestionTypesController < Api::V1::ApiController
     end
   end
 
+  # POST /api/v1/question_type/:id/working_rule/:rule_id/edit
+  # shows one question_type (based on the supplied id) 
+  def edit_working_rule
+    begin
+      question_type = QuestionType.find(params[:id]) 
+      question_type.edit_working_rule(params[:rule_id].to_i, params[:question_text])
+      respond_with question_type, root: "question_type", serializer: Api::V1::QuestionTypeShowSerializer, location: '/question_type'
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find QuestionType with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
   private
 
   def question_type_params
