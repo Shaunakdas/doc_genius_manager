@@ -43,4 +43,35 @@ class QuestionType < AcadEntity
       end
     end
   end
+
+  def self.add_working_rule params
+    # If question_type key is present, check for question_type with slugs of QuestionType
+    if params['question_type']
+      question_type = QuestionType.where(slug: params['question_type']['slug']).first
+      if question_type
+        # QuestionType already exists. 
+      elsif params['sub_topic']
+        # QuestionType doesn't exist. Will check for existence of SubTopic
+        sub_topic = SubTopic.where(slug: params['sub_topic']['slug']).first
+        question_type = QuestionType.new(name: params['question_type']['name'],
+          slug: params['question_type']['slug'],
+          sub_topic: sub_topic)
+        question_type.save!
+      end
+      # Will create Working Rule
+      working_rule = WorkingRule.new(name: params['working_rule']['name'],
+          slug: params['working_rule']['slug'],
+          question_text: params['working_rule']['question_text'],
+          difficulty_level: DifficultyLevel.last)
+      if working_rule.save!
+        name = 'Game Holder for '+question_type.name
+        game_holder = GameHolder.new(question_type: question_type,
+          game: working_rule,
+          name: name,
+          slug: name.gsub(' ','-').downcase)
+        game_holder.save!
+      end
+      return question_type
+    end
+  end
 end

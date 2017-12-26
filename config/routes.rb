@@ -70,6 +70,8 @@ Rails.application.routes.draw do
       get "question_type/:id/show" => "question_types#show"
       # Edit Working rule Question Text. Req: (id, rule_id, question_text)
       post "question_type/:id/working_rule/:rule_id/edit" => "question_types#edit_working_rule"
+      # Add Working rule Question Text. Req: (id, rule_id, question_text)
+      post "add_working_rule" => "question_types#add_working_rule"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)

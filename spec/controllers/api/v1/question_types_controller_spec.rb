@@ -420,28 +420,36 @@ module Api::V1
         @game_holder.question_type = @question_type
         @game_holder.game = @working_rule
         @game_holder.save!
-        # User Creation
-        @controller = RegistrationsController.new
-        @user_attr = FactoryGirl.attributes_for(:user).slice(:email, :password, :password_confirmation)
-        post :sign_up_email,params: { user: @user_attr },format: :json
-        expect(response).to be_success
-        json = JSON.parse(response.body)
-        @user_json = json
-        @controller = QuestionTypesController.new
-        request.headers["Authorization"] = @user_json['auth_token']
-        get :show,params: { id: @question_type.id },format: :json
-        json = JSON.parse(response.body)
-        puts json
-        rule_json = json["question_type"]["current"]
-        @question_text = rule_json["question_text"]
-        @rule_id = rule_json["id"].to_i
+      end
+      context "with valid id" do
+        it "gives the existing question_type with attributes" do
+          updated_text = @working_rule.question_text+"1"
+          post :edit_working_rule,params: { id: @question_type.id, rule_id: @working_rule.id, question_text: updated_text },format: :json
+          json = JSON.parse(response.body)
+          expect(json["question_type"]["current"]["question_text"]).to eq(updated_text)
+        end
+      end 
+    end
+    describe "POST #add_working_rule" do
+      before(:each) do
+        @game_sessions =[]
+        @game_holder = FactoryGirl.create(:game_holder)
+        # Question Type creation
+        @question_type = FactoryGirl.create(:question_type)
+        @working_rule = FactoryGirl.create(:working_rule)
+        @game_holder.question_type = @question_type
+        @game_holder.game = @working_rule
+        @game_holder.save!
       end
       context "with valid id", focus: true do
         it "gives the existing question_type with attributes" do
-          updated_text = @question_text+"1"
-          post :edit_working_rule,params: { id: @question_type.id, rule_id: @rule_id, question_text: updated_text },format: :json
+          question_type_attr = FactoryGirl.attributes_for(:question_type)
+          working_rule_attr = FactoryGirl.attributes_for(:working_rule)
+          wr_params = { question_type: question_type_attr, working_rule: working_rule_attr, sub_topic: { slug: @question_type.sub_topic.slug } }
+          post :add_working_rule,params: wr_params,format: :json
           json = JSON.parse(response.body)
-          expect(json["question_type"]["current"]["question_text"]).to eq(updated_text)
+          puts json
+          expect(json["question_type"]["current"]["question_text"]).to eq(working_rule_attr[:question_text])
         end
       end 
     end

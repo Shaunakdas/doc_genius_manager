@@ -93,6 +93,17 @@ class Api::V1::QuestionTypesController < Api::V1::ApiController
     end
   end
 
+  # POST /api/v1/add_working_rule
+  # shows one question_type (based on the supplied id) 
+  def add_working_rule
+    begin
+      question_type = QuestionType.add_working_rule(params)
+      respond_with question_type, root: "question_type", serializer: Api::V1::QuestionTypeShowSerializer, location: '/question_type'
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find QuestionType with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
   private
 
   def question_type_params
