@@ -16,6 +16,8 @@ gem 'faraday'
 
 # Use Postgres as the database for Active Record
 gem 'pg', '~> 0.20'
+# Kills postgres connections during db:reset so you don't have to restart your server. Fixes "database in use" errors.
+gem 'pgreset', '~> 0.1.1'
 
 # After running 'bundle install', run 'bundle exec figaro install'
 gem 'figaro'
