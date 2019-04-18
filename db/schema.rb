@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190418122433) do
+ActiveRecord::Schema.define(version: 20190418122524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,19 @@ ActiveRecord::Schema.define(version: 20190418122433) do
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
     t.index ["slug"], name: "index_game_holders_on_slug", unique: true
+  end
+
+  create_table "game_option_attempts", force: :cascade do |t|
+    t.boolean "is_attempted"
+    t.boolean "is_attempted_correctly"
+    t.string "user_input"
+    t.integer "time_attempt"
+    t.bigint "game_option_id"
+    t.bigint "game_question_attempt_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_option_id"], name: "index_game_option_attempts_on_game_option_id"
+    t.index ["game_question_attempt_id"], name: "index_game_option_attempts_on_game_question_attempt_id"
   end
 
   create_table "game_options", force: :cascade do |t|
@@ -361,6 +374,8 @@ ActiveRecord::Schema.define(version: 20190418122433) do
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "game_holders", "question_types"
+  add_foreign_key "game_option_attempts", "game_options"
+  add_foreign_key "game_option_attempts", "game_question_attempts"
   add_foreign_key "game_options", "game_questions"
   add_foreign_key "game_options", "options"
   add_foreign_key "game_question_attempts", "game_questions"
