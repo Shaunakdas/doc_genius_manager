@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190418122524) do
+ActiveRecord::Schema.define(version: 20190418122555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(version: 20190418122524) do
     t.datetime "updated_at", null: false
     t.index ["acad_entity_type", "acad_entity_id"], name: "index_acad_profiles_on_acad_entity_type_and_acad_entity_id"
     t.index ["user_id"], name: "index_acad_profiles_on_user_id"
+  end
+
+  create_table "acad_standings", force: :cascade do |t|
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_acad_standings_on_acad_entity_type_and_acad_entity_id"
+    t.index ["user_id"], name: "index_acad_standings_on_user_id"
   end
 
   create_table "benifits", force: :cascade do |t|
@@ -370,6 +380,7 @@ ActiveRecord::Schema.define(version: 20190418122524) do
   add_foreign_key "acad_entity_scores", "session_scores"
   add_foreign_key "acad_entity_scores", "users"
   add_foreign_key "acad_profiles", "users"
+  add_foreign_key "acad_standings", "users"
   add_foreign_key "benifits", "question_types"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
