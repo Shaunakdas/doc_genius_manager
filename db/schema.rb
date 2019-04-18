@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190418121808) do
+ActiveRecord::Schema.define(version: 20190418122433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,27 @@ ActiveRecord::Schema.define(version: 20190418121808) do
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
     t.index ["slug"], name: "index_game_holders_on_slug", unique: true
+  end
+
+  create_table "game_options", force: :cascade do |t|
+    t.bigint "option_id"
+    t.bigint "game_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_question_id"], name: "index_game_options_on_game_question_id"
+    t.index ["option_id"], name: "index_game_options_on_option_id"
+  end
+
+  create_table "game_question_attempts", force: :cascade do |t|
+    t.integer "time_attempt"
+    t.boolean "passed"
+    t.boolean "attempted"
+    t.bigint "game_question_id"
+    t.bigint "game_session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_question_id"], name: "index_game_question_attempts_on_game_question_id"
+    t.index ["game_session_id"], name: "index_game_question_attempts_on_game_session_id"
   end
 
   create_table "game_questions", force: :cascade do |t|
@@ -340,6 +361,10 @@ ActiveRecord::Schema.define(version: 20190418121808) do
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "game_holders", "question_types"
+  add_foreign_key "game_options", "game_questions"
+  add_foreign_key "game_options", "options"
+  add_foreign_key "game_question_attempts", "game_questions"
+  add_foreign_key "game_question_attempts", "game_sessions"
   add_foreign_key "game_questions", "game_holders"
   add_foreign_key "game_questions", "questions"
   add_foreign_key "game_sessions", "game_holders"
