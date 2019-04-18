@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124154227) do
+ActiveRecord::Schema.define(version: 20190418120952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,9 +92,25 @@ ActiveRecord::Schema.define(version: 20171124154227) do
     t.bigint "question_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_game_holders_on_acad_entity_type_and_acad_entity_id"
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
     t.index ["slug"], name: "index_game_holders_on_slug", unique: true
+  end
+
+  create_table "game_questions", force: :cascade do |t|
+    t.integer "difficulty"
+    t.integer "time_alloted"
+    t.bigint "question_id"
+    t.bigint "game_holder_id"
+    t.bigint "parent_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_holder_id"], name: "index_game_questions_on_game_holder_id"
+    t.index ["parent_question_id"], name: "index_game_questions_on_parent_question_id"
+    t.index ["question_id"], name: "index_game_questions_on_question_id"
   end
 
   create_table "game_sessions", force: :cascade do |t|
@@ -108,6 +124,14 @@ ActiveRecord::Schema.define(version: 20171124154227) do
     t.index ["user_id"], name: "index_game_sessions_on_user_id"
   end
 
+  create_table "practice_types", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "image_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "question_types", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -118,6 +142,18 @@ ActiveRecord::Schema.define(version: 20171124154227) do
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_question_types_on_slug", unique: true
     t.index ["sub_topic_id"], name: "index_question_types_on_sub_topic_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "display"
+    t.string "hint"
+    t.string "tip"
+    t.string "solution"
+    t.string "mode"
+    t.bigint "parent_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
   end
 
   create_table "rank_names", force: :cascade do |t|
@@ -290,6 +326,8 @@ ActiveRecord::Schema.define(version: 20171124154227) do
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "game_holders", "question_types"
+  add_foreign_key "game_questions", "game_holders"
+  add_foreign_key "game_questions", "questions"
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "users"
   add_foreign_key "question_types", "sub_topics"
