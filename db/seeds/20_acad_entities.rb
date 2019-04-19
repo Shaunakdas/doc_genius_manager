@@ -110,5 +110,39 @@ master_sheet.each do |row|
     end
 
   end
-  break if row.cells[0] && row.cells[0].value && (row.cells[0].value[0] == 'End')
+  break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+end
+
+# Practice Game
+master_sheet = book[3]
+master_sheet.each do |row|
+  if row.cells[0]  && row.cells[0].value  && (['C06','C07'].include?row.cells[0].value ) && row.cells[1].value == 'Maths'
+    topic_name = row.cells[12].value
+    topic_slug = row.cells[13].value
+
+    if row.cells[14].value
+      practice_type_name = row.cells[14].value
+      practice_type_slug = practice_type_name.downcase
+      game_holder_name = row.cells[16].value
+      game_holder_slug = row.cells[17].value
+    end
+
+    topic = Topic.find_by(:slug => topic_slug)
+
+    #Create or find practice_type 
+    if (not practice_type = PracticeType.find_by(:slug => practice_type_slug)) && practice_type_name && (practice_type_name.length > 2) && topic
+      puts "Adding practice_type #{practice_type_name} , slug: #{practice_type_slug}"
+      practice_type = PracticeType.create!(:name => practice_type_name, :slug => practice_type_slug)
+      
+    end
+
+    if (not game_holder = GameHolder.find_by(:slug => game_holder_slug)) && game_holder_name && practice_type && topic 
+      puts "Adding game_holder #{game_holder_name} , slug: #{game_holder_slug}"
+      game_holder = GameHolder.create!(:name => game_holder_name, :slug => game_holder_slug, acad_entity: topic,
+        :game => practice_type)
+    end
+    
+
+  end
+  break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
 end
