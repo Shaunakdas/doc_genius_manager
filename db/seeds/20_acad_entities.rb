@@ -408,8 +408,51 @@ def upload_division_data(book, count)
   end
 end
 
+
 # PG: Inversion
-master_sheet = book[9]
+def upload_inversion_data(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          solution = row.cells[4].value
+
+          question = Question.create!(display: display, solution: solution)
+          puts "Adding question display: #{display} , solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+          option_start = 5
+          option_width = 1
+          option_count = 2
+          (0..(option_count-1)).each do |counter|
+            display_index = option_start + (counter*option_width)
+
+            if row.cells[display_index] && row.cells[display_index].value
+              display = row.cells[display_index].value
+
+              option = Option.create( display: display)
+              puts "Adding option_#{(option_count+1)} display: #{display}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
 
 # PG: Percentages
 master_sheet = book[10]
@@ -431,4 +474,5 @@ master_sheet = book[12]
 # upload_conversion_data(book, 5)
 # upload_diction_data(book, 6)
 # upload_discounting_data(book, 7)
-upload_division_data(book, 8)
+# upload_division_data(book, 8)
+upload_inversion_data(book, 9)
