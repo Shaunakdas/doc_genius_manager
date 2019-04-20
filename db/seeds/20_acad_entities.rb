@@ -242,7 +242,7 @@ def upload_conversion_data(book, count)
             lower_index = option_start + (counter*option_width) +  1
             sequence_index = option_start + (counter*option_width) +  2
 
-            if row.cells[upper_index]
+            if row.cells[upper_index] && row.cells[upper_index].value
               upper = row.cells[upper_index].value
               lower = row.cells[lower_index].value
               sequence = row.cells[sequence_index].value
@@ -290,7 +290,7 @@ def upload_diction_data(book, count)
           (0..(option_count-1)).each do |counter|
             correct_index = option_start + (counter*option_width)
 
-            if row.cells[correct_index]
+            if row.cells[correct_index] && row.cells[correct_index].value
               correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
 
               option = Option.create( correct: (correct==1))
@@ -307,7 +307,55 @@ def upload_diction_data(book, count)
 end
 
 # PG: Discounting
-master_sheet = book[7]
+def upload_discounting_data(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          solution = row.cells[4].value
+
+          question = Question.create!(display: display, solution: solution)
+          puts "Adding question display: #{display} , solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+          option_start = 5
+          option_width = 4
+          option_count = 4
+          (0..(option_count-1)).each do |counter|
+            upper_index = option_start + (counter*option_width)
+            lower_index = option_start + (counter*option_width) +  1
+            after_attempt_index = option_start + (counter*option_width) +  2
+            sequence_index = option_start + (counter*option_width) +  3
+
+            if row.cells[upper_index] && row.cells[upper_index].value
+              upper = row.cells[upper_index].value
+              lower = row.cells[lower_index].value
+              after_attempt = row.cells[after_attempt_index].value
+              sequence = row.cells[sequence_index].value
+
+              option = Option.create( upper: upper, lower: lower, after_attempt: after_attempt, sequence: sequence)
+              puts "Adding option_#{(option_count+1)} upper: #{upper}, lower: #{lower}, after_attempt: #{after_attempt}, sequence: #{sequence}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
 
 # PG: Division
 master_sheet = book[8]
@@ -333,4 +381,5 @@ master_sheet = book[12]
 # set_acad_entity_enabled(true)
 # upload_scq_data(book, 4)
 # upload_conversion_data(book, 5)
-upload_diction_data(book, 6)
+# upload_diction_data(book, 6)
+upload_discounting_data(book, 7)
