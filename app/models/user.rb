@@ -103,6 +103,10 @@ class User < ApplicationRecord
     end
   end
 
+  def enabled_chapters
+    standard.chapters.where(enabled: true).sort_by{|obj| obj.sequence_standard}
+  end
+
   def topic
     profile = self.acad_profiles.where(acad_entity_type: 'Topic').first
     if profile
