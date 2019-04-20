@@ -146,3 +146,11 @@ master_sheet.each do |row|
   end
   break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
 end
+
+Topic.all.each do |topic|
+  topic.update_attributes!(enabled: true) if topic.practice_game_holders.length > 0
+end
+
+Chapter.all.each do |chapter|
+  chapter.update_attributes!(enabled: true) if chapter.practice_game_holders.length > 0
+end
