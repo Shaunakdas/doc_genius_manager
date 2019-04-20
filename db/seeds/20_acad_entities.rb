@@ -358,7 +358,55 @@ def upload_discounting_data(book, count)
 end
 
 # PG: Division
-master_sheet = book[8]
+def upload_division_data(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => "division")
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          hint = row.cells[4].value
+          solution = row.cells[5].value
+          mode = row.cells[6].value
+
+          question = Question.create!(display: display, hint: hint, solution: solution, mode: mode)
+          puts "Adding question display: #{display} , hint: #{hint}, solution: #{solution} , mode: #{mode}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+          option_start = 7
+          option_width = 3
+          option_count = 4
+          (0..(option_count-1)).each do |counter|
+            value_type_index = option_start + (counter*option_width)
+            display_index = option_start + (counter*option_width) +  1
+            value_index = option_start + (counter*option_width) +  2
+
+            if row.cells[value_type_index] && row.cells[value_type_index].value
+              value_type = row.cells[value_type_index].value
+              display = row.cells[display_index].value
+              value = row.cells[value_index].value
+
+              option = Option.create( value_type: value_type, display: display, value: value)
+              puts "Adding option_#{(option_count+1)} value_type: #{value_type}, display: #{display}, value: #{value}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
 
 # PG: Inversion
 master_sheet = book[9]
@@ -382,4 +430,5 @@ master_sheet = book[12]
 # upload_scq_data(book, 4)
 # upload_conversion_data(book, 5)
 # upload_diction_data(book, 6)
-upload_discounting_data(book, 7)
+# upload_discounting_data(book, 7)
+upload_division_data(book, 8)
