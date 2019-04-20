@@ -94,6 +94,28 @@ class User < ApplicationRecord
     end
   end
 
+  def chapter
+    profile = self.acad_profiles.where(acad_entity_type: 'Chapter').first
+    if profile
+      chapter = Chapter.find(profile.acad_entity_id)
+    else
+      return nil
+    end
+  end
+
+  def topic
+    profile = self.acad_profiles.where(acad_entity_type: 'Topic').first
+    if profile
+      topic = Topic.find(profile.acad_entity_id)
+    else
+      return nil
+    end
+  end
+
+  def practice_game_holders
+    topic.practice_game_holders
+  end
+
   def question_types
     return standard.question_types
   end
@@ -120,7 +142,15 @@ class User < ApplicationRecord
     first_topic = first_chapter.topics.where(
       sequence: first_chapter.topics.minimum(:sequence)
       ).first if first_chapter
+    # Check if first_topic has any game_holders
+    first_topic = check_for_game_holders(first_chapter,first_topic)
     [standard, first_chapter, first_topic].each { |entity| entity.acad_profiles.create!(user_id: self.id) }
+  end
+
+  def check_for_game_holders(chapter,topic)
+    return chapter.topics.where(
+      sequence: chapter.topics.minimum(:sequence)+1
+      ).first if chapter && topic.practice_game_holders.length == 0
   end
   
   private
