@@ -369,7 +369,7 @@ def upload_division_data(book, count)
         game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
 
-        practice_type = PracticeType.find_by(:slug => "division")
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
         if practice_type && game_holder
@@ -454,8 +454,39 @@ def upload_inversion_data(book, count)
   end
 end
 
-# PG: Percentages
-master_sheet = book[10]
+
+# PG: Percentage
+def upload_percentage_data(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          tip = row.cells[4].value
+          hint = row.cells[5].value
+          solution = row.cells[6].value
+
+          question = Question.create!(display: display, tip: tip, hint: hint, solution: solution)
+          puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
 
 # PG: Proportion
 master_sheet = book[11]
@@ -475,4 +506,5 @@ master_sheet = book[12]
 # upload_diction_data(book, 6)
 # upload_discounting_data(book, 7)
 # upload_division_data(book, 8)
-upload_inversion_data(book, 9)
+# upload_inversion_data(book, 9)
+upload_percentage_data(book, 10)
