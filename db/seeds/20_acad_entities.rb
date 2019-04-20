@@ -261,7 +261,50 @@ def upload_conversion_data(book, count)
 end
 
 # PG: Diction
-master_sheet = book[6]
+def upload_diction_data(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          hint = row.cells[4].value
+          solution = row.cells[5].value
+
+          question = Question.create!(display: display, hint: hint, solution: solution)
+          puts "Adding question display: #{display} , hint: #{hint}, solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+          option_start = 6
+          option_width = 1
+          option_count = 1
+          (0..(option_count-1)).each do |counter|
+            correct_index = option_start + (counter*option_width)
+
+            if row.cells[correct_index]
+              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+
+              option = Option.create( correct: (correct==1))
+              puts "Adding option_#{(option_count+1)} correct: #{correct}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
 
 # PG: Discounting
 master_sheet = book[7]
@@ -289,4 +332,5 @@ master_sheet = book[12]
 # upload_practice_types(book, 3)
 # set_acad_entity_enabled(true)
 # upload_scq_data(book, 4)
-upload_conversion_data(book, 5)
+# upload_conversion_data(book, 5)
+upload_diction_data(book, 6)
