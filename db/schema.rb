@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190420095537) do
+ActiveRecord::Schema.define(version: 20190420113456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20190420095537) do
     t.bigint "stream_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false
     t.index ["slug"], name: "index_chapters_on_slug", unique: true
     t.index ["standard_id"], name: "index_chapters_on_standard_id"
     t.index ["stream_id"], name: "index_chapters_on_stream_id"
@@ -299,6 +300,7 @@ ActiveRecord::Schema.define(version: 20190420095537) do
     t.bigint "topic_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false
     t.index ["slug"], name: "index_sub_topics_on_slug", unique: true
     t.index ["topic_id"], name: "index_sub_topics_on_topic_id"
   end
@@ -318,6 +320,7 @@ ActiveRecord::Schema.define(version: 20190420095537) do
     t.bigint "chapter_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false
     t.index ["chapter_id"], name: "index_topics_on_chapter_id"
     t.index ["slug"], name: "index_topics_on_slug", unique: true
   end
