@@ -105,8 +105,22 @@ class User < ApplicationRecord
   def update_acad_entity(params)
     if params.keys.count > 0
       acad_entity = AcadProfile.find_acad_entity(params)
-      profile =  acad_entity.acad_profiles.create!(user_id: self.id)
+      if (not profile = acad_entity.acad_profiles.find_by(user_id: self.id))
+        setup_initial_acad_entities(acad_entity) if acad_entity.model_name.name == "Standard"
+      end
     end
+  end
+
+  def setup_initial_acad_entities(standard)
+    # Finding first chapter
+    first_chapter = standard.chapters.where(
+      sequence_standard: standard.chapters.minimum(:sequence_standard)
+      ).first
+    # Finding first topic
+    first_topic = first_chapter.topics.where(
+      sequence: first_chapter.topics.minimum(:sequence)
+      ).first if first_chapter
+    [standard, first_chapter, first_topic].each { |entity| entity.acad_profiles.create!(user_id: self.id) }
   end
   
   private
