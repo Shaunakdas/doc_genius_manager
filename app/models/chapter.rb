@@ -7,6 +7,7 @@ class Chapter < AcadEntity
   has_many :game_holders, through: :question_types
   has_many :game_sessions, through: :game_holders
   has_many :session_scores, through: :game_sessions
+  has_many :practice_game_holders, through: :topics, as: :acad_entity, class_name: "GameHolder"
   
   has_many :acad_profiles, as: :acad_entity
   has_many :acad_entity_scores, as: :acad_entity
