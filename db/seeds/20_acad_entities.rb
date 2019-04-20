@@ -154,3 +154,91 @@ end
 Chapter.all.each do |chapter|
   chapter.update_attributes!(enabled: true) if chapter.practice_game_holders.length > 0
 end
+
+# PG: SCQ
+master_sheet = book[4]
+master_sheet.each do |row|
+  if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+    if row.cells[0] && row.cells[1] && row.cells[2]
+      practice_type_name = row.cells[2].value
+      practice_type_slug = practice_type_name.downcase
+      game_holder_name = row.cells[0].value
+      game_holder_slug = row.cells[1].value
+
+      practice_type = PracticeType.find_by(:slug => practice_type_slug)
+      game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+      if practice_type && game_holder
+        display = row.cells[3].value
+        solution = row.cells[4].value
+
+        question = Question.create!(display: display, solution: solution)
+        puts "Adding question display: #{display} , solution: #{solution}"
+        game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+        
+        if row.cells[5]
+          option_1_display = row.cells[5].value
+          option_1_correct = row.cells[6].value.nil? ? 0 : row.cells[6].value
+
+          option_1 = Option.create( display: option_1_display, correct: (option_1_correct==1))
+          puts "Adding option_1 display: #{option_1_display} , correct: #{option_1_correct}"
+          game_option = GameOption.create!(option: option_1, game_question: game_question)
+        end
+
+        if row.cells[7]
+          option_2_display = row.cells[7].value
+          option_2_correct = row.cells[8].nil? ? 0 : row.cells[8].value
+
+          option_2 = Option.create( display: option_2_display, correct: (option_2_correct==1))
+          puts "Adding option_2 display: #{option_2_display} , correct: #{option_2_correct}"
+          game_option = GameOption.create!(option: option_2, game_question: game_question)
+        end
+
+        if row.cells[9]
+          option_3_display = row.cells[9].value
+          option_3_correct = row.cells[10].nil? ? 0 : row.cells[10].value
+
+          option_3 = Option.create( display: option_3_display, correct: (option_3_correct==1))
+          puts "Adding option_3 display: #{option_3_display} , correct: #{option_3_correct}"
+          game_option = GameOption.create!(option: option_3, game_question: game_question)
+        end
+
+        if row.cells[11]
+          option_4_display = row.cells[11].value
+          option_4_correct = row.cells[12].nil? ? 0 : row.cells[12].value
+
+          option_4 = Option.create( display: option_4_display, correct: (option_4_correct==1))
+          puts "Adding option_4 display: #{option_4_display} , correct: #{option_4_correct}"
+          game_option = GameOption.create!(option: option_4, game_question: game_question)
+        end
+      end
+    end
+    
+  end
+  break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+end
+
+# PG: Conversion
+master_sheet = book[5]
+
+# PG: Diction
+master_sheet = book[6]
+
+# PG: Discounting
+master_sheet = book[7]
+
+# PG: Division
+master_sheet = book[8]
+
+# PG: Inversion
+master_sheet = book[9]
+
+# PG: Percentages
+master_sheet = book[10]
+
+# PG: Proportion
+master_sheet = book[11]
+
+# PG: Tipping
+master_sheet = book[12]
