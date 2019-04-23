@@ -109,6 +109,6 @@ class GameHolder < ApplicationRecord
 
   # Tipping
   def get_tipping_questions
-
+    Api::V1::PracticeQuestions::TippingGameSerializer.new(self).as_json[:tipping_game]
   end
 end

@@ -5,6 +5,10 @@ module Api::V1::PracticeQuestions
       object.question.mode
     end
 
+    def title
+      object.question.title
+    end
+
     def question
       object.question.display
     end
@@ -19,6 +23,10 @@ module Api::V1::PracticeQuestions
 
     def tips
       object.question.tip
+    end
+
+    def correct_option_count
+      4
     end
   end
 end
