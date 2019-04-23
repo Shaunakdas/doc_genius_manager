@@ -384,7 +384,7 @@ def upload_division_data(book, count)
           
           option_start = 7
           option_width = 3
-          option_count = 4
+          option_count = 5
           (0..(option_count-1)).each do |counter|
             value_type_index = option_start + (counter*option_width)
             display_index = option_start + (counter*option_width) +  1
