@@ -38,5 +38,13 @@ module Api::V1::PracticeQuestions
       object.option.after_attempt
     end
 
+    def hint
+      object.option.hint
+    end
+
+    def title
+      object.option.title
+    end
+
   end
 end

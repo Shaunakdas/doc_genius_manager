@@ -104,7 +104,7 @@ class GameHolder < ApplicationRecord
 
   # Proportion
   def get_proportion_questions
-
+    Api::V1::PracticeQuestions::ProportionGameSerializer.new(self).as_json[:proportion_game]
   end
 
   # Tipping

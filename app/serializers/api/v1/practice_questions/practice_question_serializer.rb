@@ -28,5 +28,9 @@ module Api::V1::PracticeQuestions
     def correct_option_count
       4
     end
+
+    def type
+      object.question.value_type
+    end
   end
 end

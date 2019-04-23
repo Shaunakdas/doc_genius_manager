@@ -26,5 +26,9 @@ module Api::V1::PracticeQuestions
     def entry_delay
       4
     end
+
+    def minimum_correct_count
+      3
+    end
   end
 end
