@@ -34,5 +34,9 @@ module Api::V1::PracticeQuestions
       object.option.sequence
     end
 
+    def after_attempt
+      object.option.after_attempt
+    end
+
   end
 end

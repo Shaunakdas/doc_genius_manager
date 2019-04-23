@@ -82,7 +82,7 @@ class GameHolder < ApplicationRecord
 
   # Discounting
   def get_discounting_questions
-
+    Api::V1::PracticeQuestions::DiscountingGameSerializer.new(self).as_json[:discounting_game]
   end
 
   # Division
