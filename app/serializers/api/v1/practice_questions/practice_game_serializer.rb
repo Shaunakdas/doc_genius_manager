@@ -18,5 +18,13 @@ module Api::V1::PracticeQuestions
     def lives
       3
     end
+
+    def entry_sequence
+      [3,3,8,1,1,1,1,1,1]
+    end
+
+    def entry_delay
+      4
+    end
   end
 end
