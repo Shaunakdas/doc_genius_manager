@@ -99,7 +99,7 @@ class GameHolder < ApplicationRecord
 
   # Percentages
   def get_percentages_questions
-
+    Api::V1::PracticeQuestions::PercentagesGameSerializer.new(self).as_json[:percentages_game]
   end
 
   # Proportion
