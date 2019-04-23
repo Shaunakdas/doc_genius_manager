@@ -73,7 +73,7 @@ class GameHolder < ApplicationRecord
 
   # Conversion
   def get_conversion_questions
-
+    Api::V1::PracticeQuestions::ConversionGameSerializer.new(self).as_json[:conversion_game]
   end
 
   # Diction

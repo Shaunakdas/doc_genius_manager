@@ -22,5 +22,17 @@ module Api::V1::PracticeQuestions
       object.option.value
     end
 
+    def upper
+      object.option.upper
+    end
+
+    def lower
+      object.option.lower
+    end
+
+    def sequence
+      object.option.sequence
+    end
+
   end
 end
