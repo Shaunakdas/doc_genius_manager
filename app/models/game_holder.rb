@@ -50,6 +50,8 @@ class GameHolder < ApplicationRecord
       return get_discounting_questions
     when "division"
       get_division_questions
+    when "inversion"
+      get_inversion_questions
     when "percentages"
       return get_percentages_questions
     when "proportion"
@@ -92,7 +94,7 @@ class GameHolder < ApplicationRecord
 
   # Inversion
   def get_inversion_questions
-
+    Api::V1::PracticeQuestions::InversionGameSerializer.new(self).as_json[:inversion_game]
   end
 
   # Percentages
