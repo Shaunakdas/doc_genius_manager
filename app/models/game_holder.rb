@@ -37,7 +37,7 @@ class GameHolder < ApplicationRecord
     puts game.slug
     case game.slug
     when "agility"
-      return get_scq_questions
+      return get_agility_questions
     when "purchasing"
       return get_scq_questions
     when "conversion"
@@ -63,7 +63,12 @@ class GameHolder < ApplicationRecord
 
   # SCQ
   def get_scq_questions
+    Api::V1::PracticeQuestions::DivisionGameSerializer.new(self).as_json[:division_game]
+  end
 
+  # Agility
+  def get_agility_questions
+    Api::V1::PracticeQuestions::AgilityGameSerializer.new(self).as_json[:agility_game]
   end
 
   # Conversion

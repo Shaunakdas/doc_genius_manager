@@ -10,5 +10,13 @@ module Api::V1::PracticeQuestions
         "total": 120
       }
     end
+
+    def correct_count
+      4
+    end
+
+    def lives
+      3
+    end
   end
 end
