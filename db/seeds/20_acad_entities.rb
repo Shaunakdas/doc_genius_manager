@@ -510,13 +510,16 @@ def upload_proportion_data(book, count)
 
           if not parent_question = Question.find_by(display: parent_display)
             parent_question = Question.create!(display: parent_display)
-            puts "Adding parent question parent_display: #{parent_display}"
+            puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
+            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+            puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
           end
 
           if parent_question
+            parent_game_question = GameQuestion.where(question: parent_question, game_holder: game_holder).first
             question = Question.create!(display: display, solution: solution, parent_question: parent_question)
             puts "Adding question display: #{display} , solution: #{solution}"
-            game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+            game_question = GameQuestion.create!(question: question, parent_question: parent_game_question)
             
             option_start = 5
             option_width = 4
