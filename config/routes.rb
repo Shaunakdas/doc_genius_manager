@@ -80,6 +80,10 @@ Rails.application.routes.draw do
       post "game_session" => "game_sessions#create"
       # Get GameSession Details. Req: (Auth token, id, login)
       get "game_session/:id" => "game_sessions#details"
+
+      # Game Holder
+      # Get GameHolder Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      get "game/:id/details" => "game_holders#details"
       
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
