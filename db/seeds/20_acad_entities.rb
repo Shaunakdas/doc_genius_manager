@@ -167,7 +167,7 @@ end
 def upload_scq_data(book, count)
   master_sheet = book[count]
   master_sheet.each do |row|
-    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+    if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
 
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
@@ -504,31 +504,39 @@ def upload_proportion_data(book, count)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
         if practice_type && game_holder
-          display = row.cells[3].value
-          solution = row.cells[4].value
+          parent_display = row.cells[3].value
+          display = row.cells[4].value
+          solution = row.cells[5].value
 
-          question = Question.create!(display: display, solution: solution)
-          puts "Adding question display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
-          
-          option_start = 5
-          option_width = 4
-          option_count = 5
-          (0..(option_count-1)).each do |counter|
-            display_index = option_start + (counter*option_width)
-            hint_index = option_start + (counter*option_width) +  1
-            title_index = option_start + (counter*option_width) +  2
-            value_type_index = option_start + (counter*option_width) +  3
+          if not parent_question = Question.find_by(display: parent_display)
+            parent_question = Question.create!(display: parent_display)
+            puts "Adding parent question parent_display: #{parent_display}"
+          end
 
-            if row.cells[display_index] && row.cells[display_index].value
-              display = row.cells[display_index].value
-              hint = row.cells[hint_index].formula
-              title = row.cells[title_index].value
-              value_type = row.cells[value_type_index].value
+          if parent_question
+            question = Question.create!(display: display, solution: solution, parent_question: parent_question)
+            puts "Adding question display: #{display} , solution: #{solution}"
+            game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+            
+            option_start = 5
+            option_width = 4
+            option_count = 5
+            (0..(option_count-1)).each do |counter|
+              display_index = option_start + (counter*option_width)
+              hint_index = option_start + (counter*option_width) +  1
+              title_index = option_start + (counter*option_width) +  2
+              value_type_index = option_start + (counter*option_width) +  3
 
-              option = Option.create( display: display, hint: hint, title: title, value_type: value_type)
-              puts "Adding option_#{(option_count+1)} display: #{display}, hint: #{hint}, title: #{title}, value_type: #{value_type}"
-              game_option = GameOption.create!(option: option, game_question: game_question)
+              if row.cells[display_index] && row.cells[display_index].value
+                display = row.cells[display_index].value
+                hint = row.cells[hint_index].formula
+                title = row.cells[title_index].value
+                value_type = row.cells[value_type_index].value
+
+                option = Option.create( display: display, hint: hint, title: title, value_type: value_type)
+                puts "Adding option_#{(option_count+1)} display: #{display}, hint: #{hint}, title: #{title}, value_type: #{value_type}"
+                game_option = GameOption.create!(option: option, game_question: game_question)
+              end
             end
           end
         end
@@ -593,15 +601,15 @@ end
 
 
 
-# upload_basic_acad_entity(book, 0)
-# upload_practice_types(book, 3)
-# set_acad_entity_enabled(true)
-# upload_scq_data(book, 4)
-# upload_conversion_data(book, 5)
-# upload_diction_data(book, 6)
-# upload_discounting_data(book, 7)
-# upload_division_data(book, 8)
-# upload_inversion_data(book, 9)
-# upload_percentage_data(book, 10)
+upload_basic_acad_entity(book, 0)
+upload_practice_types(book, 3)
+set_acad_entity_enabled(true)
+upload_scq_data(book, 4)
+upload_conversion_data(book, 5)
+upload_diction_data(book, 6)
+upload_discounting_data(book, 7)
+upload_division_data(book, 8)
+upload_inversion_data(book, 9)
+upload_percentage_data(book, 10)
 upload_proportion_data(book, 11)
-# upload_tipping_data(book, 12)
+upload_tipping_data(book, 12)
