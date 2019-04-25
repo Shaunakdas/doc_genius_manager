@@ -1,6 +1,6 @@
 module Api::V1
   class GameHolderSerializer < AcadEntitySerializer
-    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled
+    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small
     has_one :game, serializer: GameSerializer
 
     def question_input
@@ -12,6 +12,17 @@ module Api::V1
         "First Benefit",
         "Second Benefit"
       ]
+    end
+
+    def score_small
+      {
+        highest: 10000,
+        difficulty: {
+          current: 100,
+          max: 400
+        },
+        ranking: 50.24
+      }
     end
 
     def score
