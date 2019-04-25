@@ -608,10 +608,49 @@ def change_game_holder_enabled_status(enabled)
 end
 
 def set_game_holder_title
-  GameHolder.where(enabled: true).each do |g_h|
+  GameHolder.all.each do |g_h|
     g_h.update_attributes!(title: "#{g_h.game.name} GameHolder")
     puts "Setting title of GameHolder: #{g_h.name}" 
   end
+end
+
+def update_question_text
+  Question.all.each do |question|
+    replace_question_slash(question)
+  end
+end
+
+def update_option_text
+  Option.all.each do |op|
+    replace_option_slash(op)
+  end
+end
+
+def replace_question_slash(q)
+  q.display = replace_slash(q.display)
+  q.hint = replace_slash(q.hint)
+  q.tip = replace_slash(q.tip)
+  q.solution = replace_slash(q.solution)
+  q.title = replace_slash(q.title)
+  q.save!
+end
+
+def replace_option_slash(o)
+  o.display = replace_slash(o.display)
+  o.hint = replace_slash(o.hint)
+  o.upper = replace_slash(o.upper)
+  o.lower = replace_slash(o.lower)
+  o.value = replace_slash(o.value)
+  o.after_attempt = replace_slash(o.after_attempt)
+  o.title = replace_slash(o.title)
+  o.save!
+end
+
+def replace_slash(text)
+  if text
+    return text.gsub(/\\\\/, '\\')
+  end
+  return nil
 end
 
 
@@ -630,3 +669,5 @@ upload_proportion_data(book, 11)
 upload_tipping_data(book, 12)
 change_game_holder_enabled_status(true)
 set_game_holder_title
+update_question_text
+update_option_text
