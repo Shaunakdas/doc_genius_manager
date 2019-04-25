@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190420140437) do
+ActiveRecord::Schema.define(version: 20190425020358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 20190420140437) do
     t.datetime "updated_at", null: false
     t.string "acad_entity_type"
     t.bigint "acad_entity_id"
+    t.boolean "enabled", default: false
+    t.string "title", default: ""
     t.index ["acad_entity_type", "acad_entity_id"], name: "index_game_holders_on_acad_entity_type_and_acad_entity_id"
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
