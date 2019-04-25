@@ -600,7 +600,19 @@ def upload_tipping_data(book, count)
   end
 end
 
+def change_game_holder_enabled_status(enabled)
+  GameHolder.joins(:game_questions).group('game_holders.id').each do |g_h|
+    g_h.update_attributes!(enabled: enabled)
+    puts "Enabling GameHolder: #{g_h.name}" 
+  end
+end
 
+def set_game_holder_title
+  GameHolder.where(enabled: true).each do |g_h|
+    g_h.update_attributes!(title: "#{g_h.game.name} GameHolder")
+    puts "Setting title of GameHolder: #{g_h.name}" 
+  end
+end
 
 
 
@@ -616,3 +628,5 @@ upload_inversion_data(book, 9)
 upload_percentage_data(book, 10)
 upload_proportion_data(book, 11)
 upload_tipping_data(book, 12)
+change_game_holder_enabled_status(true)
+set_game_holder_title
