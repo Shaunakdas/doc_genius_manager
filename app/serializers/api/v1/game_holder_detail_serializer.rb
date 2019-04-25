@@ -1,5 +1,5 @@
 module Api::V1
   class GameHolderDetailSerializer < GameHolderSerializer
-    attributes :question_input
+    attributes  :benefits, :score, :sub_title, :question_input
   end
 end
