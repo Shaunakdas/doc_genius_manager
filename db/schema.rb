@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190425020358) do
+ActiveRecord::Schema.define(version: 20190428123446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,38 @@ ActiveRecord::Schema.define(version: 20190425020358) do
     t.index ["slug"], name: "index_roles_on_slug", unique: true
   end
 
+  create_table "score_structures", force: :cascade do |t|
+    t.bigint "game_holder_id"
+    t.integer "limiter_time_question"
+    t.integer "limiter_time_game"
+    t.integer "limiter_option"
+    t.integer "limiter_question"
+    t.integer "limiter_lives"
+    t.integer "marks_normal_attempt"
+    t.integer "marks_normal_time"
+    t.integer "marks_speedy_time_limit"
+    t.integer "marks_speedy_max"
+    t.integer "marks_complete_set"
+    t.integer "marks_remaining_lives"
+    t.integer "marks_actual_answer"
+    t.integer "marks_consistency_bonus"
+    t.integer "marks_remaining_time"
+    t.integer "star_threshold_2"
+    t.integer "star_threshold_3"
+    t.boolean "display_report_accuracy", default: false
+    t.boolean "display_report_content", default: false
+    t.boolean "display_remaining_lives", default: false
+    t.boolean "display_speedy_answer", default: false
+    t.boolean "display_perfect_set", default: false
+    t.boolean "display_longest_streak", default: false
+    t.boolean "display_accurate_answer", default: false
+    t.boolean "display_errors", default: false
+    t.boolean "display_remaining_time", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_holder_id"], name: "index_score_structures_on_game_holder_id"
+  end
+
   create_table "session_scores", force: :cascade do |t|
     t.decimal "value"
     t.integer "correct_count"
@@ -405,6 +437,7 @@ ActiveRecord::Schema.define(version: 20190425020358) do
   add_foreign_key "game_sessions", "users"
   add_foreign_key "question_types", "sub_topics"
   add_foreign_key "region_percentile_scores", "regions"
+  add_foreign_key "score_structures", "game_holders"
   add_foreign_key "session_scores", "game_sessions"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"

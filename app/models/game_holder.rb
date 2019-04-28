@@ -7,6 +7,7 @@ class GameHolder < ApplicationRecord
   validates_presence_of :slug
   validates_presence_of :name
   has_many :game_sessions
+  has_one :score_structure
 
   has_many :game_questions
   # has_many :questions, through: :game_questions
