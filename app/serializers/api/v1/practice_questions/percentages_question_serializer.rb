@@ -5,5 +5,9 @@ module Api::V1::PracticeQuestions
     def numpad
       answer.tr("0-9", "").split("")
     end
+
+    def tips
+      object.question.tip.nil? ? [] : object.question.tip.split('\\n')
+    end
   end
 end

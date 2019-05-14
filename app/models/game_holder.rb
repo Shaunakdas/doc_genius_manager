@@ -34,6 +34,12 @@ class GameHolder < ApplicationRecord
       question_type.sub_topic.topic.chapter.stream.subject]
   end
 
+  def remove_game_questions
+    game_questions.each do |ques|
+      ques.update_attributes!(game_holder: nil)
+    end
+  end
+
   def get_questions
     puts game.slug
     case game.slug

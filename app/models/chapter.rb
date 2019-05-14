@@ -13,4 +13,10 @@ class Chapter < AcadEntity
   has_many :acad_entity_scores, as: :acad_entity
   has_many :region_percentile_scores, as: :acad_entity
   has_many :users, through: :acad_profiles
+
+  def remove_game_holders
+    practice_game_holders.each do |g|
+      g.update_attributes(acad_entity: nil)
+    end
+  end
 end
