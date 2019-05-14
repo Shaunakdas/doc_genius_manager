@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :title, :time, :entry_sequence, :entry_delay, :pairs
 
     def pairs
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: InversionQuestionSerializer)
+      ActiveModel::ArraySerializer.new(object.game_questions.first.sub_questions, each_serializer: InversionQuestionSerializer)
     end
 
     def pair_count
