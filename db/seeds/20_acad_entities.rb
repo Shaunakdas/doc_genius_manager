@@ -5,6 +5,18 @@ require 'rubyXL'
 # book = RubyXL::Parser.parse('db/seeds/excels/WorkingRules_Shaunak_v0.14.xlsx')
 book = RubyXL::Parser.parse('question_source/screenplays/scripts/Base_WorkingRule.xlsx')
 
+def remove_game_question_references
+  GameHolder.all.each do |g|
+    g.remove_game_questions
+  end
+end
+
+def remove_game_holder_references
+  Chapter.all.each do |c|
+    c.remove_game_holders
+  end
+end
+
 # Uploading basic acad entities
 def upload_basic_acad_entity(book, count)
   master_sheet = book[count]
@@ -75,7 +87,6 @@ def upload_basic_acad_entity(book, count)
         chapter = Chapter.create!(:name => chapter_name, :slug => chapter_slug,
         :stream => stream, :standard => standard, :sequence_standard => standard.chapters.length+1,
         :sequence_stream => stream.chapters.length+1)
-        puts chapter.to_json
       end
 
       #Create or find topic
@@ -143,6 +154,8 @@ def upload_practice_types(book, count)
         puts "Adding game_holder #{game_holder_name} , slug: #{game_holder_slug}"
         game_holder = GameHolder.create!(:name => game_holder_name, :slug => game_holder_slug, acad_entity: topic,
           :game => practice_type)
+      elsif !game_holder.nil?
+        game_holder.update_attributes!(acad_entity: topic)
       end
       
 
@@ -181,8 +194,11 @@ def upload_scq_data(book, count)
         if practice_type && game_holder
           display = row.cells[3].value
           solution = row.cells[4].value
+          title = row.cells[5].value
+          mode = row.cells[6].value
 
-          question = Question.create!(display: display, solution: solution)
+          question = Question.create!(display: display, solution: solution,
+            title: title, mode: mode)
           puts "Adding question display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
@@ -228,7 +244,8 @@ def upload_conversion_data(book, count)
 
         if practice_type && game_holder
           display = row.cells[3].value
-          solution = row.cells[4].value
+          solution = nil
+          solution = row.cells[4].value if row.cells[4]
 
           question = Question.create!(display: display, solution: solution)
           puts "Adding question display: #{display} , solution: #{solution}"
@@ -374,7 +391,7 @@ def upload_division_data(book, count)
 
         if practice_type && game_holder
           display = row.cells[3].value
-          hint = row.cells[4].value
+          hint = row.cells[4]? row.cells[4].value : nil
           solution = row.cells[5].value
           mode = row.cells[6].value
 
@@ -425,25 +442,43 @@ def upload_inversion_data(book, count)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
         if practice_type && game_holder
-          display = row.cells[3].value
-          solution = row.cells[4].value
+          if row.cells[3]
+            display = row.cells[3].value
 
-          question = Question.create!(display: display, solution: solution)
-          puts "Adding question display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
-          
-          option_start = 5
-          option_width = 1
-          option_count = 2
-          (0..(option_count-1)).each do |counter|
-            display_index = option_start + (counter*option_width)
+            parent_question = Question.create!(display: display)
+            puts "Adding parent_question display: #{display}"
+            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
 
-            if row.cells[display_index] && row.cells[display_index].value
-              display = row.cells[display_index].value
+          end
 
-              option = Option.create( display: display)
-              puts "Adding option_#{(option_count+1)} display: #{display}"
-              game_option = GameOption.create!(option: option, game_question: game_question)
+          if !parent_game_question
+            parent_game_question = game_holder.game_questions.first
+            parent_question = parent_game_question.question
+          end
+
+          if parent_game_question
+            solution = row.cells[4]? row.cells[4].value : nil
+
+            question = Question.create!(display: display, solution: solution,
+              parent_question: parent_question)
+            puts "Adding question display: #{display} , solution: #{solution}, question: #{question.id}
+              parent_game_question: #{parent_game_question.id}, parent_question: #{parent_question.id}"
+            game_question = GameQuestion.create!(question: question,
+              parent_question: parent_game_question)
+            
+            option_start = 5
+            option_width = 1
+            option_count = 2
+            (0..(option_count-1)).each do |counter|
+              display_index = option_start + (counter*option_width)
+
+              if row.cells[display_index] && row.cells[display_index].value
+                display = row.cells[display_index].value
+
+                option = Option.create( display: display)
+                puts "Adding option_#{(option_count+1)} display: #{display}"
+                game_option = GameOption.create!(option: option, game_question: game_question)
+              end
             end
           end
         end
@@ -472,9 +507,9 @@ def upload_percentage_data(book, count)
 
         if practice_type && game_holder
           display = row.cells[3].value
-          tip = row.cells[4].value
-          hint = row.cells[5].value
-          solution = row.cells[6].value
+          tip = row.cells[4]? row.cells[4].value : nil
+          hint = row.cells[5]? row.cells[5].value : nil
+          solution = row.cells[6]? row.cells[6].value : nil
 
           question = Question.create!(display: display, tip: tip, hint: hint, solution: solution)
           puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
@@ -490,7 +525,9 @@ end
 
 # PG: Proportion
 def upload_proportion_data(book, count)
+  
   master_sheet = book[count]
+  sequence = -1
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
 
@@ -504,15 +541,26 @@ def upload_proportion_data(book, count)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
         if practice_type && game_holder
-          parent_display = row.cells[3].value
-          display = row.cells[4].value
-          solution = row.cells[5].value
+          new_seq = row.cells[3]? row.cells[3].value.to_i : nil
+          parent_display = row.cells[4].value
+          display = parent_display
+          solution = nil
 
-          if not parent_question = Question.find_by(display: parent_display)
+          if new_seq && new_seq != sequence
+            sequence = new_seq
             parent_question = Question.create!(display: parent_display)
             puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
             parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
             puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
+          else
+            parent_question = check_gameholder_question(game_holder, parent_display)
+            puts "Using parent question parent_display: #{parent_display}, id: #{parent_question.id}"
+            if !parent_question
+              parent_question = Question.create!(display: parent_display)
+              puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
+              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+              puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
+            end
           end
 
           if parent_question
@@ -521,7 +569,7 @@ def upload_proportion_data(book, count)
             puts "Adding question display: #{display} , solution: #{solution}"
             game_question = GameQuestion.create!(question: question, parent_question: parent_game_question)
             
-            option_start = 5
+            option_start = 7
             option_width = 4
             option_count = 5
             (0..(option_count-1)).each do |counter|
@@ -532,7 +580,7 @@ def upload_proportion_data(book, count)
 
               if row.cells[display_index] && row.cells[display_index].value
                 display = row.cells[display_index].value
-                hint = row.cells[hint_index].formula
+                hint = row.cells[hint_index].value
                 title = row.cells[title_index].value
                 value_type = row.cells[value_type_index].value
 
@@ -548,6 +596,13 @@ def upload_proportion_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+end
+
+def check_gameholder_question game_holder, display
+  game_holder.game_questions.each do |g_q|
+    return g_q.question if g_q.question.display == display
+  end
+  return nil
 end
 
 # PG: SCQ
@@ -568,9 +623,9 @@ def upload_tipping_data(book, count)
         if practice_type && game_holder
           display = row.cells[3].value
           tip = row.cells[4].value
-          hint = row.cells[5].value
+          hint = row.cells[5]? row.cells[5].value : nil
           title = row.cells[6].value
-          solution = row.cells[7].value
+          solution = row.cells[7]? row.cells[7].value : nil
 
           question = Question.create!(display: display, tip: tip, hint: hint, title: title, solution: solution)
           puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
@@ -654,19 +709,22 @@ def replace_slash(text)
 end
 
 
-
+game_start = 5
+remove_game_question_references
+remove_game_holder_references
 upload_basic_acad_entity(book, 0)
 upload_practice_types(book, 3)
 set_acad_entity_enabled(true)
-upload_scq_data(book, 4)
-upload_conversion_data(book, 5)
-upload_diction_data(book, 6)
-upload_discounting_data(book, 7)
-upload_division_data(book, 8)
-upload_inversion_data(book, 9)
-upload_percentage_data(book, 10)
-upload_proportion_data(book, 11)
-upload_tipping_data(book, 12)
+upload_scq_data(book, game_start)
+upload_scq_data(book, game_start + 1)
+upload_conversion_data(book, game_start + 2)
+upload_diction_data(book, game_start + 3)
+upload_discounting_data(book, game_start + 4)
+upload_division_data(book, game_start + 5)
+upload_inversion_data(book, game_start + 7)
+upload_percentage_data(book, game_start + 8)
+upload_proportion_data(book, game_start + 9)
+upload_tipping_data(book, game_start + 11)
 change_game_holder_enabled_status(true)
 set_game_holder_title
 update_question_text
