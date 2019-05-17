@@ -45,8 +45,6 @@ class GameHolder < ApplicationRecord
     case game.slug
     when "agility"
       return get_agility_questions
-    when "purchasing"
-      return get_scq_questions
     when "conversion"
       return get_conversion_questions
     when "conversion"
@@ -63,6 +61,8 @@ class GameHolder < ApplicationRecord
       return get_percentages_questions
     when "proportion"
       return get_proportion_questions
+    when "purchasing"
+      return get_purchasing_questions
     when "tipping"
       return get_tipping_questions
     else
@@ -112,6 +112,11 @@ class GameHolder < ApplicationRecord
   # Proportion
   def get_proportion_questions
     Api::V1::PracticeQuestions::ProportionGameSerializer.new(self).as_json[:proportion_game]
+  end
+
+  # Purchasing
+  def get_purchasing_questions
+    Api::V1::PracticeQuestions::PurchasingGameSerializer.new(self).as_json[:purchasing_game]
   end
 
   # Tipping

@@ -11,6 +11,13 @@ def remove_game_question_references
   end
 end
 
+def remove_game_holder_questions(name)
+  GameHolder.search(name).each do |g|
+    g.remove_game_questions
+    puts "Removed game question refs of gameholder : #{g.name}"
+  end
+end
+
 def remove_game_holder_references
   Chapter.all.each do |c|
     c.remove_game_holders
@@ -178,6 +185,7 @@ end
 
 # PG: SCQ
 def upload_scq_data(book, count)
+  remove_game_holder_questions("purchasing")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
@@ -202,7 +210,7 @@ def upload_scq_data(book, count)
           puts "Adding question display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 5
+          option_start = 7
           option_width = 2
           option_count = 4
           (0..(option_count-1)).each do |counter|
@@ -424,6 +432,58 @@ def upload_division_data(book, count)
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
 end
+
+# PG: Estimation
+# def upload_estimation_data(book, count)
+#   remove_game_holder_questions("estimation")
+#   master_sheet = book[count]
+#   master_sheet.each do |row|
+#     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+#       if row.cells[0] && row.cells[1] && row.cells[2]
+#         practice_type_name = row.cells[2].value
+#         practice_type_slug = practice_type_name.downcase
+#         game_holder_name = row.cells[0].value
+#         game_holder_slug = row.cells[1].value
+
+#         practice_type = PracticeType.find_by(:slug => practice_type_slug)
+#         game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+#         if practice_type && game_holder
+#           display = row.cells[3].value
+#           hint = row.cells[4]? row.cells[4].value : nil
+#           solution = row.cells[5].value
+#           mode = row.cells[6].value
+
+#           question = Question.create!(display: display, hint: hint, solution: solution, mode: mode)
+#           puts "Adding question display: #{display} , hint: #{hint}, solution: #{solution} , mode: #{mode}"
+#           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+#           option_start = 7
+#           option_width = 3
+#           option_count = 5
+#           (0..(option_count-1)).each do |counter|
+#             value_type_index = option_start + (counter*option_width)
+#             display_index = option_start + (counter*option_width) +  1
+#             value_index = option_start + (counter*option_width) +  2
+
+#             if row.cells[value_type_index] && row.cells[value_type_index].value
+#               value_type = row.cells[value_type_index].value
+#               display = row.cells[display_index].value
+#               value = row.cells[value_index].value
+
+#               option = Option.create( value_type: value_type, display: display, value: value)
+#               puts "Adding option_#{(option_count+1)} value_type: #{value_type}, display: #{display}, value: #{value}"
+#               game_option = GameOption.create!(option: option, game_question: game_question)
+#             end
+#           end
+#         end
+#       end
+      
+#     end
+#     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+#   end
+# end
 
 
 # PG: Inversion
@@ -721,6 +781,7 @@ upload_conversion_data(book, game_start + 2)
 upload_diction_data(book, game_start + 3)
 upload_discounting_data(book, game_start + 4)
 upload_division_data(book, game_start + 5)
+# upload_estimation_data(book, game_start + 6)
 upload_inversion_data(book, game_start + 7)
 upload_percentage_data(book, game_start + 8)
 upload_proportion_data(book, game_start + 9)
