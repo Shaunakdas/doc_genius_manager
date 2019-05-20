@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :id, :blocks
 
     def blocks
-      ActiveModel::ArraySerializer.new(object.sub_questions, each_serializer: ProportionQuestionSerializer)
+      object.proportion_blocks
     end
   end
 end
