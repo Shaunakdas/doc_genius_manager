@@ -183,8 +183,61 @@ end
 
 
 
-# PG: SCQ
-def upload_scq_data(book, count)
+# PG: Agility
+def upload_agility_data(book, count)
+  remove_game_holder_questions("agility")
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          display = row.cells[3].value
+          solution = row.cells[4].value
+          title = row.cells[5].value
+          mode = row.cells[6].value
+
+          question = Question.create!(display: display, solution: solution,
+            title: title, mode: mode)
+          puts "Adding question display: #{display} , solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+          option_start = 7
+          option_width = 2
+          option_count = 4
+          (0..(option_count-1)).each do |counter|
+            display_index = option_start + (counter*option_width)
+            correct_index = option_start + (counter*option_width) +  1
+
+            if row.cells[display_index].value
+              display = row.cells[display_index].value
+              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+
+              option = Option.create( display: display, correct: (correct==1))
+              puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
+
+
+
+# PG: Purchasing
+def upload_purchasing_data(book, count)
   remove_game_holder_questions("purchasing")
   master_sheet = book[count]
   master_sheet.each do |row|
@@ -333,6 +386,7 @@ end
 
 # PG: Discounting
 def upload_discounting_data(book, count)
+  remove_game_holder_questions("discounting")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -356,7 +410,7 @@ def upload_discounting_data(book, count)
           
           option_start = 5
           option_width = 4
-          option_count = 4
+          option_count = 5
           (0..(option_count-1)).each do |counter|
             upper_index = option_start + (counter*option_width)
             lower_index = option_start + (counter*option_width) +  1
@@ -771,8 +825,8 @@ remove_game_holder_references
 upload_basic_acad_entity(book, 0)
 upload_practice_types(book, 3)
 set_acad_entity_enabled(true)
-upload_scq_data(book, game_start)
-upload_scq_data(book, game_start + 1)
+upload_agility_data(book, game_start)
+upload_purchasing_data(book, game_start + 1)
 upload_conversion_data(book, game_start + 2)
 upload_diction_data(book, game_start + 3)
 upload_discounting_data(book, game_start + 4)
