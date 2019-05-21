@@ -585,7 +585,7 @@ end
 
 # PG: Proportion
 def upload_proportion_data(book, count)
-  
+  remove_game_holder_questions("proportion")
   master_sheet = book[count]
   sequence = -1
   master_sheet.each do |row|
@@ -605,29 +605,25 @@ def upload_proportion_data(book, count)
           parent_display = row.cells[4].value
           display = parent_display
           solution = nil
-
-          if new_seq && new_seq != sequence
+          puts "new_seq : #{new_seq},sequence : #{sequence}"
+          parent_game_question = GameQuestion.includes(:sub_questions).where(game_holder: game_holder)[new_seq-1]
+          if parent_game_question.nil?
             sequence = new_seq
             parent_question = Question.create!(display: parent_display)
             puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
             parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
             puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
           else
-            parent_question = check_gameholder_question(game_holder, parent_display)
+            parent_question = parent_game_question.question
             puts "Using parent question parent_display: #{parent_display}, id: #{parent_question.id}"
-            if !parent_question
-              parent_question = Question.create!(display: parent_display)
-              puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
-              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
-              puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
-            end
           end
 
           if parent_question
             parent_game_question = GameQuestion.where(question: parent_question, game_holder: game_holder).first
             question = Question.create!(display: display, solution: solution, parent_question: parent_question)
-            puts "Adding question display: #{display} , solution: #{solution}"
+            puts "Adding question id: #{question.id}, display: #{display} , solution: #{solution}, parent_question_id: #{parent_question.id}"
             game_question = GameQuestion.create!(question: question, parent_question: parent_game_question)
+            puts "Adding game_question id: #{game_question.id}, display: #{display} , solution: #{solution}, parent_question_id: #{parent_game_question.id}"
             
             option_start = 7
             option_width = 4
@@ -645,7 +641,7 @@ def upload_proportion_data(book, count)
                 value_type = row.cells[value_type_index].value
 
                 option = Option.create( display: display, hint: hint, title: title, value_type: value_type)
-                puts "Adding option_#{(option_count+1)} display: #{display}, hint: #{hint}, title: #{title}, value_type: #{value_type}"
+                puts "Adding option_#{(option_count+1)} display: #{display}, hint: #{hint}, title: #{title}, value_type: #{value_type}, game_question: #{game_question.id}"
                 game_option = GameOption.create!(option: option, game_question: game_question)
               end
             end
