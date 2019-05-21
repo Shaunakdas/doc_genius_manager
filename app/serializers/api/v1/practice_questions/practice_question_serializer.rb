@@ -24,6 +24,10 @@ module Api::V1::PracticeQuestions
     def tips
       object.question.tip
     end
+    
+    def tip
+      object.question.tip
+    end
 
     def correct_option_count
       4
