@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :upper, :lower, :attempted, :sequence
 
     def attempted
-      object.option.after_attempt
+      object.option.after_attempt.nil? ? object.option.upper : object.option.after_attempt
     end
   end
 end
