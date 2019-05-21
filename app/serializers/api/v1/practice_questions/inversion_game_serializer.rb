@@ -7,7 +7,14 @@ module Api::V1::PracticeQuestions
     end
 
     def pairs
-      ActiveModel::ArraySerializer.new(object.game_questions.first.sub_questions, each_serializer: InversionQuestionSerializer)
+      list = []
+      object.game_questions.first.sub_questions.each do |q|
+        list << InversionQuestionSerializer.new(q).as_json[:inversion_question]
+      end
+      powerup = ["shrink", "arrow", "blast", "snow"].sample
+      powerup_index = rand(3..list.length)
+      list[powerup_index][:powerup] = powerup
+      return list
     end
 
     def pair_count

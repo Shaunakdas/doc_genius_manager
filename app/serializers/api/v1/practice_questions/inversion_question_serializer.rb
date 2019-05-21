@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class InversionQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :hint, :options
+    attributes :id, :hint, :options, :powerup
 
     def options
       object.game_options.map{|x|x.option.display}
@@ -9,6 +9,10 @@ module Api::V1::PracticeQuestions
 
     def hint
       object.question.solution
+    end
+
+    def powerup
+      nil
     end
   end
 end
