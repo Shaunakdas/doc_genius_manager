@@ -27,7 +27,7 @@ module Api::V1::PracticeQuestions
     end
 
     def lower
-      object.option.lower
+      object.option.lower.nil? ? "" : object.option.lower
     end
 
     def sequence
