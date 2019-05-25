@@ -18,6 +18,14 @@ module Api::V1::PracticeQuestions
       object.option.correct
     end
 
+    def index
+      object.option.display_index
+    end
+
+    def tips
+      object.option.tip
+    end
+
     def value
       object.option.value
     end

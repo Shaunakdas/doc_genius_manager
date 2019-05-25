@@ -36,5 +36,9 @@ module Api::V1::PracticeQuestions
     def type
       object.question.value_type
     end
+
+    def marker_gap
+      MarkerGapSerializer.new(object.question.marker_gap).as_json[:marker_gap]
+    end
   end
 end

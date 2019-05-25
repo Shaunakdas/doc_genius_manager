@@ -9,7 +9,7 @@ class GameHolder < ApplicationRecord
   has_many :game_sessions
   has_one :score_structure
 
-  has_many :game_questions
+  has_many :game_questions, -> { order 'id asc' }
   # has_many :questions, through: :game_questions
 
   def to_s
@@ -55,6 +55,8 @@ class GameHolder < ApplicationRecord
       return get_discounting_questions
     when "division"
       get_division_questions
+    when "estimation"
+      get_estimation_questions
     when "inversion"
       get_inversion_questions
     when "percentages"
@@ -97,6 +99,11 @@ class GameHolder < ApplicationRecord
   # Division
   def get_division_questions
     Api::V1::PracticeQuestions::DivisionGameSerializer.new(self).as_json[:division_game]
+  end
+
+  # Estimation
+  def get_estimation_questions
+    Api::V1::PracticeQuestions::EstimationGameSerializer.new(self).as_json[:estimation_game]
   end
 
   # Inversion

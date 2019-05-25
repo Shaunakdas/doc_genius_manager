@@ -25,4 +25,12 @@ class GameQuestion < ApplicationRecord
     end
     return new_list
   end
+
+  def correct_game_options
+    game_options.reject { |g_o| !g_o.option.correct }
+  end
+
+  def incorrect_game_options
+    game_options.reject { |g_o| g_o.option.correct }
+  end
 end
