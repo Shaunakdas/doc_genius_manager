@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190428123446) do
+ActiveRecord::Schema.define(version: 20190525132625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,14 @@ ActiveRecord::Schema.define(version: 20190428123446) do
     t.index ["user_id"], name: "index_game_sessions_on_user_id"
   end
 
+  create_table "marker_gaps", force: :cascade do |t|
+    t.integer "big"
+    t.integer "small"
+    t.integer "tiny"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "options", force: :cascade do |t|
     t.string "upper"
     t.string "lower"
@@ -185,6 +193,8 @@ ActiveRecord::Schema.define(version: 20190428123446) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+    t.integer "display_index"
+    t.string "sub_title"
   end
 
   create_table "practice_types", force: :cascade do |t|
@@ -217,6 +227,8 @@ ActiveRecord::Schema.define(version: 20190428123446) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+    t.bigint "marker_gap_id"
+    t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
   end
 
@@ -436,6 +448,7 @@ ActiveRecord::Schema.define(version: 20190428123446) do
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "users"
   add_foreign_key "question_types", "sub_topics"
+  add_foreign_key "questions", "marker_gaps"
   add_foreign_key "region_percentile_scores", "regions"
   add_foreign_key "score_structures", "game_holders"
   add_foreign_key "session_scores", "game_sessions"

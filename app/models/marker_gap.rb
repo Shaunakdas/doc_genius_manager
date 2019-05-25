@@ -1,0 +1,2 @@
+class MarkerGap < ApplicationRecord
+end
