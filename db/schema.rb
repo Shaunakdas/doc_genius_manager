@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190525132625) do
+ActiveRecord::Schema.define(version: 20190526053942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,28 @@ ActiveRecord::Schema.define(version: 20190525132625) do
     t.datetime "updated_at", null: false
     t.index ["acad_entity_type", "acad_entity_id"], name: "index_acad_standings_on_acad_entity_type_and_acad_entity_id"
     t.index ["user_id"], name: "index_acad_standings_on_user_id"
+  end
+
+  create_table "attempt_scores", force: :cascade do |t|
+    t.string "attempt_item_type"
+    t.bigint "attempt_item_id"
+    t.boolean "displayed"
+    t.integer "time_spent"
+    t.boolean "passed"
+    t.integer "tap_count"
+    t.string "user_input"
+    t.integer "correct_count"
+    t.integer "star_count"
+    t.integer "normal_marks"
+    t.integer "speedy_marks"
+    t.integer "complete_set_marks"
+    t.integer "actual_answer_marks"
+    t.integer "consistency_marks"
+    t.integer "remaining_time_marks"
+    t.integer "remaining_lives_marks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attempt_item_type", "attempt_item_id"], name: "index_attempt_scores_on_attempt_item_type_and_attempt_item_id"
   end
 
   create_table "benifits", force: :cascade do |t|
