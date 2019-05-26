@@ -5,11 +5,17 @@ class GameQuestionAttempt < ApplicationRecord
 
 
   def set_attempt_score question_obj
-    create_attempt_score!(get_attempt_fields(question_obj[:section_attempt_data]))
+    section_data = question_obj[:section_attempt_data]
+    create_attempt_score!(get_attempt_fields(section_data))
     # question_obj[:sections].each do |option_json|
     #   game_option = GameOption.find(option_json[:id])
     #   game_option.create_attempt_data(option_json, self)
     # end
+    puts 
+    if section_data[:attempted_option]
+      game_option = GameOption.find(section_data[:attempted_option])
+      game_option.create_attempt_data(nil, self)
+    end
   end
 
   def get_attempt_fields attempt_obj
