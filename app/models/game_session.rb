@@ -47,22 +47,15 @@ class GameSession < ApplicationRecord
   end
 
   def parse_result result_json
-    case game_holder.game.slug
-    when "agility"
-      return upload_agility_result(result_json)
-    when "tipping"
-      return upload_tipping_result(result_json)
-    else
-      upload_scq_result(result_json)
-    end
-  end
-
-  def upload_agility_result result_json
     create_attempt_score!(get_attempt_fields(result_json[:game_attempt_data]))
     result_json[:sections].each do |question_json|
       game_question = GameQuestion.find(question_json[:id])
       game_question.create_attempt_data(question_json, self)
     end
+  end
+
+  def upload_agility_result result_json
+    
   end
 
   def get_attempt_fields attempt_obj

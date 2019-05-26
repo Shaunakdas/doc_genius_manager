@@ -22,7 +22,7 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   # uploads result of a game (based on the supplied id) 
   def result
     begin
-      game_holder = GameHolder.find(params[:game_id])
+      game_holder = GameHolder.find(params[:game_id] || params[:id])
       game_holder.parse_result(@current_user, params)
       respond_with game_holder, serializer: Api::V1::GameHolderSerializer, location: '/game_session'
     rescue ActiveRecord::RecordNotFound
