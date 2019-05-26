@@ -84,6 +84,8 @@ Rails.application.routes.draw do
       # Game Holder
       # Get GameHolder Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
       get "game/:id/details" => "game_holders#details"
+      # Post Result of GameHolder attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      post "game/result" => "game_holders#result"
       
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)

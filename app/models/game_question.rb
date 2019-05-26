@@ -4,6 +4,7 @@ class GameQuestion < ApplicationRecord
   has_many :sub_questions, -> { order 'id asc' }, class_name: "GameQuestion", foreign_key: "parent_question_id"
   belongs_to :parent_question, class_name: "GameQuestion", optional: true
   has_many :game_options, -> { order 'id asc' }
+  has_many :game_question_attempts
 
   def proportion_blocks
     game_options_list = []
@@ -32,5 +33,10 @@ class GameQuestion < ApplicationRecord
 
   def incorrect_game_options
     game_options.reject { |g_o| g_o.option.correct }
+  end
+
+  def create_attempt_data question_obj, game_session
+    ques_attempt = game_question_attempts.create!(time_attempt: Time.now, game_session: game_session)
+    ques_attempt.set_attempt_score(question_obj)
   end
 end

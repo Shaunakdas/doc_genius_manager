@@ -130,4 +130,9 @@ class GameHolder < ApplicationRecord
   def get_tipping_questions
     Api::V1::PracticeQuestions::TippingGameSerializer.new(self).as_json[:tipping_game]
   end
+
+  def parse_result user, result_json
+    session = GameSession.create!(user: user, start: Time.now, game_holder: self)
+    session.parse_result(result_json)
+  end
 end

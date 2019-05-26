@@ -3,6 +3,7 @@ class GameSession < ApplicationRecord
   belongs_to :user
   validates_presence_of :start
   has_one :session_score
+  has_one :attempt_score, as: :attempt_item, dependent: :destroy
 
   def self.list(list_params)
     if list_params["game_holder_id"]
@@ -43,5 +44,32 @@ class GameSession < ApplicationRecord
   def score_rank
     sorted = recent_scores.sort_by{ |score| score.value }.reverse
     sorted.find_index(session_score)
+  end
+
+  def parse_result result_json
+    case game_holder.game.slug
+    when "agility"
+      return upload_agility_result(result_json)
+    when "tipping"
+      return upload_tipping_result(result_json)
+    else
+      upload_scq_result(result_json)
+    end
+  end
+
+  def upload_agility_result result_json
+    create_attempt_score!(get_attempt_fields(result_json[:game_attempt_data]))
+    result_json[:sections].each do |question_json|
+      game_question = GameQuestion.find(question_json[:id])
+      game_question.create_attempt_data(question_json, self)
+    end
+  end
+
+  def get_attempt_fields attempt_obj
+    output_json = attempt_obj.except(:marks)
+    attempt_obj[:marks].each do |k,v|
+      output_json["#{k}_marks".to_sym] = v
+    end
+    return output_json.as_json.map { |k, v| [k.to_sym, v] }.to_h
   end
 end

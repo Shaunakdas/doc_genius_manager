@@ -1,5 +1,5 @@
 class Api::V1::GameHoldersController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage ]
+  before_action :authenticate_request!, :only => [ :homepage, :details, :result ]
   respond_to :json
   # # GET /api/v1/games
   # def index
@@ -13,6 +13,18 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
     begin
       game_holder = GameHolder.find(params[:id])
       respond_with game_holder, serializer: Api::V1::GameHolderDetailSerializer
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
+  # GET /api/v1/game/result
+  # uploads result of a game (based on the supplied id) 
+  def result
+    begin
+      game_holder = GameHolder.find(params[:game_id])
+      game_holder.parse_result(@current_user, params)
+      respond_with game_holder, serializer: Api::V1::GameHolderSerializer, location: '/game_session'
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
     end
