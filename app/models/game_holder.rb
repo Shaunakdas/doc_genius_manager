@@ -65,6 +65,8 @@ class GameHolder < ApplicationRecord
       return get_proportion_questions
     when "purchasing"
       return get_purchasing_questions
+    when "refinement"
+      return get_refinement_questions
     when "tipping"
       return get_tipping_questions
     else
@@ -124,6 +126,11 @@ class GameHolder < ApplicationRecord
   # Purchasing
   def get_purchasing_questions
     Api::V1::PracticeQuestions::PurchasingGameSerializer.new(self).as_json[:purchasing_game]
+  end
+
+  # Refinement
+  def get_refinement_questions
+    Api::V1::PracticeQuestions::RefinementGameSerializer.new(self).as_json[:refinement_game]
   end
 
   # Tipping
