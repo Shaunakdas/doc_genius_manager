@@ -91,6 +91,7 @@ class GameHolder < ApplicationRecord
 
   # Diction
   def get_diction_questions
+    Api::V1::PracticeQuestions::DictionGameSerializer.new(self).as_json[:diction_game]
   end
 
   # Discounting
