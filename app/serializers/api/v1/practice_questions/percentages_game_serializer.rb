@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PercentagesGameSerializer < PracticeGameSerializer
-    attributes :title, :time, :sections
+    attributes :title, :time, :sections, :content_report
 
     def sections
       ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: PercentagesQuestionSerializer)
@@ -11,6 +11,10 @@ module Api::V1::PracticeQuestions
         "total": 120,
         "question": 20
       }
+    end
+
+    def content_report
+      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: PercentagesContentSerializer)
     end
 
   end
