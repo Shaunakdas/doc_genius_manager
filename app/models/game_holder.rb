@@ -143,4 +143,14 @@ class GameHolder < ApplicationRecord
     session = GameSession.create!(user: user, start: Time.now, game_holder: self)
     session.parse_result(result_json)
   end
+
+  def game_options
+    list = []
+    game_questions.each do |g_q|
+      g_q.game_options.each do |g_o|
+        list << g_o
+      end
+    end
+    return list
+  end
 end
