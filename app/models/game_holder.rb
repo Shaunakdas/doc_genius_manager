@@ -153,4 +153,14 @@ class GameHolder < ApplicationRecord
     end
     return list
   end
+
+  def sub_questions
+    list = []
+    game_questions.each do |g_q|
+      g_q.sub_questions.each do |s_q|
+        list << s_q
+      end
+    end
+    return list
+  end
 end
