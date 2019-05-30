@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class InversionGameSerializer < PracticeGameSerializer
-    attributes :title, :time, :entry_sequence, :entry_delay, :question,  :pairs
+    attributes :title, :time, :entry_sequence, :entry_delay, :question,  :pairs, :content_report
 
     def question
       object.game_questions[0].question.display
@@ -19,6 +19,10 @@ module Api::V1::PracticeQuestions
 
     def pair_count
       object.game_questions.length
+    end
+
+    def content_report
+      ActiveModel::ArraySerializer.new(object.game_questions.first.sub_questions, each_serializer: InversionContentSerializer)
     end
 
   end
