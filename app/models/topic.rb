@@ -10,6 +10,6 @@ class Topic < AcadEntity
   has_many :users, through: :acad_profiles
   has_many :acad_entity_scores, as: :acad_entity
   has_many :region_percentile_scores, as: :acad_entity
-  has_many :practice_game_holders, as: :acad_entity, class_name: "GameHolder"
+  has_many :practice_game_holders, -> { order(sequence: :asc) }, as: :acad_entity, class_name: "GameHolder"
 
 end
