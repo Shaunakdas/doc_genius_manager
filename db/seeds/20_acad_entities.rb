@@ -181,6 +181,33 @@ def upload_practice_types(book, count)
   end
 end
 
+
+# # GameHolder Details
+def upload_game_holder_details(book, count)
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (['C06','C07'].include?row.cells[0].value ) && row.cells[1].value == 'Maths'
+
+      if row.cells[14].value
+        practice_type_name = row.cells[14].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[16].value
+        game_holder_slug = row.cells[17].value
+        game_holder_sequence = row.cells[15].value
+        game_holder_title = row.cells[18].value
+      end
+
+      game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+      if game_holder && game_holder_sequence && game_holder_title
+        game_holder.update_attributes!(title: game_holder_title, sequence: game_holder_sequence)
+      end
+
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+end
+
 def set_acad_entity_enabled(enabled)
   Topic.all.each do |topic|
     topic.update_attributes!(enabled: true) if topic.practice_game_holders.length > 0
@@ -791,7 +818,7 @@ def upload_refinement_data(book, count)
             
             option_start = 7
             option_width = 2
-            option_count = 2
+            option_count = 4
             (0..(option_count-1)).each do |counter|
               display_index = option_start + (counter*option_width)
               correct_index = option_start + (counter*option_width) + 1
@@ -882,6 +909,9 @@ def update_question_text
   GameHolder.all.each do |g|
     g.game_questions.each do |g_q|
       replace_question_slash(g_q.question)
+      g_q.sub_questions.each do |s_q|
+        replace_question_slash(s_q.question)
+      end
     end
   end
 end
@@ -891,6 +921,11 @@ def update_option_text
     g.game_questions.each do |g_q|
       g_q.game_options.each do |g_o|
         replace_option_slash(g_o.option)
+      end
+      g_q.sub_questions.each do |s_q|
+        s_q.game_options.each do |s_g_o|
+          replace_option_slash(s_g_o.option)
+        end
       end
     end
   end
@@ -929,6 +964,7 @@ remove_game_question_references
 remove_game_holder_references
 upload_basic_acad_entity(book, 0)
 upload_practice_types(book, 3)
+upload_game_holder_details(book, 3)
 set_acad_entity_enabled(true)
 upload_agility_data(book, game_start)
 upload_purchasing_data(book, game_start + 1)
