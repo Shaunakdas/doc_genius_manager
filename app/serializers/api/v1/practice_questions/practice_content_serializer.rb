@@ -7,11 +7,7 @@ module Api::V1::PracticeQuestions
     end
 
     def sub_title
-      if object.correct_game_options.count > 0
-        object.correct_game_options.first.option.display || object.correct_game_options.first.option.correct.to_s
-      else
-        return false.to_s
-      end
+      object.correct_game_options.first.option.display if object.correct_game_options.count > 0
     end
   end
 end
