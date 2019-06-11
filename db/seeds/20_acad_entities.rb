@@ -269,6 +269,8 @@ def upload_agility_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("agility")
+  update_gameholder_question_text("agility")
 end
 
 
@@ -322,11 +324,14 @@ def upload_purchasing_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("purchasing")
+  update_gameholder_question_text("purchasing")
 end
 
 
 # PG: Conversion
 def upload_conversion_data(book, count)
+  remove_game_holder_questions("conversion")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -373,6 +378,8 @@ def upload_conversion_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("conversion")
+  update_gameholder_question_text("conversion")
 end
 
 # PG: Diction
@@ -420,6 +427,8 @@ def upload_diction_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("diction")
+  update_gameholder_question_text("diction")
 end
 
 # PG: Discounting
@@ -472,6 +481,8 @@ def upload_discounting_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("discounting")
+  update_gameholder_question_text("discounting")
 end
 
 # PG: Division
@@ -524,6 +535,8 @@ def upload_division_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("division")
+  update_gameholder_question_text("division")
 end
 
 # PG: Estimation
@@ -593,11 +606,14 @@ def upload_estimation_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("estimation")
+  update_gameholder_question_text("estimation")
 end
 
 
 # PG: Inversion
 def upload_inversion_data(book, count)
+  remove_game_holder_questions("inversion")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -657,6 +673,8 @@ def upload_inversion_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("inversion")
+  update_gameholder_question_text("inversion")
 end
 
 
@@ -692,6 +710,8 @@ def upload_percentage_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("percentage")
+  update_gameholder_question_text("percentage")
 end
 
 # PG: Proportion
@@ -763,6 +783,8 @@ def upload_proportion_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("proportion")
+  update_gameholder_question_text("proportion")
 end
 
 def check_gameholder_question game_holder, display
@@ -839,10 +861,13 @@ def upload_refinement_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("refinement")
+  update_gameholder_question_text("refinement")
 end
 
 # PG: SCQ
 def upload_tipping_data(book, count)
+  remove_game_holder_questions("tipping")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -889,6 +914,8 @@ def upload_tipping_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
+  update_gameholder_option_text("tipping")
+  update_gameholder_question_text("tipping")
 end
 
 def change_game_holder_enabled_status(enabled)
@@ -916,8 +943,34 @@ def update_question_text
   end
 end
 
+def update_gameholder_question_text(name)
+  GameHolder.search(name).each do |g|
+    g.game_questions.each do |g_q|
+      replace_question_slash(g_q.question)
+      g_q.sub_questions.each do |s_q|
+        replace_question_slash(s_q.question)
+      end
+    end
+  end
+end
+
 def update_option_text
   GameHolder.all.each do |g|
+    g.game_questions.each do |g_q|
+      g_q.game_options.each do |g_o|
+        replace_option_slash(g_o.option)
+      end
+      g_q.sub_questions.each do |s_q|
+        s_q.game_options.each do |s_g_o|
+          replace_option_slash(s_g_o.option)
+        end
+      end
+    end
+  end
+end
+
+def update_gameholder_option_text(name)
+  GameHolder.search(name).each do |g|
     g.game_questions.each do |g_q|
       g_q.game_options.each do |g_o|
         replace_option_slash(g_o.option)
@@ -938,6 +991,7 @@ def replace_question_slash(q)
   q.solution = replace_slash(q.solution)
   q.title = replace_slash(q.title)
   q.save!
+  puts q.display if q.id == 8850
 end
 
 def replace_option_slash(o)
@@ -953,19 +1007,21 @@ end
 
 def replace_slash(text)
   if text
-    return text.gsub(/\\\\/, '\\')
+    new_text = text.gsub(/\\\\/, '\\')
+    return new_text.gsub(/\\n/, "\n") if new_text.include?("\\n")
+    return new_text
   end
   return nil
 end
 
 
 game_start = 5
-remove_game_question_references
-remove_game_holder_references
-upload_basic_acad_entity(book, 0)
-upload_practice_types(book, 3)
-upload_game_holder_details(book, 3)
-set_acad_entity_enabled(true)
+# remove_game_question_references
+# remove_game_holder_references
+# upload_basic_acad_entity(book, 0)
+# upload_practice_types(book, 3)
+# upload_game_holder_details(book, 3)
+# set_acad_entity_enabled(true)
 upload_agility_data(book, game_start)
 upload_purchasing_data(book, game_start + 1)
 upload_conversion_data(book, game_start + 2)
@@ -978,7 +1034,7 @@ upload_percentage_data(book, game_start + 8)
 upload_proportion_data(book, game_start + 9)
 upload_refinement_data(book, game_start + 10)
 upload_tipping_data(book, game_start + 11)
-change_game_holder_enabled_status(true)
-set_game_holder_title
-update_question_text
-update_option_text
+# change_game_holder_enabled_status(true)
+# set_game_holder_title
+# update_question_text
+# update_option_text
