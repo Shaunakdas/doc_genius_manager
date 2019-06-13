@@ -5,5 +5,9 @@ module Api::V1::PracticeQuestions
     def options
       ActiveModel::ArraySerializer.new(object.game_options, each_serializer: DiscountingOptionSerializer)
     end
+
+    def hint
+      object.question.solution
+    end
   end
 end
