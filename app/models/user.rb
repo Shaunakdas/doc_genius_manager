@@ -152,9 +152,13 @@ class User < ApplicationRecord
   end
 
   def check_for_game_holders(chapter,topic)
-    return chapter.topics.where(
-      sequence: chapter.topics.minimum(:sequence)+1
-      ).first if chapter && topic.practice_game_holders.length == 0
+    if chapter && topic.practice_game_holders.length == 0
+      return chapter.topics.where(
+        sequence: chapter.topics.minimum(:sequence)+1
+        ).first 
+    else
+      return topic
+    end
   end
   
   private
