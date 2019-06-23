@@ -148,7 +148,7 @@ class User < ApplicationRecord
       ).first if first_chapter
     # Check if first_topic has any game_holders
     first_topic = check_for_game_holders(first_chapter,first_topic)
-    [standard, first_chapter, first_topic].each { |entity| entity.acad_profiles.create!(user_id: self.id) }
+    [standard, first_chapter, first_topic].each { |entity| entity.acad_profiles.create!(user_id: self.id) if entity }
   end
 
   def check_for_game_holders(chapter,topic)
