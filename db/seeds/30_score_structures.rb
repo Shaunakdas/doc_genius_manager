@@ -123,7 +123,7 @@ def add_diction_score_structure(game_holder)
     star_threshold_2: 9000,
     star_threshold_3: 13000,
     display_report_accuracy: true,
-    display_report_content: false,
+    display_report_content: true,
     display_remaining_lives: false,
     display_speedy_answer: false,
     display_perfect_set: false,
@@ -458,3 +458,15 @@ end
 
 
 add_game_holder_score_structure
+
+def set_game_holder_content
+  GameHolder.all.each do |game_holder|
+    if game_holder.score_structure && game_holder.game_type == "PracticeType"
+      if game_holder.game.slug == "diction"
+        game_holder.score_structure.update_attributes!(display_report_content: true)
+      elsif game_holder.game.slug == "division"
+        game_holder.score_structure.update_attributes!(display_report_content: true)
+      end
+    end
+  end
+end

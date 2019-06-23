@@ -628,7 +628,7 @@ def upload_inversion_data(book, count)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
         if practice_type && game_holder
-          if row.cells[3]
+          if row.cells[3] && row.cells[3].value && row.cells[3].value.length > 1
             display = row.cells[3].value
 
             parent_question = Question.create!(display: display)
@@ -1016,12 +1016,12 @@ end
 
 
 game_start = 5
-# remove_game_question_references
-# remove_game_holder_references
-# upload_basic_acad_entity(book, 0)
-# upload_practice_types(book, 3)
-# upload_game_holder_details(book, 3)
-# set_acad_entity_enabled(true)
+remove_game_question_references
+remove_game_holder_references
+upload_basic_acad_entity(book, 0)
+upload_practice_types(book, 3)
+upload_game_holder_details(book, 3)
+set_acad_entity_enabled(true)
 upload_agility_data(book, game_start)
 upload_purchasing_data(book, game_start + 1)
 upload_conversion_data(book, game_start + 2)
@@ -1034,7 +1034,7 @@ upload_percentage_data(book, game_start + 8)
 upload_proportion_data(book, game_start + 9)
 upload_refinement_data(book, game_start + 10)
 upload_tipping_data(book, game_start + 11)
-# change_game_holder_enabled_status(true)
-# set_game_holder_title
-# update_question_text
-# update_option_text
+change_game_holder_enabled_status(true)
+set_game_holder_title
+update_question_text
+update_option_text

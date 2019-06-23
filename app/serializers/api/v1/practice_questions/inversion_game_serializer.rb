@@ -12,8 +12,8 @@ module Api::V1::PracticeQuestions
         list << InversionQuestionSerializer.new(q).as_json[:inversion_question]
       end
       powerup = ["shrink", "arrow", "blast", "snow"].sample
-      powerup_index = rand(3..list.length)
-      list[powerup_index][:powerup] = powerup
+      powerup_index = rand(3..15)
+      list[powerup_index][:powerup] = powerup if powerup_index
       return list
     end
 
