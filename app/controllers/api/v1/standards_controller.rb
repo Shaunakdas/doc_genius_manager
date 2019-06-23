@@ -71,12 +71,11 @@ class Api::V1::StandardsController < Api::V1::ApiController
   def homepage
     if @current_user
       begin
-        puts @current_user
-        puts @current_user.standard.question_types
-        # render json: @current_user.standard.question_types
-        puts @current_user.question_types.to_json
-        respond_with @current_user, serializer: Api::V1::HomepageSerializer
-        # respond_with @current_user.question_types, each_serializer: Api::V1::QuestionTypeSerializer, meta: @current_user, location: '/standard'
+        if !@current_user.standard
+          error_type_response("User has not set his standard", :not_found, "standard_not_set")
+        else
+          respond_with @current_user, serializer: Api::V1::HomepageSerializer
+        end
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
       rescue ActiveRecord::RecordInvalid => invalid

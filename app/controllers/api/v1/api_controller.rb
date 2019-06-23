@@ -12,9 +12,15 @@ module Api::V1
     def error_params(message)
       return {error: message}
     end
+
     def error_response(message, status = :ok)
       render json: {error: message}, status: status
     end
+
+    def error_type_response(message, status = :ok, type)
+      render json: {error: message, error_type: type}, status: status
+    end
+
     def success_response(message, status = :ok, payload={})
       render json: {success: message, payload: payload}, status: status
     end
