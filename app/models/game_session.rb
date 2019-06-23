@@ -38,7 +38,7 @@ class GameSession < ApplicationRecord
   end
 
   def recent_scores
-    game_holder.question_type.session_scores
+    # game_holder.question_type.attempt_scores
   end
 
   def score_rank

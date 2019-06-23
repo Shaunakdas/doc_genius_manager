@@ -142,6 +142,7 @@ class GameHolder < ApplicationRecord
   def parse_result user, result_json
     session = GameSession.create!(user: user, start: Time.now, game_holder: self)
     session.parse_result(result_json)
+    return session
   end
 
   def game_options

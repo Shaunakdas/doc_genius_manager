@@ -23,8 +23,8 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   def result
     begin
       game_holder = GameHolder.find(params[:game_id] || params[:id])
-      game_holder.parse_result(@current_user, params)
-      respond_with game_holder, serializer: Api::V1::GameHolderSerializer, location: '/game_session'
+      game_session = game_holder.parse_result(@current_user, params)
+      respond_with game_session, serializer: Api::V1::GameEndSerializer, location: '/game_session'
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
     end
