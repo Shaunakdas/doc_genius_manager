@@ -65,7 +65,7 @@ module Api::V1
     
     # post "logout"
     def logout
-      render json: {}
+      render json: {success: true}
     end
 
 
