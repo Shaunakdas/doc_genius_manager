@@ -13,7 +13,7 @@ class GameQuestionAttempt < ApplicationRecord
     end
     item_list = question_obj[:items] if question_obj[:items]
     item_list = question_obj[:options] if question_obj[:options]
-    item_list = question_obj[:faces] if question_obj[:items]
+    item_list = question_obj[:faces] if question_obj[:faces]
     if item_list
       item_list.each do |item_obj|
         game_option = GameOption.find(item_obj[:id])
