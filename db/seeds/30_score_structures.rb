@@ -457,7 +457,7 @@ def add_tipping_score_structure(game_holder)
 end
 
 
-add_game_holder_score_structure
+# add_game_holder_score_structure
 
 def set_game_holder_content
   GameHolder.all.each do |game_holder|
@@ -466,7 +466,11 @@ def set_game_holder_content
         game_holder.score_structure.update_attributes!(display_report_content: true)
       elsif game_holder.game.slug == "division"
         game_holder.score_structure.update_attributes!(display_report_content: true)
+      elsif game_holder.game.slug == "refinement"
+        game_holder.score_structure.update_attributes!(display_report_content: true)
       end
     end
   end
 end
+
+set_game_holder_content
