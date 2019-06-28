@@ -111,7 +111,7 @@ Rails.application.routes.draw do
       # Forgot Password. Req: (Login). Response: ()
       post "password/forgot" => "passwords#forgot"
       # Reset Password. Req: (Username, OTP). Response: ()
-      get "password/reset" => "passwords#reset"
+      post "password/reset" => "passwords#reset"
       # Modify Password. Req: (Login, New Password). Response: (Auth Token)
       put "password/modify" => "passwords#modify"
       
