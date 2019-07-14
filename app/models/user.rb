@@ -177,6 +177,18 @@ class User < ApplicationRecord
     save!
   end
 
+  def top_sessions(game_holder, count)
+    game_sessions.where(game_holder: game_holder).sort_by {|ses| ses.total_score}.reverse!.first(count)
+  end
+
+  def recent_sessions(game_holder, count)
+    game_sessions.where(game_holder: game_holder).sort_by {|ses| ses.start}.reverse!.first(count)
+  end
+
+  def time_spent(game_holder)
+    game_sessions.where(game_holder: game_holder).to_a.sum(&:time_spent)
+  end
+
   private
 
   def generate_token

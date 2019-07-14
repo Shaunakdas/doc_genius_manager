@@ -67,4 +67,16 @@ class GameSession < ApplicationRecord
     end
     return output_json.as_json.map { |k, v| [k.to_sym, v] }.to_h
   end
+
+  def total_score
+    attempt_score.total_value
+  end
+
+  def passed
+    attempt_score.passed
+  end
+
+  def time_spent
+    attempt_score.time_spent
+  end
 end
