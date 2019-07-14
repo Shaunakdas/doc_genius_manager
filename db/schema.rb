@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190526053942) do
+ActiveRecord::Schema.define(version: 20190714183433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,8 +154,13 @@ ActiveRecord::Schema.define(version: 20190526053942) do
     t.bigint "game_question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_option_id"
+    t.integer "position"
+    t.bigint "option_type_id"
     t.index ["game_question_id"], name: "index_game_options_on_game_question_id"
     t.index ["option_id"], name: "index_game_options_on_option_id"
+    t.index ["option_type_id"], name: "index_game_options_on_option_type_id"
+    t.index ["parent_option_id"], name: "index_game_options_on_parent_option_id"
   end
 
   create_table "game_question_attempts", force: :cascade do |t|
@@ -202,6 +207,13 @@ ActiveRecord::Schema.define(version: 20190526053942) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "option_types", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "options", force: :cascade do |t|
     t.string "upper"
     t.string "lower"
@@ -217,6 +229,8 @@ ActiveRecord::Schema.define(version: 20190526053942) do
     t.string "title"
     t.integer "display_index"
     t.string "sub_title"
+    t.integer "reference_id"
+    t.boolean "positive"
   end
 
   create_table "practice_types", force: :cascade do |t|
@@ -250,6 +264,9 @@ ActiveRecord::Schema.define(version: 20190526053942) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.bigint "marker_gap_id"
+    t.integer "steps"
+    t.string "setup"
+    t.integer "position"
     t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
   end
@@ -462,6 +479,7 @@ ActiveRecord::Schema.define(version: 20190526053942) do
   add_foreign_key "game_option_attempts", "game_options"
   add_foreign_key "game_option_attempts", "game_question_attempts"
   add_foreign_key "game_options", "game_questions"
+  add_foreign_key "game_options", "option_types"
   add_foreign_key "game_options", "options"
   add_foreign_key "game_question_attempts", "game_questions"
   add_foreign_key "game_question_attempts", "game_sessions"
