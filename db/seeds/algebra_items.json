@@ -1,0 +1,298 @@
+{
+  "items" : [
+      {
+        "id": 1,
+        "display" : "hole",
+        "type" : "zero",
+        "positive" : true
+      },
+      {
+        "id": 2,
+        "display" : "dinosaur",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 3,
+        "display" : "dinosaur",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 4,
+        "display" : "insect",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 5,
+        "display" : "insect",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 6,
+        "display" : "snake",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 7,
+        "display" : "snake",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 8,
+        "display" : "fruit",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 9,
+        "display" : "fruit",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 10,
+        "display" : "fish",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 11,
+        "display" : "fish",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 12,
+        "display" : "fly",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 13,
+        "display" : "fly",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 14,
+        "display" : "germ",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 15,
+        "display" : "germ",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 16,
+        "display" : "snail",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 17,
+        "display" : "snail",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 18,
+        "display" : "caterpillar",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 19,
+        "display" : "caterpillar",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 100,
+        "display" : "block",
+        "type" : "variable",
+        "positive" : true
+      },
+      {
+        "id": 101,
+        "display" : "block",
+        "type" : "variable",
+        "positive" : false
+      },
+      {
+        "id": 102,
+        "display" : "x",
+        "type" : "variable",
+        "positive" : true
+      },
+      {
+        "id": 103,
+        "display" : "x",
+        "type" : "variable",
+        "positive" : false
+      },
+      {
+        "id": 200,
+        "display" : "a",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 201,
+        "display" : "a",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 202,
+        "display" : "b",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 203,
+        "display" : "b",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 204,
+        "display" : "c",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 205,
+        "display" : "c",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 206,
+        "display" : "dice",
+        "value" : 1,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 207,
+        "display" : "dice",
+        "value" : 1,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 208,
+        "display" : "dice",
+        "value" : 2,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 209,
+        "display" : "dice",
+        "value" : 2,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 210,
+        "display" : "dice",
+        "value" : 3,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 211,
+        "display" : "dice",
+        "value" : 3,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 212,
+        "display" : "dice",
+        "value" : 4,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 213,
+        "display" : "dice",
+        "value" : 4,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 214,
+        "display" : "dice",
+        "value" : 5,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 215,
+        "display" : "dice",
+        "value" : 5,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 216,
+        "display" : "dice",
+        "value" : 6,
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 217,
+        "display" : "dice",
+        "value" : 6,
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 218,
+        "display" : "d",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 219,
+        "display" : "d",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 220,
+        "display" : "e",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 221,
+        "display" : "e",
+        "type" : "constant",
+        "positive" : false
+      },
+      {
+        "id": 222,
+        "display" : "f",
+        "type" : "constant",
+        "positive" : true
+      },
+      {
+        "id": 223,
+        "display" : "f",
+        "type" : "constant",
+        "positive" : false
+      }
+    ]
+}

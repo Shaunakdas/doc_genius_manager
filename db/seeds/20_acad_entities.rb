@@ -918,6 +918,112 @@ def upload_tipping_data(book, count)
   update_gameholder_question_text("tipping")
 end
 
+# PG: SCQ
+def upload_dragonbox_data(book, count)
+  remove_game_holder_questions("dragonbox")
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && row.cells[3]  && row.cells[3].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        if practice_type && game_holder
+          parent_mode = row.cells[3].value
+          parent_steps = row.cells[5]? row.cells[5].value.to_i : nil
+
+          parent_question = Question.create!(mode: parent_mode, steps: parent_steps)
+          puts "Adding parent_question mode: #{parent_mode}"
+          parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+
+          left_start = 6
+          left_fraction_start = 7
+          left_fraction_count = 1
+          right_start = 9
+          right_fraction_start = 10
+          right_fraction_count = 1
+          bottom_start = 12
+
+          left_ref_ids = row.cells[left_start].value
+          right_ref_ids = row.cells[right_start].value
+          bottom_ref_ids = row.cells[bottom_start].value
+
+          set_options(parent_question, :left, algebra_options(left_ref_ids))
+
+          set_options(parent_question, :right, algebra_options(right_ref_ids))
+
+          set_options(parent_question, :bottom, algebra_options(bottom_ref_ids))
+
+
+          # question = Question.create!(display: display, tip: tip, hint: hint, title: title, solution: solution)
+          # puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
+          # game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+
+          option_start = 8
+          option_width = 2
+          option_count = 9
+          (0..(option_count-1)).each do |counter|
+            display_index = option_start + (counter*option_width)
+            correct_index = option_start + (counter*option_width) +  1
+
+            if  row.cells[display_index] && row.cells[display_index].value
+              display = row.cells[display_index].value
+              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+
+              # option = Option.create( display: display, correct: (correct==1))
+              # puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
+              # game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+  update_gameholder_option_text("dragonbox")
+  update_gameholder_question_text("dragonbox")
+end
+
+def algebra_options ref_ids
+  puts ref_ids
+  ids = ref_ids.to_s.split(",")
+  options = []
+  ids.each do |id|
+    ref_op = Option.where(reference_id: id).first
+    options << ref_op if ref_op
+  end
+  return options if ids.length == options.length
+  return nil
+end
+
+def get_game_question parent_ques, position
+  question = parent_ques.sub_questions.where(position: position)
+  game_question = GameQuestion.where(question: question).first
+  if game_question.nil?
+    question = Question.create!(parent_question: parent_ques, position: position)
+    puts "Adding question parent_question: #{parent_ques.id} , position: #{position}"
+    
+    parent_game_question = GameQuestion.where(question: parent_ques).first
+    game_question = GameQuestion.create!(parent_question: parent_game_question, question: question)
+  end
+  return game_question
+end
+
+def set_options parent_ques, position, options
+  options.each do |op|
+    puts "Adding #{position.to_s} option: #{op.reference_id}" 
+    game_op = GameOption.create!(option: op, game_question: get_game_question(parent_ques, position))
+    puts "Added game_question: #{game_op.game_question.id} option: #{game_op.option.reference_id}" 
+  end
+end
+
 def change_game_holder_enabled_status(enabled)
   GameHolder.joins(:game_questions).group('game_holders.id').each do |g_h|
     g_h.update_attributes!(enabled: enabled)
@@ -1034,6 +1140,7 @@ upload_percentage_data(book, game_start + 8)
 upload_proportion_data(book, game_start + 9)
 upload_refinement_data(book, game_start + 10)
 upload_tipping_data(book, game_start + 11)
+upload_dragonbox_data(book, game_start + 12)
 change_game_holder_enabled_status(true)
 set_game_holder_title
 update_question_text

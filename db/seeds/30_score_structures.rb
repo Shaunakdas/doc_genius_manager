@@ -468,9 +468,11 @@ def set_game_holder_content
         game_holder.score_structure.update_attributes!(display_report_content: true)
       elsif game_holder.game.slug == "refinement"
         game_holder.score_structure.update_attributes!(display_report_content: true)
+      elsif game_holder.game.slug == "percentages"
+        game_holder.score_structure.update_attributes!(display_report_content: true)
       end
     end
   end
 end
 
-set_game_holder_content
+# set_game_holder_content
