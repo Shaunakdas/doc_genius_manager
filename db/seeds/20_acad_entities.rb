@@ -960,25 +960,27 @@ def upload_dragonbox_data(book, count)
 
           set_options(parent_question, :bottom, algebra_options(bottom_ref_ids))
 
+          hint_start = 14
+          hint_type = row.cells[hint_start].value
 
-          # question = Question.create!(display: display, tip: tip, hint: hint, title: title, solution: solution)
-          # puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
-          # game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          hint = Hint.create!(value_type: hint_type, acad_entity: parent_game_question) if hint_type
 
-          option_start = 8
-          option_width = 2
-          option_count = 9
-          (0..(option_count-1)).each do |counter|
-            display_index = option_start + (counter*option_width)
-            correct_index = option_start + (counter*option_width) +  1
+          if hint
+            hint_content_start = 15
+            hint_content_width = 2
+            hint_content_count = 2
 
-            if  row.cells[display_index] && row.cells[display_index].value
-              display = row.cells[display_index].value
-              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+            (0..(hint_content_count-1)).each do |counter|
+              display_index = hint_content_start + (counter*hint_content_width)
+              position_index = hint_content_start + (counter*hint_content_width) +  1
 
-              # option = Option.create( display: display, correct: (correct==1))
-              # puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
-              # game_option = GameOption.create!(option: option, game_question: game_question)
+              if  row.cells[display_index] && row.cells[display_index].value
+                display = row.cells[display_index].value
+                position = row.cells[position_index].value
+
+                puts "Adding hint_#{(counter+1)} display: #{display} , position: #{position}"
+                hint_content = hint.hint_contents.create!(display: display, position: position)
+              end
             end
           end
         end
