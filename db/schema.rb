@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190714183433) do
+ActiveRecord::Schema.define(version: 20190717191338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,24 @@ ActiveRecord::Schema.define(version: 20190714183433) do
     t.datetime "updated_at", null: false
     t.index ["game_holder_id"], name: "index_game_sessions_on_game_holder_id"
     t.index ["user_id"], name: "index_game_sessions_on_user_id"
+  end
+
+  create_table "hint_contents", force: :cascade do |t|
+    t.string "display"
+    t.integer "position"
+    t.bigint "hint_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hint_id"], name: "index_hint_contents_on_hint_id"
+  end
+
+  create_table "hints", force: :cascade do |t|
+    t.string "value_type"
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_hints_on_acad_entity_type_and_acad_entity_id"
   end
 
   create_table "marker_gaps", force: :cascade do |t|
@@ -487,6 +505,7 @@ ActiveRecord::Schema.define(version: 20190714183433) do
   add_foreign_key "game_questions", "questions"
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "users"
+  add_foreign_key "hint_contents", "hints"
   add_foreign_key "question_types", "sub_topics"
   add_foreign_key "questions", "marker_gaps"
   add_foreign_key "region_percentile_scores", "regions"
