@@ -44,5 +44,9 @@ module Api::V1::PracticeQuestions
     def section_question
       object.question.title
     end
+
+    def steps
+      object.question.steps
+    end
   end
 end

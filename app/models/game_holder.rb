@@ -69,6 +69,8 @@ class GameHolder < ApplicationRecord
       return get_refinement_questions
     when "tipping"
       return get_tipping_questions
+    when "dragonbox"
+      return get_dragonbox_questions
     else
       get_scq_questions
     end
@@ -137,6 +139,11 @@ class GameHolder < ApplicationRecord
   # Tipping
   def get_tipping_questions
     Api::V1::PracticeQuestions::TippingGameSerializer.new(self).as_json[:tipping_game]
+  end
+
+  # Dragonbox
+  def get_dragonbox_questions
+    Api::V1::PracticeQuestions::DragonboxGameSerializer.new(self).as_json[:dragonbox_game]
   end
 
   def parse_result user, result_json
