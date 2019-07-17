@@ -6,6 +6,8 @@ class GameQuestion < ApplicationRecord
   has_many :game_options, -> { order 'id asc' }
   has_many :game_question_attempts
 
+  has_many :hints, as: :acad_entity
+
   def proportion_blocks
     game_options_list = []
     sub_question_id_list = sub_questions.map{|x|x.id}

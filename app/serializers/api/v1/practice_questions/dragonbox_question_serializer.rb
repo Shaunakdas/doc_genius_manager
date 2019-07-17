@@ -1,10 +1,9 @@
 module Api::V1::PracticeQuestions
   class DragonboxQuestionSerializer < PracticeQuestionSerializer
     attributes :id, :mode, :steps, :sections
-    
+    has_many :hints, serializer: PracticeHintSerializer
 
     def sections
-      # ActiveModel::ArraySerializer.new(object.sub_questions, each_serializer: DragonboxSectionSerializer)
       {
         left: op_items(:left),
         right: op_items(:right),
@@ -27,6 +26,10 @@ module Api::V1::PracticeQuestions
       return {
         items: section.nil? ? nil : section.game_options.map{ |r| r.option.reference_id}
       }
+    end
+
+    def hint
+      
     end
   end
 end
