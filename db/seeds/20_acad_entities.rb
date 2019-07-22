@@ -936,37 +936,63 @@ def upload_dragonbox_data(book, count)
 
         if practice_type && game_holder
           parent_mode = row.cells[3].value
+          parent_setup = row.cells[4].value
           parent_steps = row.cells[5]? row.cells[5].value.to_i : nil
 
-          parent_question = Question.create!(mode: parent_mode, steps: parent_steps)
+          parent_question = Question.create!(mode: parent_mode, steps: parent_steps, setup: parent_setup)
           puts "Adding parent_question mode: #{parent_mode}"
           parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
 
           left_start = 6
           left_fraction_start = 7
-          left_fraction_count = 1
-          right_start = 9
-          right_fraction_start = 10
-          right_fraction_count = 1
-          bottom_start = 12
+          left_fraction_count = 2
+          right_start = 11
+          right_fraction_start = 12
+          right_fraction_count = 2
+          bottom_start = 16
 
-          left_ref_ids = row.cells[left_start].value
-          right_ref_ids = row.cells[right_start].value
-          bottom_ref_ids = row.cells[bottom_start].value
+          left_ref_ids = row.cells[left_start]? row.cells[left_start].value : nil
+          right_ref_ids = row.cells[right_start]? row.cells[right_start].value : nil
+          bottom_ref_ids = row.cells[bottom_start]? row.cells[bottom_start].value : nil
 
-          set_options(parent_question, :left, algebra_options(left_ref_ids))
+          # Left Section
+          set_options(parent_question, :left, algebra_options(left_ref_ids)) if !left_ref_ids.nil?
+          (0..(left_fraction_count-1)).each do |counter|
+            upper_index = left_fraction_start + (counter*2)
+            lower_index = left_fraction_start + (counter*2) +  1
 
-          set_options(parent_question, :right, algebra_options(right_ref_ids))
+            if  row.cells[upper_index] && row.cells[upper_index].value
+              upper_ids = row.cells[upper_index].value
+              lower_ids = row.cells[lower_index].value
 
-          set_options(parent_question, :bottom, algebra_options(bottom_ref_ids))
+              set_fraction_option(parent_question, :left, algebra_options(upper_ids), algebra_options(lower_ids))
+            end
+          end
 
-          hint_start = 14
+          # Right Section
+          set_options(parent_question, :right, algebra_options(right_ref_ids)) if !right_ref_ids.nil?
+          (0..(right_fraction_count-1)).each do |counter|
+            upper_index = right_fraction_start + (counter*2)
+            lower_index = right_fraction_start + (counter*2) +  1
+
+            if  row.cells[upper_index] && row.cells[upper_index].value
+              upper_ids = row.cells[upper_index].value
+              lower_ids = row.cells[lower_index].value
+
+              set_fraction_option(parent_question, :right, algebra_options(upper_ids), algebra_options(lower_ids))
+            end
+          end
+
+          # Bottom Section
+          set_options(parent_question, :bottom, algebra_options(bottom_ref_ids)) if !bottom_ref_ids.nil?
+
+          hint_start = 18
           hint_type = row.cells[hint_start].value
 
           hint = Hint.create!(value_type: hint_type, acad_entity: parent_game_question) if hint_type
 
           if hint
-            hint_content_start = 15
+            hint_content_start = 19
             hint_content_width = 2
             hint_content_count = 2
 
@@ -989,8 +1015,8 @@ def upload_dragonbox_data(book, count)
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
   end
-  update_gameholder_option_text("dragonbox")
-  update_gameholder_question_text("dragonbox")
+  # update_gameholder_option_text("dragonbox")
+  # update_gameholder_question_text("dragonbox")
 end
 
 def algebra_options ref_ids
@@ -1019,11 +1045,27 @@ def get_game_question parent_ques, position
 end
 
 def set_options parent_ques, position, options
-  options.each do |op|
-    puts "Adding #{position.to_s} option: #{op.reference_id}" 
-    game_op = GameOption.create!(option: op, game_question: get_game_question(parent_ques, position))
-    puts "Added game_question: #{game_op.game_question.id} option: #{game_op.option.reference_id}" 
+  if !options.nil?
+    options.each do |op|
+      puts "Adding #{position.to_s} option: #{op.reference_id}" 
+      game_op = GameOption.create!(option: op, game_question: get_game_question(parent_ques, position))
+      puts "Added game_question: #{game_op.game_question.id} option: #{game_op.option.reference_id}" 
+    end
   end
+end
+
+def set_fraction_option parent_ques, position, upper_ops, lower_ops
+  fraction_op_type = OptionType.where(slug: "fraction").first
+  return nil if fraction_op_type.nil?
+  fraction_op = GameOption.create!(game_question: get_game_question(parent_ques, position), option_type: fraction_op_type)
+  upper_ops.each do |op|
+    puts "Adding #{position.to_s} upper option: #{op.reference_id}" 
+    game_op = GameOption.create!(option: op, position: :numerator, parent_option: fraction_op)
+  end if !upper_ops.nil?
+  lower_ops.each do |op|
+    puts "Adding #{position.to_s} lower option: #{op.reference_id}" 
+    game_op = GameOption.create!(option: op, position: :denominator, parent_option: fraction_op)
+  end if !lower_ops.nil?
 end
 
 def change_game_holder_enabled_status(enabled)
@@ -1124,26 +1166,26 @@ end
 
 
 game_start = 5
-remove_game_question_references
-remove_game_holder_references
-upload_basic_acad_entity(book, 0)
-upload_practice_types(book, 3)
-upload_game_holder_details(book, 3)
-set_acad_entity_enabled(true)
-upload_agility_data(book, game_start)
-upload_purchasing_data(book, game_start + 1)
-upload_conversion_data(book, game_start + 2)
-upload_diction_data(book, game_start + 3)
-upload_discounting_data(book, game_start + 4)
-upload_division_data(book, game_start + 5)
-upload_estimation_data(book, game_start + 6)
-upload_inversion_data(book, game_start + 7)
-upload_percentage_data(book, game_start + 8)
-upload_proportion_data(book, game_start + 9)
-upload_refinement_data(book, game_start + 10)
-upload_tipping_data(book, game_start + 11)
+# remove_game_question_references
+# remove_game_holder_references
+# upload_basic_acad_entity(book, 0)
+# upload_practice_types(book, 3)
+# upload_game_holder_details(book, 3)
+# set_acad_entity_enabled(true)
+# upload_agility_data(book, game_start)
+# upload_purchasing_data(book, game_start + 1)
+# upload_conversion_data(book, game_start + 2)
+# upload_diction_data(book, game_start + 3)
+# upload_discounting_data(book, game_start + 4)
+# upload_division_data(book, game_start + 5)
+# upload_estimation_data(book, game_start + 6)
+# upload_inversion_data(book, game_start + 7)
+# upload_percentage_data(book, game_start + 8)
+# upload_proportion_data(book, game_start + 9)
+# upload_refinement_data(book, game_start + 10)
+# upload_tipping_data(book, game_start + 11)
 upload_dragonbox_data(book, game_start + 12)
-change_game_holder_enabled_status(true)
-set_game_holder_title
-update_question_text
-update_option_text
+# change_game_holder_enabled_status(true)
+# set_game_holder_title
+# update_question_text
+# update_option_text
