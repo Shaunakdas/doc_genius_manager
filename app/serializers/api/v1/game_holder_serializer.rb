@@ -58,6 +58,7 @@ module Api::V1
     end
 
     def score_algo
+      puts object.score_structure
       return {
         limiter: limiter,
         marks: marks,
