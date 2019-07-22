@@ -93,7 +93,10 @@ module Api::V1
         remaining_lives: object.score_structure.marks_remaining_lives,
         actual_answer: object.score_structure.marks_actual_answer,
         consistency_bonus: object.score_structure.marks_consistency_bonus,
-        remaining_time: object.score_structure.marks_remaining_time
+        remaining_time: object.score_structure.marks_remaining_time,
+        alone_box: object.score_structure.marks_alone_box,
+        minimum_steps: object.score_structure.marks_minimum_steps,
+        minimum_cards: object.score_structure.marks_minimum_cards,
       }
     end
 
