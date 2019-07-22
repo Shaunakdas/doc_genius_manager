@@ -27,6 +27,8 @@ def add_game_holder_score_structure
         add_refinement_score_structure(game_holder)
       when "tipping"
         add_tipping_score_structure(game_holder)
+      when "dragonbox"
+        add_dragonbox_score_structure(game_holder)
       else
         puts "Found a new type of practice_type game #{game_holder.to_json}"
       end
@@ -456,8 +458,45 @@ def add_tipping_score_structure(game_holder)
   return score_structure
 end
 
+def add_dragonbox_score_structure(game_holder)
+  score_structure = ScoreStructure.create!(
+    game_holder: game_holder,
+    limiter_time_question: nil,
+    limiter_time_game: nil,
+    limiter_option: nil,
+    limiter_question: 3,
+    limiter_lives: nil,
+    marks_normal_attempt: nil,
+    marks_normal_time: nil,
+    marks_speedy_time_limit: nil,
+    marks_speedy_max: nil,
+    marks_complete_set: nil,
+    marks_remaining_lives: nil,
+    marks_actual_answer: nil,
+    marks_consistency_bonus: nil,
+    marks_remaining_time: nil,
+    marks_alone_box: 1200,
+    marks_minimum_steps: 1800,
+    marks_minimum_cards: 1500,
+    star_threshold_2: 8100,
+    star_threshold_3: 10000,
+    display_report_accuracy: false,
+    display_report_content: true,
+    display_remaining_lives: false,
+    display_speedy_answer: false,
+    display_perfect_set: false,
+    display_longest_streak: false,
+    display_accurate_answer: false,
+    display_errors: false,
+    display_remaining_time: false
+  )
+  puts "Agility GameHolder score structure added #{score_structure.to_json}" if score_structure
+  puts "Error in adding score structure for game_holder: #{game_holder.to_json}" if !score_structure
+  return score_structure
+end
 
-# add_game_holder_score_structure
+
+add_game_holder_score_structure
 
 def set_game_holder_content
   GameHolder.all.each do |game_holder|

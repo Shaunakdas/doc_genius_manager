@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190717191338) do
+ActiveRecord::Schema.define(version: 20190722122715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,9 @@ ActiveRecord::Schema.define(version: 20190717191338) do
     t.integer "remaining_lives_marks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "alone_box_marks"
+    t.integer "minimum_steps_marks"
+    t.integer "minimum_cards_marks"
     t.index ["attempt_item_type", "attempt_item_id"], name: "index_attempt_scores_on_attempt_item_type_and_attempt_item_id"
   end
 
@@ -359,6 +362,9 @@ ActiveRecord::Schema.define(version: 20190717191338) do
     t.boolean "display_remaining_time", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "marks_alone_box"
+    t.integer "marks_minimum_steps"
+    t.integer "marks_minimum_cards"
     t.index ["game_holder_id"], name: "index_score_structures_on_game_holder_id"
   end
 

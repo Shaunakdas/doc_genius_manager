@@ -1184,7 +1184,7 @@ game_start = 5
 # upload_proportion_data(book, game_start + 9)
 # upload_refinement_data(book, game_start + 10)
 # upload_tipping_data(book, game_start + 11)
-upload_dragonbox_data(book, game_start + 12)
+# upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 # set_game_holder_title
 # update_question_text
