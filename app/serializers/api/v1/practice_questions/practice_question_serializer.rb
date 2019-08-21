@@ -4,6 +4,10 @@ module Api::V1::PracticeQuestions
     def mode
       object.question.mode
     end
+    
+    def setup
+      object.question.setup
+    end
 
     def title
       object.question.title

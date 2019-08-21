@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class DragonboxQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :mode, :steps, :sections
+    attributes :id, :mode, :steps, :sections, :setup
     has_many :hints, serializer: PracticeHintSerializer
 
     def sections
