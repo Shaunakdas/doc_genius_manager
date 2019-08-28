@@ -31,7 +31,7 @@ module Api::V1::PracticeQuestions
       if section && fraction_op_type
         fraction_ops = section.game_options.where(option_type: fraction_op_type)
         fraction_items = []
-        fraction_ops.last(1).each do |op|
+        fraction_ops.each do |op|
           fraction_items << { 
             upper: op.sub_options.where(position: :numerator).map{ |r| r.option.reference_id},
             lower: op.sub_options.where(position: :denominator).map{ |r| r.option.reference_id}
