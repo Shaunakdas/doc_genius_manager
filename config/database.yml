@@ -13,12 +13,12 @@ test:
 
 staging:
   <<: *default
-  database: geniusdb
+  database: <%= ENV['DATABASE_NAME'] %>
   pool: 5
   host: <%= ENV['DATABASE_HOST'] %>
   port: 5432
-  username: geniusdb
-  password: geniusdb
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 
 production:
   <<: *default
