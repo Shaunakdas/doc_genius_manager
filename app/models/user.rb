@@ -120,6 +120,15 @@ class User < ApplicationRecord
     topic.practice_game_holders
   end
 
+  def game_difficulty_index game_holder
+    last_session = game_sessions.where(game_holder: game_holder).last
+    if last_session && last_session.next_difficulty_index > 0
+      return last_session.next_difficulty_index
+    else
+      return game_holder.game_questions.minimum(:difficulty_index)
+    end
+  end
+
   def question_types
     return standard.question_types
   end

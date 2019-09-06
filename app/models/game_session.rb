@@ -4,6 +4,7 @@ class GameSession < ApplicationRecord
   validates_presence_of :start
   has_one :session_score
   has_one :attempt_score, as: :attempt_item, dependent: :destroy
+  has_many :game_question_attempts
 
   def self.list(list_params)
     if list_params["game_holder_id"]
