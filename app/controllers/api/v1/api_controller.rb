@@ -4,6 +4,7 @@ module Api::V1
     include ActionController::Serialization
     require 'json_web_token'
     attr_reader :current_user
+    after_action :set_cors_headers
 
     def add_verification_code(params)
       params[:user][:verification_code] = [*1..9].sample(6)
@@ -54,6 +55,13 @@ module Api::V1
 
     def user_id_in_token?
       http_token && auth_token && auth_token[:user_id].to_i
+    end
+
+    def set_cors_headers
+      response.set_header('Access-Control-Allow-Credentials', 'true')
+      response.set_header('Access-Control-Allow-Headers', 'Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time')
+      response.set_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+      response.set_header('Access-Control-Allow-Origin', '*')
     end
   end
 end
