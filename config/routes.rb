@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
-
+      # Handling Options call for all apis
+      match '*path', via: [:options], to:  lambda {|_| [204, {'Content-Type' => 'text/plain'}, []]}
+      
       # Users
       # Get Users List using search, filter and pagination. Req: (Admin Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (User Array)
       get "users" => "users#index"
@@ -121,6 +123,10 @@ Rails.application.routes.draw do
       # end
       
     end
+  end
+  
+  def handle_options_request
+    head(:ok) if request.request_method == "OPTIONS"
   end
 end
   
