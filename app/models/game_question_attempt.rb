@@ -24,8 +24,10 @@ class GameQuestionAttempt < ApplicationRecord
 
   def get_attempt_fields attempt_obj
     output_json = attempt_obj.except(:marks, :attempted_option)
-    attempt_obj[:marks].each do |k,v|
-      output_json["#{k}_marks".to_sym] = v
+    if attempt_obj[:marks]
+      attempt_obj[:marks].each do |k,v|
+        output_json["#{k}_marks".to_sym] = v
+      end
     end
     return output_json.as_json.map { |k, v| [k.to_sym, v] }.to_h
   end
