@@ -61,7 +61,11 @@ module Api::V1
       response.set_header('Access-Control-Allow-Credentials', 'true')
       response.set_header('Access-Control-Allow-Headers', 'Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time')
       response.set_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-      response.set_header('Access-Control-Allow-Origin', '*')
+      if request.headers['origin']
+        response.set_header('Access-Control-Allow-Origin', request.headers['origin'])
+      else
+        response.set_header('Access-Control-Allow-Origin', '*')
+      end
     end
   end
 end
