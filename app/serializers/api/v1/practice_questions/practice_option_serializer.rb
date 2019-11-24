@@ -1,6 +1,10 @@
 module Api::V1::PracticeQuestions
   class PracticeOptionSerializer < ActiveModel::Serializer
-    attributes :id
+    attributes :id, :entity_type
+
+    def entity_type
+      "game_option"
+    end
 
     def type
       object.option.value_type
