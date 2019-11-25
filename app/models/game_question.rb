@@ -49,8 +49,6 @@ class GameQuestion < ApplicationRecord
       return get_agility_questions
     when "conversion"
       return get_conversion_question_details
-    when "conversion"
-      return get_conversion_question_details
     when "diction"
       return get_diction_question_details
     when "discounting"
@@ -90,7 +88,7 @@ class GameQuestion < ApplicationRecord
 
   # Conversion
   def get_conversion_question_details
-    Api::V1::PracticeQuestions::ConversionGameSerializer.new(self).as_json[:conversion_game]
+    return Api::V1::PracticeQuestions::ConversionQuestionSerializer.new(self).as_json[:conversion_question]
   end
 
   # Diction
@@ -146,5 +144,34 @@ class GameQuestion < ApplicationRecord
   # Dragonbox
   def get_dragonbox_question_details
     Api::V1::PracticeQuestions::DragonboxGameSerializer.new(self).as_json[:dragonbox_game]
+  end
+
+  def update_content(params)
+    if question
+      question_params = {}
+      attribute_mapping.each do | game_question_key, question_key  |
+        question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
+      end
+      question.update_attributes(question_params)
+      return question
+    end
+    return nil
+  end
+
+  def attribute_mapping
+    {
+      mode: "mode",
+      setup: "setup",
+      title: "title",
+      question: "display",
+      answer: "solution",
+      tips: "tip",
+      tip: "tip",
+      type: "value_type",
+      section_question: "title",
+      steps: "steps",
+      hint: "hint",
+      bubble: "title",
+    }
   end
 end

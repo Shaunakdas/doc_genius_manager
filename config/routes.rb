@@ -75,6 +75,10 @@ Rails.application.routes.draw do
       # Add Working rule Question Text. Req: (id, rule_id, question_text)
       post "add_working_rule" => "question_types#add_working_rule"
 
+      # Question
+      # Update Acad Entity(GameQuestion, GameOption, Hint, Hintcontent) Details
+      put "question/update" => "questions#update"
+
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
       get "game_sessions" => "game_sessions#index"
