@@ -46,7 +46,7 @@ class GameQuestion < ApplicationRecord
     return nil if game_holder.nil?
     case game_holder.game.slug
     when "agility"
-      return get_agility_questions
+      return get_agility_question_details
     when "conversion"
       return get_conversion_question_details
     when "diction"
@@ -78,12 +78,12 @@ class GameQuestion < ApplicationRecord
 
   # SCQ
   def get_scq_question_details
-    Api::V1::PracticeQuestions::DivisionGameSerializer.new(self).as_json[:division_game]
+    Api::V1::PracticeQuestions::DivisionQuestionSerializer.new(self).as_json[:division_question]
   end
 
   # Agility
   def get_agility_question_details
-    Api::V1::PracticeQuestions::AgilityGameSerializer.new(self).as_json[:agility_game]
+    Api::V1::PracticeQuestions::AgilityQuestionSerializer.new(self).as_json[:agility_question]
   end
 
   # Conversion
@@ -93,57 +93,57 @@ class GameQuestion < ApplicationRecord
 
   # Diction
   def get_diction_question_details
-    Api::V1::PracticeQuestions::DictionGameSerializer.new(self).as_json[:diction_game]
+    Api::V1::PracticeQuestions::DictionQuestionSerializer.new(self).as_json[:diction_question]
   end
 
   # Discounting
   def get_discounting_question_details
-    Api::V1::PracticeQuestions::DiscountingGameSerializer.new(self).as_json[:discounting_game]
+    Api::V1::PracticeQuestions::DiscountingQuestionSerializer.new(self).as_json[:discounting_question]
   end
 
   # Division
   def get_division_question_details
-    Api::V1::PracticeQuestions::DivisionGameSerializer.new(self).as_json[:division_game]
+    Api::V1::PracticeQuestions::DivisionQuestionSerializer.new(self).as_json[:division_question]
   end
 
   # Estimation
   def get_estimation_question_details
-    Api::V1::PracticeQuestions::EstimationGameSerializer.new(self).as_json[:estimation_game]
+    Api::V1::PracticeQuestions::EstimationQuestionSerializer.new(self).as_json[:estimation_question]
   end
 
   # Inversion
   def get_inversion_question_details
-    Api::V1::PracticeQuestions::InversionGameSerializer.new(self).as_json[:inversion_game]
+    Api::V1::PracticeQuestions::InversionQuestionSerializer.new(self).as_json[:inversion_question]
   end
 
   # Percentages
   def get_percentages_question_details
-    Api::V1::PracticeQuestions::PercentagesGameSerializer.new(self).as_json[:percentages_game]
+    Api::V1::PracticeQuestions::PercentagesQuestionSerializer.new(self).as_json[:percentages_question]
   end
 
   # Proportion
   def get_proportion_question_details
-    Api::V1::PracticeQuestions::ProportionGameSerializer.new(self).as_json[:proportion_game]
+    Api::V1::PracticeQuestions::ProportionQuestionSerializer.new(self).as_json[:proportion_question]
   end
 
   # Purchasing
   def get_purchasing_question_details
-    Api::V1::PracticeQuestions::PurchasingGameSerializer.new(self).as_json[:purchasing_game]
+    Api::V1::PracticeQuestions::PurchasingQuestionSerializer.new(self).as_json[:purchasing_question]
   end
 
   # Refinement
   def get_refinement_question_details
-    Api::V1::PracticeQuestions::RefinementGameSerializer.new(self).as_json[:refinement_game]
+    Api::V1::PracticeQuestions::RefinementQuestionSerializer.new(self).as_json[:refinement_question]
   end
 
   # Tipping
   def get_tipping_question_details
-    Api::V1::PracticeQuestions::TippingGameSerializer.new(self).as_json[:tipping_game]
+    Api::V1::PracticeQuestions::TippingQuestionSerializer.new(self).as_json[:tipping_question]
   end
 
   # Dragonbox
   def get_dragonbox_question_details
-    Api::V1::PracticeQuestions::DragonboxGameSerializer.new(self).as_json[:dragonbox_game]
+    Api::V1::PracticeQuestions::DragonboxQuestionSerializer.new(self).as_json[:dragonbox_question]
   end
 
   def update_content(params)
