@@ -42,9 +42,14 @@ class GameQuestion < ApplicationRecord
     ques_attempt.set_attempt_score(question_obj)
   end
 
+  def linked_game_holder
+    return game_holder if !game_holder.nil?
+    return parent_question.game_holder if !parent_question.nil?
+  end
+
   def details
-    return nil if game_holder.nil?
-    case game_holder.game.slug
+    return nil if linked_game_holder.nil?
+    case linked_game_holder.game.slug
     when "agility"
       return get_agility_question_details
     when "conversion"
