@@ -78,6 +78,10 @@ Rails.application.routes.draw do
       # Question
       # Update Acad Entity(GameQuestion, GameOption, Hint, Hintcontent) Details
       put "question/update" => "questions#update"
+      # Get GameQuestion Details
+      get "question/:id/details" => "questions#details"
+      # Get GameOption Details
+      get "question/option/:id/details" => "questions#option_details"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
