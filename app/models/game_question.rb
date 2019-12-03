@@ -131,7 +131,8 @@ class GameQuestion < ApplicationRecord
 
   # Proportion
   def get_proportion_question_details
-    Api::V1::PracticeQuestions::ProportionQuestionSerializer.new(self).as_json[:proportion_question]
+    Api::V1::PracticeQuestions::ProportionQuestionSerializer.new(self).as_json[:proportion_question] if parent_question
+    Api::V1::PracticeQuestions::ProportionSectionSerializer.new(self).as_json[:proportion_section]
   end
 
   # Purchasing
@@ -141,7 +142,8 @@ class GameQuestion < ApplicationRecord
 
   # Refinement
   def get_refinement_question_details
-    Api::V1::PracticeQuestions::RefinementQuestionSerializer.new(self).as_json[:refinement_question]
+    return Api::V1::PracticeQuestions::RefinementBlockSerializer.new(self).as_json[:refinement_block] if parent_question
+    return Api::V1::PracticeQuestions::RefinementQuestionSerializer.new(self).as_json[:refinement_question]
   end
 
   # Tipping
