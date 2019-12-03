@@ -24,7 +24,10 @@ class GameQuestion < ApplicationRecord
     gr_list = game_options_list.group_by { |d| d[:option_index] }
     new_list = []
     gr_list.each do |key,value|
-      new_list << { title: value[0][:title], type: value[0][:value_type], faces: value}
+      new_list << { title: value[0][:title],
+        type: value[0][:value_type],
+        _type: "sector,math,text",
+        faces: value}
     end
     return new_list
   end
