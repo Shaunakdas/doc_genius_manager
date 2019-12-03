@@ -46,7 +46,7 @@ class GameOption < ApplicationRecord
     return nil if (game_question.nil? || game_question.linked_game_holder.nil?)
     case game_question.linked_game_holder.game.slug
     when "agility"
-      return get_agility_questions
+      return get_agility_option_details
     when "conversion"
       return get_conversion_option_details
     when "diction"
