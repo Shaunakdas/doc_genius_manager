@@ -43,8 +43,8 @@ class GameOption < ApplicationRecord
   end
 
   def details
-    return nil if (game_question.nil? || game_question.game_holder.nil?)
-    case game_question.game_holder.game.slug
+    return nil if (game_question.nil? || game_question.linked_game_holder.nil?)
+    case game_question.linked_game_holder.game.slug
     when "agility"
       return get_agility_questions
     when "conversion"
