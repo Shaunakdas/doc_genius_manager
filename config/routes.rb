@@ -50,6 +50,10 @@ Rails.application.routes.draw do
       # Streamwise Questions Req: ( AuthToken)
       get "question_types/all" => "standards#streamwise_questions"
 
+      # Chapters
+      # Get Chapters List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
+      get "chapters" => "chapters#index"
+
       # resources :standards  do 
       #   collection do
       #   end

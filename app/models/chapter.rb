@@ -19,4 +19,22 @@ class Chapter < AcadEntity
       g.update_attributes(acad_entity: nil)
     end
   end
+
+  def self.list(list_params)
+    chapter_list = Chapter.all
+    if list_params["standard_id"]
+      chapter_list = Chapter.where(standard_id: list_params["standard_id"]).order('sequence_standard ASC')
+    elsif list_params["search"]
+      query = list_params["search"]
+      chapter_list = Chapter.search(list_params[:search]).order('created_at DESC')
+    elsif list_params["slug"]
+      query = list_params["slug"]
+      chapter_list = Chapter.search_slug(list_params[:slug]).order('created_at DESC')
+    end
+    total_count = chapter_list.count
+    page_num = (list_params.has_key?("page"))? (list_params["page"].to_i-1):(0)
+    limit = (list_params.has_key?("limit"))? (list_params["limit"].to_i):(10)
+    chapter_list = chapter_list.drop(page_num * limit).first(limit)
+    list_response = {result: chapter_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
+  end
 end
