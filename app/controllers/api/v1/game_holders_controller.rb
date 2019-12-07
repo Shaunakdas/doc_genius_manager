@@ -1,11 +1,11 @@
 class Api::V1::GameHoldersController < Api::V1::ApiController
   # before_action :authenticate_request!, :only => [ :homepage, :details, :result ]
   respond_to :json
-  # # GET /api/v1/games
-  # def index
-  #   list_response = Standard.list(params)
-  #   respond_with list_response[:result], each_serializer: Api::V1::StandardOptionSerializer, meta: list_response.except!(:result), location: '/standard'
-  # end
+  # GET /api/v1/games
+  def index
+    list_response = GameHolder.list(params)
+    respond_with list_response[:result], each_serializer: Api::V1::GameHolderSerializer, meta: list_response.except!(:result), location: '/game_holder'
+  end
 
   # GET /api/v1/game/:id/details
   # shows one standard (based on the supplied id) 

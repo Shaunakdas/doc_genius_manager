@@ -54,7 +54,7 @@ module Api::V1
     end
 
     def sub_title
-      object.acad_entity.chapter.name
+      object.acad_entity.chapter.name if object.acad_entity
     end
 
     def score_algo

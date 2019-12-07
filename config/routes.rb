@@ -96,6 +96,8 @@ Rails.application.routes.draw do
       get "game_session/:id" => "game_sessions#details"
 
       # Game Holder
+      # Get Game Holders List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
+      get "games" => "game_holders#index"
       # Get GameHolder Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
       get "game/:id/details" => "game_holders#details"
       # Post Result of GameHolder attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)

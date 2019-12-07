@@ -24,6 +24,27 @@ class GameHolder < ApplicationRecord
     where('slug LIKE :search', search: "#{search}")
   end
 
+
+
+  def self.list(list_params)
+    game_holder_list = GameHolder.all
+    if list_params["chapter_id"]
+      chapter = Chapter.find(list_params["chapter_id"])
+      game_holder_list = chapter.practice_game_holders
+    elsif list_params["search"]
+      query = list_params["search"]
+      game_holder_list = GameHolder.search(list_params[:search]).order('created_at DESC')
+    elsif list_params["slug"]
+      query = list_params["slug"]
+      game_holder_list = GameHolder.search_slug(list_params[:slug]).order('created_at DESC')
+    end
+    total_count = game_holder_list.count
+    page_num = (list_params.has_key?("page"))? (list_params["page"].to_i-1):(0)
+    limit = (list_params.has_key?("limit"))? (list_params["limit"].to_i):(10)
+    game_holder_list = game_holder_list.drop(page_num * limit).first(limit)
+    list_response = {result: game_holder_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
+  end
+  
   def acad_entities
     [ question_type,
       question_type.sub_topic,
