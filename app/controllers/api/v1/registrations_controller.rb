@@ -59,7 +59,7 @@ module Api::V1
           error_response("Invalid Username/Password", :unauthorized) 
         end
       else
-        error_response("Couldn't find User with 'email'=#{params[:email]}", :not_found) 
+        error_response("Couldn't find User with 'email'=#{params[:email]}", :ok) 
       end
     end
     
