@@ -50,6 +50,11 @@ class GameQuestion < ApplicationRecord
     return parent_question.game_holder if !parent_question.nil?
   end
 
+  def game_details
+    return nil if linked_game_holder.nil?
+    return Api::V1::PracticeQuestions::GameHolderDetailSerializer.new(linked_game_holder).as_json[:game_holder_detail]
+  end
+
   def details
     return nil if linked_game_holder.nil?
     case linked_game_holder.game.slug
@@ -159,6 +164,7 @@ class GameQuestion < ApplicationRecord
   def update_content(params)
     if question
       question_params = {}
+      params = remove_question_fields(params)
       attribute_mapping.each do | game_question_key, question_key  |
         question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
       end
@@ -166,6 +172,11 @@ class GameQuestion < ApplicationRecord
       return question
     end
     return nil
+  end
+
+  def remove_question_fields params
+    return params if params['question'].nil? || (params['question'].is_a? (String))
+    return params.delete('question') if params['question'].is_a? ActionController::Parameters
   end
 
   def attribute_mapping
