@@ -60,5 +60,15 @@ module Api::V1
         error_response("No option id is present") 
       end
     end
+
+    # GET /api/v1/question/:game_id/structure
+    def structure
+      begin
+        game_holder = GameHolder.find(params[:game_id])
+        render json: Question.structure(game_holder.game)
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :not_found) 
+      end
+    end
   end
 end

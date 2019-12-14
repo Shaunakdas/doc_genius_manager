@@ -86,6 +86,8 @@ Rails.application.routes.draw do
       get "question/:id/details" => "questions#details"
       # Get GameOption Details
       get "question/option/:id/details" => "questions#option_details"
+      # GET /api/v1/question/:game_id/structure
+      get "question/:game_id/structure" => "questions#structure"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
