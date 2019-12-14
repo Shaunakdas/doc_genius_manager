@@ -86,10 +86,12 @@ Rails.application.routes.draw do
       get "question/:id/details" => "questions#details"
       # Get GameOption Details
       get "question/option/:id/details" => "questions#option_details"
-      # GET /api/v1/question/:game_id/structure
+      # GET Question Structure
       get "question/:game_id/structure" => "questions#structure"
-      # POST /api/v1/question/:game_id/create
+      # POST Create question for a game
       post "question/:game_id/create" => "questions#create"
+      # POST Create option for a question
+      post "question/:game_question_id/option" => "questions#create_option"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
