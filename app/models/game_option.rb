@@ -15,31 +15,13 @@ class GameOption < ApplicationRecord
   def update_content(params)
     if option
       option_params = {}
-      attribute_mapping.each do | game_option_key, option_key  |
+      Option.attribute_mapping.each do | game_option_key, option_key  |
         option_params[option_key] = params[game_option_key] if !params[game_option_key].nil?
       end
       option.update_attributes(option_params)
       return option
     end
     return nil
-  end
-
-  def attribute_mapping
-    {
-      type: "value_type",
-      display: "display",
-      answer: "display",
-      correct: "correct",
-      index: "display_index",
-      tips: "tip",
-      value: "value",
-      upper: "upper",
-      lower: "lower",
-      sequence: "sequence",
-      after_attempt: "after_attempt",
-      hint: "hint",
-      title: "title"
-    }
   end
 
   def details

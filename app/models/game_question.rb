@@ -164,35 +164,13 @@ class GameQuestion < ApplicationRecord
   def update_content(params)
     if question
       question_params = {}
-      params = remove_question_fields(params)
-      attribute_mapping.each do | game_question_key, question_key  |
+      params = Question.remove_question_fields(params)
+      Question.attribute_mapping.each do | game_question_key, question_key  |
         question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
       end
       question.update_attributes(question_params)
       return question
     end
     return nil
-  end
-
-  def remove_question_fields params
-    return params if params['question'].nil? || (params['question'].is_a? (String))
-    return params.delete('question') if params['question'].is_a? ActionController::Parameters
-  end
-
-  def attribute_mapping
-    {
-      mode: "mode",
-      setup: "setup",
-      title: "title",
-      question: "display",
-      answer: "solution",
-      tips: "tip",
-      tip: "tip",
-      type: "value_type",
-      section_question: "title",
-      steps: "steps",
-      hint: "hint",
-      bubble: "title",
-    }
   end
 end
