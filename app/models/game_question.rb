@@ -173,4 +173,29 @@ class GameQuestion < ApplicationRecord
     end
     return nil
   end
+
+  def self.create_complete_question(game_holder, params)
+    question_params = params.except('options')
+    question = GameQuestion.create_content(params)
+    raise ArgumentError.new("Question couldn't be created") if question.nil?
+    game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+    raise ArgumentError.new("GameQuestion couldn't be created") if game_question.nil?
+    
+    params["options"].each do |option_params|
+      game_option = GameOption.create_content(game_question, option_params)
+      raise ArgumentError.new("GameOption couldn't be created") if game_option.nil?
+    end
+    return game_question
+  end
+
+  def self.create_content(params)
+    question_params = {}
+    params = Question.remove_question_fields(params)
+    Question.attribute_mapping.each do | game_question_key, question_key  |
+      question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
+    end
+    question = Question.new(question_params)
+    return question if question.save!
+    return nil
+  end
 end

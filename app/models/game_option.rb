@@ -24,6 +24,18 @@ class GameOption < ApplicationRecord
     return nil
   end
 
+  def self.create_content(game_question, params)
+    option_params = {}
+    Option.attribute_mapping.each do | game_option_key, option_key  |
+      option_params[option_key] = params[game_option_key] if !params[game_option_key].nil?
+    end
+    option = Option.new(option_params)
+    option.save!
+    game_option = GameOption.create!(option: option, game_question: game_question) if option
+    return game_option if game_option
+    return nil
+  end
+
   def details
     return nil if (game_question.nil? || game_question.linked_game_holder.nil?)
     case game_question.linked_game_holder.game.slug

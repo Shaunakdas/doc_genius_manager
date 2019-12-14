@@ -1,5 +1,5 @@
 module Api::V1
-  class QuestionsController < ApplicationController
+  class QuestionsController < ApiController
     before_action :authenticate_request!, :only => [ :show ]
     respond_to :json
 
@@ -68,6 +68,21 @@ module Api::V1
         render json: Question.structure(game_holder.game)
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :not_found) 
+      end
+    end
+
+    # POST /api/v1/question/:game_id/create
+    def create
+      begin
+        game_holder = GameHolder.find(params[:game_id])
+        game_question = GameQuestion.create_complete_question(game_holder,params)
+        render json: game_question.details
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :not_found)
+      rescue Exception => error
+        error_response("Couldn't create question because of error: #{error}", :not_found) 
       end
     end
   end
