@@ -41,10 +41,8 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      hint: {
-          question: "string",
-          solution: "string"
-      },
+      hint: "string",
+      solution: "string",
       answer: "bool"
     }
   end
@@ -108,9 +106,7 @@ module GameStructure
       tips: "string",
       hint: "string",
       answer: "string",
-      numpad: [
-          "string"
-      ]
+      numpad: "csv"
     }
   end
 
@@ -144,8 +140,8 @@ module GameStructure
       entity_type: "game_question",
       question: "string",
       hint: "string",
-      mode: "string",
-      _mode: "string",
+      mode: "dropdown",
+      _mode: "army,fruit,education,distance,counting,age,food,time,money,petrol",
       title: "string",
       options: [
           {
