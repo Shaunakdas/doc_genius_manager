@@ -4,7 +4,7 @@ namespace :db do
   task :dump => :environment do
       cmd = nil
       with_config do |app, host, db, user|
-          cmd = "pg_dump -F c -v -h #{host} -U #{user} -d #{db} -f #{Rails.root}/db/backups/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{db}.psql"
+          cmd = "pg_dump -F c -v #{host} -U #{user} -d #{db} -f #{Rails.root}/db/backups/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{db}.psql"
       end
       puts cmd
       exec cmd
