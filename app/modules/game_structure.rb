@@ -41,7 +41,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      hint: "string",
+      hint_content: "string",
       solution: "string",
       answer: "bool"
     }
