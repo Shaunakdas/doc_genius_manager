@@ -104,7 +104,7 @@ module GameStructure
       entity_type: "game_question",
       question: "string",
       tips: "string",
-      hint: "string",
+      hint_content: "string",
       answer: "string",
       numpad: "csv"
     }

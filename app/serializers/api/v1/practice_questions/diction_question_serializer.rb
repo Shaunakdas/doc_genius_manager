@@ -13,10 +13,6 @@ module Api::V1::PracticeQuestions
       }
     end
 
-    def hint_content
-      object.question.hint
-    end
-
     def solution
       object.question.solution
     end
