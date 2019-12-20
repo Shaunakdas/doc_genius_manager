@@ -12,9 +12,5 @@ module Api::V1::PracticeQuestions
         solution: object.question.solution
       }
     end
-
-    def solution
-      object.question.solution
-    end
   end
 end

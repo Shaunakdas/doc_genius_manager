@@ -4,7 +4,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      hint: "string",
+      solution: "string",
       options: [
         {
           entity_type: "game_question",
@@ -23,7 +23,7 @@ module GameStructure
       _mode: "string",
       question: "string",
       answer: "string",
-      hint: "string",
+      solution: "string",
       options: [
         {
             entity_type: "game_option",
@@ -51,7 +51,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      hint: "string",
+      solution: "string",
       options: [
         {
             entity_type: "game_option",
@@ -72,7 +72,7 @@ module GameStructure
       _mode: "string",
       question: "string",
       answer: "string",
-      hint: "string",
+      hint_content: "string",
       options: [
           {
               entity_type: "game_option",
@@ -89,7 +89,7 @@ module GameStructure
   def inversion_structure
     {
       entity_type: "game_question",
-      hint: "string",
+      solution: "string",
       option_refs: [
           {
               entity_type: "game_option",
@@ -122,7 +122,7 @@ module GameStructure
             faces: [
               {
                   display: "string",
-                  hint: "string",
+                  solution: "string",
                   title: "string",
                   value_type: "string",
                   key: "sequence",
@@ -139,7 +139,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      hint: "string",
+      hint_content: "string",
       mode: "dropdown",
       _mode: "army,fruit,education,distance,counting,age,food,time,money,petrol",
       title: "string",
@@ -163,7 +163,7 @@ module GameStructure
           question: "string",
           section_question: "string",
           time: "positive_integer",
-          hint: "string",
+          solution: "string",
           options: [
             {
                 entity_type: "game_option",
@@ -186,7 +186,7 @@ module GameStructure
               question: "string",
               section_question: "string",
               time: "positive_integer",
-              hint: "string",
+              hint_content: "string",
               options: [
                   {
                       entity_type: "game_option",

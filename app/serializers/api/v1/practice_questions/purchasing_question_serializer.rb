@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PurchasingQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :hint, :mode, :_mode, :title, :options
+    attributes :id, :question, :hint, :hint_content, :mode, :_mode, :title, :options
 
     def options
       ActiveModel::ArraySerializer.new(object.game_options, each_serializer: PurchasingOptionSerializer)

@@ -21,7 +21,6 @@ class Question < ApplicationRecord
       type: "value_type",
       section_question: "title",
       steps: "steps",
-      hint: "solution",
       hint_content: "hint",
       solution: "solution",
       bubble: "title",
