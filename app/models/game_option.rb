@@ -139,4 +139,35 @@ class GameOption < ApplicationRecord
   def get_dragonbox_option_details
     Api::V1::PracticeQuestions::DragonboxOptionSerializer.new(self).as_json[:dragonbox_option]
   end
+
+  def self.create_game_option game_question,params
+    GameOption.create_specific_options(game_question, params)
+    if params["options"]
+      params["options"].each do |option_params|
+        game_option = GameOption.create_content(game_question, option_params)
+        raise ArgumentError.new("GameOption couldn't be created") if game_option.nil?
+      end
+    end
+  end
+
+
+
+  # For creating game speicifc options
+  def self.create_specific_options(game_question, params)
+    return nil if game_question.game_holder.nil?
+    case game_question.game_holder.game.slug
+    when "diction"
+      return self.create_diction_options(game_question, params)
+    else
+      return nil
+    end
+  end
+
+  def self.create_diction_options(game_question, params)
+    if params["answer"]
+      option_params = {correct: params["answer"]}
+      game_option = GameOption.create_content(game_question, option_params)
+      raise ArgumentError.new("GameOption couldn't be created") if game_option.nil?
+    end
+  end
 end

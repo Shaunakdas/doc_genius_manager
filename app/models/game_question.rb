@@ -175,18 +175,22 @@ class GameQuestion < ApplicationRecord
   end
 
   def self.create_complete_question(game_holder, params)
-    question_params = params.except('options')
+    parent_game_question = GameQuestion.create_game_question(params, game_holder)
+    if params["blocks"]
+      params["blocks"].each do |block_params|
+        game_question = GameQuestion.create_game_question(block_params, nil)
+        game_question.update_attributes!(parent_question: parent_game_question)
+        raise ArgumentError.new("Game Question couldn't be created") if game_question.nil?
+      end
+    end
+    return parent_game_question
+  end
+
+  def self.create_game_question params, game_holder
     question = GameQuestion.create_content(params)
     raise ArgumentError.new("Question couldn't be created") if question.nil?
     game_question = GameQuestion.create!(question: question, game_holder: game_holder)
-    raise ArgumentError.new("GameQuestion couldn't be created") if game_question.nil?
-    GameQuestion.create_specific_options(game_question, params)
-    if params["options"]
-      params["options"].each do |option_params|
-        game_option = GameOption.create_content(game_question, option_params)
-        raise ArgumentError.new("GameOption couldn't be created") if game_option.nil?
-      end
-    end
+    GameOption.create_game_option(game_question,params)
     return game_question
   end
 
@@ -199,23 +203,5 @@ class GameQuestion < ApplicationRecord
     question = Question.new(question_params)
     return question if question.save!
     return nil
-  end
-
-  # For creating game speicifc options
-  def self.create_specific_options(game_question, params)
-    case game_question.game_holder.game.slug
-    when "diction"
-      return self.create_diction_options(game_question, params)
-    else
-      return nil
-    end
-  end
-
-  def self.create_diction_options(game_question, params)
-    if params["answer"]
-      option_params = {correct: params["answer"]}
-      game_option = GameOption.create_content(game_question, option_params)
-      raise ArgumentError.new("GameOption couldn't be created") if game_option.nil?
-    end
   end
 end
