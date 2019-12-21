@@ -28,33 +28,6 @@ class Question < ApplicationRecord
   end
 
   def self.structure game
-    case game.slug
-    when "agility"
-      GameStructure.agility_structure
-    when "conversion"
-      GameStructure.conversion_structure
-    when "diction"
-      GameStructure.diction_structure
-    when "discounting"
-      GameStructure.discounting_structure
-    when "division"
-      GameStructure.division_structure
-    when "estimation"
-      GameStructure.estimation_structure
-    when "inversion"
-      GameStructure.inversion_structure
-    when "percentages"
-      GameStructure.percentages_structure
-    when "proportion"
-      GameStructure.proportion_structure
-    when "purchasing"
-      GameStructure.purchasing_structure
-    when "refinement"
-      GameStructure.refinement_structure
-    when "tipping"
-      GameStructure.tipping_structure
-    else
-      GameStructure.agility_structure
-    end
+    GameStructure.parent_question_structure(game.slug)
   end
 end
