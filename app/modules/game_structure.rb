@@ -1,6 +1,20 @@
 module GameStructure
   extend self
 
+  def generic_question_fields game_holder
+    return GameStructure.parent_question_fields(game_holder.game.slug).map &:to_s if game_holder
+    return GameStructure.question_fields(game_holder.game.slug).map &:to_s
+  end
+
+  def generic_question_required_fields game_holder
+    return GameStructure.parent_question_structure(game_holder.game.slug)[:_required_fields].split(",") if game_holder
+    return GameStructure.question_structure(game_holder.game.slug)[:_required_fields].split(",")
+  end
+
+  def option_required_fields game_holder
+    return GameStructure.option_structure(game_holder.game.slug)[:_required_fields].split(",")
+  end
+
   # Get Allowed Keys in parent question
   def parent_question_fields game
     parent_question_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if parent_question_structure(game)

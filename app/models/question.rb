@@ -27,6 +27,31 @@ class Question < ApplicationRecord
     }
   end
 
+  def self.create_content(params, game_holder)
+    question_params = {}
+    params = Question.remove_question_fields(params)
+    params = Question.create_validations(params, game_holder)
+    Question.attribute_mapping.each do | game_question_key, question_key  |
+      question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
+    end
+    question = Question.new(question_params)
+    return question if question.save!
+    return nil
+  end
+
+  def self.create_validations(params, game_holder)
+    required_fields = GameStructure.generic_question_required_fields(game_holder)
+    if required_fields.all? {|k| params.has_key? k}
+      return params.permit(GameStructure.generic_question_fields(game_holder))
+    else
+      missing_fields = []
+      required_fields.each do |field|
+        missing_fields << field if !params.has_key?(field)
+      end
+      raise ArgumentError.new("Some parameters are missing: #{missing_fields.join(', ')}")
+    end
+  end
+
   def self.structure game
     GameStructure.parent_question_structure(game.slug)
   end
