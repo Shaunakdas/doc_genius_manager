@@ -164,6 +164,8 @@ class GameQuestion < ApplicationRecord
   def update_content(params)
     if question
       question_params = {}
+      # Special provision as diction answer comes as its option
+      diction_question_update_check(params)
       params = Question.remove_question_fields(params)
       Question.attribute_mapping.each do | game_question_key, question_key  |
         question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
@@ -192,5 +194,13 @@ class GameQuestion < ApplicationRecord
     game_question = GameQuestion.create!(question: question, game_holder: game_holder)
     GameOption.create_game_option(game_question,params)
     return game_question
+  end
+
+  def diction_question_update_check(params)
+    if linked_game_holder.game.slug == "diction"
+      if params.has_key?("answer")
+        game_options.first.option.update_attributes(correct: params["answer"]) if game_options.count > 0
+      end
+    end
   end
 end
