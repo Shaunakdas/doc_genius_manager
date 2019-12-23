@@ -40,9 +40,9 @@ class Question < ApplicationRecord
   end
 
   def self.create_validations(params, game_holder)
-    required_fields = GameStructure.generic_question_required_fields(game_holder)
+    required_fields = GameStructure.generic_question_required_fields(game_holder.game.slug)
     if required_fields.all? {|k| params.has_key? k}
-      return params.permit(GameStructure.generic_question_fields(game_holder))
+      return params.permit(GameStructure.generic_question_fields(game_holder.game.slug))
     else
       missing_fields = []
       required_fields.each do |field|

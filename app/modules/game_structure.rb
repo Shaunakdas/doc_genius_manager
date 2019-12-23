@@ -1,18 +1,19 @@
 module GameStructure
   extend self
 
-  def generic_question_fields game_holder
-    return GameStructure.parent_question_fields(game_holder.game.slug).map &:to_s if game_holder
-    return GameStructure.question_fields(game_holder.game.slug).map &:to_s
+  def generic_question_fields game_slug
+    return GameStructure.parent_question_fields(game_slug).map &:to_s if game_slug
+    return GameStructure.question_fields(game_slug).map &:to_s
   end
 
-  def generic_question_required_fields game_holder
-    return GameStructure.parent_question_structure(game_holder.game.slug)[:_required_fields].split(",") if game_holder
-    return GameStructure.question_structure(game_holder.game.slug)[:_required_fields].split(",")
+  def generic_question_required_fields game_slug
+    return GameStructure.parent_question_structure(game_slug)[:_required_fields].split(",") if game_slug
+    return GameStructure.question_structure(game_slug)[:_required_fields].split(",")
   end
 
-  def option_required_fields game_holder
-    return GameStructure.option_structure(game_holder.game.slug)[:_required_fields].split(",")
+  def option_required_fields game_slug
+    return GameStructure.option_structure(game_slug)[:_required_fields].split(",") if GameStructure.option_structure(game_slug)
+    return []
   end
 
   # Get Allowed Keys in parent question
@@ -137,7 +138,8 @@ module GameStructure
   def division_structure
     {
       entity_type: "game_question",
-      mode: "string",
+      mode: "dropdown",
+      _mode: "addition_roman_left,addition_roman_right,multiplication_long,multiple_addition,addition_algebra,multiplication_factor_exponent",
       question: "string",
       answer: "string",
       hint_content: "string",
