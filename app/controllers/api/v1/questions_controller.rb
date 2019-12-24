@@ -17,12 +17,16 @@ module Api::V1
           default
             entity = HintContent.find(params[:id])
           end
-          entity.update_content(params) if !entity.nil?
+          ActiveRecord::Base.transaction do
+            entity.update_content(params) if !entity.nil?
+          end
           render json: entity.details
         rescue ActiveRecord::RecordNotFound
           error_response("Couldn't find #{params[:entity_type]} with 'id'=#{params[:id]}", :not_found) 
         rescue ActiveRecord::RecordInvalid => invalid
           error_response(entity.errors.full_messages[0], :unprocessable_entity) 
+        rescue Exception => error
+          error_response("Couldn't create question because of error: #{error}", :not_found) 
         end
       else
         error_response("No entity_id is present") 
@@ -75,7 +79,9 @@ module Api::V1
     def create
       begin
         game_holder = GameHolder.find(params[:game_id])
-        game_question = GameQuestion.create_complete_question(game_holder,params)
+        ActiveRecord::Base.transaction do
+          game_question = GameQuestion.create_complete_question(game_holder,params)
+        end
         render json: game_question.details
       rescue ActiveRecord::RecordInvalid => invalid
         error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
@@ -90,7 +96,9 @@ module Api::V1
     def create_option
       begin
         game_question = GameQuestion.find(params[:game_question_id])
-        game_option = GameOption.create_content(game_question, params)
+        ActiveRecord::Base.transaction do
+          game_option = GameOption.create_content(game_question, params)
+        end
         render json: game_option.details
       rescue ActiveRecord::RecordInvalid => invalid
         error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
