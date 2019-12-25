@@ -1,6 +1,10 @@
 module Api::V1::PracticeQuestions
   class PracticeQuestionSerializer < ActiveModel::Serializer
-    attributes :id, :entity_type
+    attributes :id, :entity_type, :is_parent_question
+
+    def is_parent_question
+      object.sub_questions.length > 0
+    end
 
     def entity_type
       "game_question"
