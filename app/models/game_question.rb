@@ -17,8 +17,10 @@ class GameQuestion < ApplicationRecord
         option_i = option_i +1
         game_options_list  << g_o.option.slice(:id, :display, :hint, :title, :value_type)
         game_options_list.last[:key] = sub_question_id_list.index(g_o.game_question.id)+1
+        game_options_list.last[:_key] =  "sequence,1,2,3,4,5,6"
         game_options_list.last[:value] = g_o.option.display
         game_options_list.last[:option_index] = option_i
+        game_options_list.last[:_option_index] =  "sequence,1,2,3,4,5,6"
       end
     end
     gr_list = game_options_list.group_by { |d| d[:option_index] }
@@ -26,7 +28,7 @@ class GameQuestion < ApplicationRecord
     gr_list.each do |key,value|
       new_list << { title: value[0][:title],
         type: value[0][:value_type],
-        _type: "sector,math,text",
+        _type: "dropdown,sector,math,text",
         faces: value}
     end
     return new_list

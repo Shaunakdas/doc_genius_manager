@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class DictionQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :hint, :answer, :hint_content, :solution
+    attributes :id, :question, :hint, :answer, :_answer, :hint_content, :solution
 
     def answer
       object.game_options.first.option.correct if object.game_options.count > 0

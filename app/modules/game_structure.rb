@@ -78,6 +78,7 @@ module GameStructure
           entity_type: "game_question",
           answer: "string",
           correct: "bool",
+          _correct: "bool",
           _required_fields: "answer,correct"
         }
       ],
@@ -95,7 +96,8 @@ module GameStructure
             entity_type: "game_option",
             upper: "string",
             lower: "string",
-            sequence: "string",
+            sequence: "sequence",
+            _sequence: "sequence,1,2,3,4,5,6",
             _required_fields: "upper,sequence"
         }
       ],
@@ -111,6 +113,7 @@ module GameStructure
       hint_content: "string",
       solution: "string",
       answer: "bool",
+      _answer: "bool",
       _required_fields: "question,hint_content,solution,answer"
     }
   end
@@ -127,6 +130,7 @@ module GameStructure
             lower: "string",
             attempted: "string",
             sequence: "sequence",
+            _sequence: "sequence,1,2,3,4,5,6",
             _required_fields: "upper,attempted,sequence"
         }
       ],
@@ -139,14 +143,15 @@ module GameStructure
     {
       entity_type: "game_question",
       mode: "dropdown",
-      _mode: "addition_roman_left,addition_roman_right,multiplication_long,multiple_addition,addition_algebra,multiplication_factor_exponent",
+      _mode: "dropdown,addition_roman_left,addition_roman_right,multiplication_long,multiple_addition,addition_algebra,multiplication_factor_exponent",
       question: "string",
       answer: "string",
       hint_content: "string",
       options: [
           {
               entity_type: "game_option",
-              type: "string",
+              type: "dropdown",
+              _type: "dropdown,int,math",
               display: "string",
               value: "string",
               _required_fields: "type,display,value"
@@ -165,7 +170,6 @@ module GameStructure
         {
             entity_type: "game_option",
             display: "string",
-            powerup: "bool",
             _required_fields: "string"
         }
       ],
@@ -180,7 +184,6 @@ module GameStructure
       tips: "string",
       hint_content: "string",
       answer: "string",
-      numpad: "csv",
       _required_fields: "question,answer"
     }
   end
@@ -193,7 +196,7 @@ module GameStructure
         {
             title: "string",
             type: "dropdown",
-            _type: "sector,math,text",
+            _type: "dropdown,sector,math,text",
             _required_fields: "type",
             faces: [
               {
@@ -202,8 +205,10 @@ module GameStructure
                   title: "string",
                   value_type: "string",
                   key: "sequence",
+                  _key: "sequence,1,2,3,4,5,6",
                   value: "string",
                   option_index: "sequence",
+                  _option_index: "sequence,1,2,3,4,5,6",
                   _required_fields: "display,solution,title,value_type,key,value,option_index",
               }
             ]
@@ -218,7 +223,7 @@ module GameStructure
       question: "string",
       hint_content: "string",
       mode: "dropdown",
-      _mode: "army,fruit,education,distance,counting,age,food,time,money,petrol",
+      _mode: "dropdown,army,fruit,education,distance,counting,age,food,time,money,petrol",
       title: "string",
       _required_fields: "question,mode,title",
       options: [
@@ -226,6 +231,7 @@ module GameStructure
               entity_type: "game_option",
               answer: "string",
               correct: "bool",
+              _correct: "bool",
               _required_fields: "answer,correct",
           }
         ]
@@ -243,6 +249,7 @@ module GameStructure
           question: "string",
           section_question: "string",
           time: "positive_integer",
+          _time: "positive_integer",
           solution: "string",
           _required_fields: "question,section_question,time",
           options: [
@@ -250,6 +257,7 @@ module GameStructure
                 entity_type: "game_option",
                 answer: "string",
                 correct: "bool",
+                _correct: "bool",
                 _required_fields: "answer,correct",
             }
           ]
@@ -269,12 +277,14 @@ module GameStructure
           tip: "string",
           hint_content: "string",
           correct_option_count: "positive_integer",
+          _correct_option_count: "positive_integer",
           _required_fields: "bubble,question,correct_option_count",
           options: [
             {
                 entity_type: "game_option",
                 answer: "string",
                 correct: "bool",
+                _correct: "bool",
                 _required_fields: "answer,correct"
             }
           ]

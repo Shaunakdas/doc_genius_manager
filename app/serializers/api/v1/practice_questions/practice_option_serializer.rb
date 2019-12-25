@@ -22,6 +22,10 @@ module Api::V1::PracticeQuestions
       object.option.correct
     end
 
+    def _correct
+      "bool"
+    end
+
     def index
       object.option.display_index
     end
@@ -44,6 +48,10 @@ module Api::V1::PracticeQuestions
 
     def sequence
       object.option.sequence
+    end
+
+    def _sequence
+      "sequence,1,2,3,4,5,6"
     end
 
     def after_attempt

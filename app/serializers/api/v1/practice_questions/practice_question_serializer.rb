@@ -9,6 +9,10 @@ module Api::V1::PracticeQuestions
     def mode
       object.question.mode
     end
+
+    def _mode
+      "dropdown"
+    end
     
     def setup
       object.question.setup
@@ -24,6 +28,10 @@ module Api::V1::PracticeQuestions
 
     def answer
       object.question.solution
+    end
+
+    def _answer
+      "bool"
     end
 
     def hint_content
@@ -50,8 +58,16 @@ module Api::V1::PracticeQuestions
       4
     end
 
+    def _correct_option_count
+      "positive_integer"
+    end
+
     def type
       object.question.value_type
+    end
+
+    def _type
+      "dropdown,sector,math,text"
     end
 
     def marker_gap

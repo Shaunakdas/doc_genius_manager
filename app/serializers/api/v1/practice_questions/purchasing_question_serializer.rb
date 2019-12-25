@@ -7,7 +7,7 @@ module Api::V1::PracticeQuestions
     end
 
     def _mode
-      "army,fruit,education,distance,counting,age,food,time,money,petrol"
+      "dropdown,army,fruit,education,distance,counting,age,food,time,money,petrol"
     end
   end
 end

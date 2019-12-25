@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class RefinementBlockSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :section_question, :time, :hint, :solution, :options
+    attributes :id, :question, :section_question, :time, :_time, :hint, :solution, :options
 
     def options
       ActiveModel::ArraySerializer.new(object.game_options, each_serializer: RefinementOptionSerializer)
@@ -8,6 +8,10 @@ module Api::V1::PracticeQuestions
 
     def time
       20
+    end
+
+    def _time
+      "positive_integer"
     end
 
     def hint
