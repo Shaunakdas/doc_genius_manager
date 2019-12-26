@@ -1,14 +1,14 @@
 module GameStructure
   extend self
 
-  def generic_question_fields game_slug
-    return GameStructure.parent_question_fields(game_slug).map &:to_s if game_slug
-    return GameStructure.question_fields(game_slug).map &:to_s
+  def generic_question_fields game_holder, is_parent
+    return GameStructure.parent_question_fields(game_holder.game.slug).map &:to_s if is_parent
+    return GameStructure.question_fields(game_holder.game.slug).map &:to_s
   end
 
-  def generic_question_required_fields game_slug
-    return GameStructure.parent_question_structure(game_slug)[:_required_fields].split(",") if game_slug
-    return GameStructure.question_structure(game_slug)[:_required_fields].split(",")
+  def generic_question_required_fields game_holder, is_parent
+    return GameStructure.parent_question_structure(game_holder.game.slug)[:_required_fields].split(",") if is_parent
+    return GameStructure.question_structure(game_holder.game.slug)[:_required_fields].split(",")
   end
 
   def option_required_fields game_slug
@@ -18,23 +18,24 @@ module GameStructure
 
   # Get Allowed Keys in parent question
   def parent_question_fields game
-    parent_question_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if parent_question_structure(game)
+    return parent_question_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if parent_question_structure(game)
   end
   def question_fields game
-    question_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if question_structure(game)
+    return question_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if question_structure(game)
   end
 
   def option_fields game
-    option_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if option_structure(game)
+    return option_structure(game).keys.select{ |item| !item.to_s.start_with?('_') } if option_structure(game)
   end
 
   # Get structure of different acad entity
   def option_structure game
-    parent_question_structure(game)[:options].first if parent_question_structure(game) && parent_question_structure(game)[:options]
+    return parent_question_structure(game)[:options].first if parent_question_structure(game) && parent_question_structure(game)[:options]
+    return parent_question_structure(game)[:blocks].first[:options].first if parent_question_structure(game)[:blocks].first && parent_question_structure(game)[:blocks].first[:options]
   end
 
   def question_structure game
-    parent_question_structure(game)[:blocks].first if parent_question_structure(game) && parent_question_structure(game)[:blocks]
+    return parent_question_structure(game)[:blocks].first if parent_question_structure(game) && parent_question_structure(game)[:blocks]
   end
 
   def parent_question_structure game
@@ -75,7 +76,7 @@ module GameStructure
       solution: "string",
       options: [
         {
-          entity_type: "game_question",
+          entity_type: "game_option",
           answer: "string",
           correct: "bool",
           _correct: "bool",

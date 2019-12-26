@@ -79,6 +79,7 @@ module Api::V1
     def create
       begin
         game_holder = GameHolder.find(params[:game_id])
+        game_question = GameQuestion.last
         ActiveRecord::Base.transaction do
           game_question = GameQuestion.create_complete_question(game_holder,params)
         end

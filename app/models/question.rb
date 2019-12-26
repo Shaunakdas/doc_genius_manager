@@ -27,10 +27,10 @@ class Question < ApplicationRecord
     }
   end
 
-  def self.create_content(params, game_holder)
+  def self.create_content(params, game_holder, is_parent)
     question_params = {}
     params = Question.remove_question_fields(params)
-    params = Question.create_validations(params, game_holder)
+    params = Question.create_validations(params, game_holder, is_parent)
     Question.attribute_mapping.each do | game_question_key, question_key  |
       question_params[question_key] = params[game_question_key] if !params[game_question_key].nil?
     end
@@ -39,10 +39,10 @@ class Question < ApplicationRecord
     return nil
   end
 
-  def self.create_validations(params, game_holder)
-    required_fields = GameStructure.generic_question_required_fields(game_holder.game.slug)
+  def self.create_validations(params, game_holder, is_parent)
+    required_fields = GameStructure.generic_question_required_fields(game_holder, is_parent)
     if required_fields.all? {|k| params.has_key? k}
-      return params.permit(GameStructure.generic_question_fields(game_holder.game.slug))
+      return params.permit(GameStructure.generic_question_fields(game_holder, is_parent))
     else
       missing_fields = []
       required_fields.each do |field|
