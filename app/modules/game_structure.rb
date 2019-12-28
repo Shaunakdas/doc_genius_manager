@@ -74,7 +74,7 @@ module GameStructure
       entity_type: "game_question",
       question: "string",
       solution: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       options: [
         {
           entity_type: "game_option",
@@ -93,7 +93,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       options: [
         {
             entity_type: "game_option",
@@ -117,7 +117,7 @@ module GameStructure
       solution: "string",
       answer: "bool",
       _answer: "bool",
-      _is_parent_question: false,
+      _has_parent_question: false,
       _required_fields: "question,hint_content,solution,answer"
     }
   end
@@ -127,7 +127,7 @@ module GameStructure
       entity_type: "game_question",
       question: "string",
       solution: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       options: [
         {
             entity_type: "game_option",
@@ -152,7 +152,7 @@ module GameStructure
       question: "string",
       answer: "string",
       hint_content: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       options: [
           {
               entity_type: "game_option",
@@ -172,7 +172,7 @@ module GameStructure
     {
       entity_type: "game_question",
       solution: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       option_refs: [
         {
             entity_type: "game_option",
@@ -191,7 +191,7 @@ module GameStructure
       tips: "string",
       hint_content: "string",
       answer: "string",
-      _is_parent_question: false,
+      _has_parent_question: false,
       _required_fields: "question,answer"
     }
   end
@@ -200,12 +200,12 @@ module GameStructure
     {
       
       entity_type: "game_question",
-      _is_parent_question: true,
+      _has_parent_question: false,
       blocks: [
         {
             title: "string",
             type: "dropdown",
-            _is_parent_question: false,
+            _has_parent_question: true,
             _type: "dropdown,sector,math,text",
             _required_fields: "type",
             faces: [
@@ -236,7 +236,7 @@ module GameStructure
       _mode: "dropdown,army,fruit,education,distance,counting,age,food,time,money,petrol",
       title: "string",
       _required_fields: "question,mode,title",
-      _is_parent_question: false,
+      _has_parent_question: false,
       options: [
           {
               entity_type: "game_option",
@@ -254,7 +254,7 @@ module GameStructure
       entity_type: "game_question",
       question: "string",
       _required_fields: "question",
-      _is_parent_question: true,
+      _has_parent_question: false,
       blocks: [
         {
           entity_type: "game_question",
@@ -263,7 +263,7 @@ module GameStructure
           time: "positive_integer",
           _time: "positive_integer",
           solution: "string",
-          _is_parent_question: false,
+          _has_parent_question: true,
           _required_fields: "question,section_question,time",
           options: [
             {
@@ -282,7 +282,7 @@ module GameStructure
   def tipping_structure
     {
       entity_type: "game_question",
-      _is_parent_question: true,
+      _has_parent_question: false,
       sections: [
         {
           entity_type: "game_question",
@@ -291,7 +291,7 @@ module GameStructure
           tip: "string",
           hint_content: "string",
           correct_option_count: "positive_integer",
-          _is_parent_question: false,
+          _has_parent_question: true,
           _correct_option_count: "positive_integer",
           _required_fields: "bubble,question,correct_option_count",
           options: [
