@@ -22,11 +22,11 @@ module Api::V1
           end
           render json: entity.details
         rescue ActiveRecord::RecordNotFound
-          error_response("Couldn't find #{params[:entity_type]} with 'id'=#{params[:id]}", :not_found) 
+          error_response("Couldn't find #{params[:entity_type]} with 'id'=#{params[:id]}", :ok) 
         rescue ActiveRecord::RecordInvalid => invalid
-          error_response(entity.errors.full_messages[0], :unprocessable_entity) 
+          error_response(entity.errors.full_messages[0], :ok) 
         rescue Exception => error
-          error_response("Couldn't create question because of error: #{error}", :not_found) 
+          error_response("Error: #{error}", :ok) 
         end
       else
         error_response("No entity_id is present") 
@@ -40,9 +40,9 @@ module Api::V1
           game_question = GameQuestion.find(params[:id])
           render json: game_question.details
         rescue ActiveRecord::RecordNotFound
-          error_response("Couldn't find game_question with 'id'=#{params[:id]}", :not_found) 
+          error_response("Couldn't find game_question with 'id'=#{params[:id]}", :ok) 
         rescue ActiveRecord::RecordInvalid => invalid
-          error_response(game_question.errors.full_messages[0], :unprocessable_entity) 
+          error_response(game_question.errors.full_messages[0], :ok) 
         end
       else
         error_response("No question id is present") 
@@ -56,9 +56,9 @@ module Api::V1
           game_option = GameOption.find(params[:id])
           render json: game_option.details
         rescue ActiveRecord::RecordNotFound
-          error_response("Couldn't find game_option with 'id'=#{params[:id]}", :not_found) 
+          error_response("Couldn't find game_option with 'id'=#{params[:id]}", :ok) 
         rescue ActiveRecord::RecordInvalid => invalid
-          error_response(game_option.errors.full_messages[0], :unprocessable_entity) 
+          error_response(game_option.errors.full_messages[0], :ok) 
         end
       else
         error_response("No option id is present") 
@@ -71,7 +71,7 @@ module Api::V1
         game_holder = GameHolder.find(params[:game_id])
         render json: Question.structure(game_holder.game)
       rescue ActiveRecord::RecordNotFound
-        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :not_found) 
+        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :ok) 
       end
     end
 
@@ -85,11 +85,11 @@ module Api::V1
         end
         render json: game_question.details
       rescue ActiveRecord::RecordInvalid => invalid
-        error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
+        error_response("Couldn't create question because #{invalid.record.errors}", :ok) 
       rescue ActiveRecord::RecordNotFound
-        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :not_found)
+        error_response("Couldn't find GameHolder with 'id'=#{params[:game_id]}", :ok)
       rescue Exception => error
-        error_response("Couldn't create question because of error: #{error}", :not_found) 
+        error_response("Error: #{error}", :ok) 
       end
     end
 
@@ -103,11 +103,11 @@ module Api::V1
         end
         render json: game_option.details
       rescue ActiveRecord::RecordInvalid => invalid
-        error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
+        error_response("Couldn't create question because #{invalid.record.errors}", :ok) 
       rescue ActiveRecord::RecordNotFound
-        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :not_found)
+        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :ok)
       rescue Exception => error
-        error_response("Couldn't create question because of error: #{error}", :not_found) 
+        error_response("Error: #{error}", :ok) 
       end
     end
 
@@ -121,11 +121,11 @@ module Api::V1
         end
         render json: child_game_question.details
       rescue ActiveRecord::RecordInvalid => invalid
-        error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
+        error_response("Couldn't create question because #{invalid.record.errors}", :ok) 
       rescue ActiveRecord::RecordNotFound
-        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :not_found)
+        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :ok)
       rescue Exception => error
-        error_response("Couldn't create question because of error: #{error}", :not_found) 
+        error_response("Error: #{error}", :ok) 
       end
     end
   end
