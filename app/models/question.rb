@@ -41,14 +41,15 @@ class Question < ApplicationRecord
 
   def self.create_validations(params, game_holder, is_parent)
     required_fields = GameStructure.generic_question_required_fields(game_holder, is_parent)
-    if required_fields.all? {|k| params.has_key? k}
+    return params if required_fields.length == 0 
+    if required_fields.all? {|k| ((params.has_key? k) && (!params[k].nil?) && (params[k] != ""))}
       return params.permit(GameStructure.generic_question_fields(game_holder, is_parent))
     else
       missing_fields = []
-      required_fields.each do |field|
-        missing_fields << field if !params.has_key?(field)
+      required_fields.each do |k|
+        missing_fields << k if !((params.has_key? k) && (!params[k].nil?) && (params[k] != ""))
       end
-      raise ArgumentError.new("Some parameters are missing: #{missing_fields.join(', ')}")
+      raise ArgumentError.new("Question couldn't be created due to missing parameters: #{missing_fields.join(', ')}")
     end
   end
 
