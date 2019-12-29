@@ -33,6 +33,7 @@ class Option < ApplicationRecord
 
   def self.create_validations(params, game_holder)
     required_fields = GameStructure.option_required_fields(game_holder.game.slug)
+    return params if required_fields.length == 0 
     if required_fields.all? {|k| params.has_key? k}
       return params.permit(GameStructure.option_fields(game_holder.game.slug))
     else

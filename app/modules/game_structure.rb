@@ -31,7 +31,8 @@ module GameStructure
   # Get structure of different acad entity
   def option_structure game
     return parent_question_structure(game)[:options].first if parent_question_structure(game) && parent_question_structure(game)[:options]
-    return parent_question_structure(game)[:blocks].first[:options].first if parent_question_structure(game)[:blocks].first && parent_question_structure(game)[:blocks].first[:options]
+    return parent_question_structure(game)[:blocks].first[:options].first if parent_question_structure(game)[:blocks] && parent_question_structure(game)[:blocks].first[:options]
+    return nil
   end
 
   def question_structure game

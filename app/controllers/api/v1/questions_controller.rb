@@ -97,6 +97,7 @@ module Api::V1
     def create_option
       begin
         game_question = GameQuestion.find(params[:game_question_id])
+        game_option = game_question.game_options.last
         ActiveRecord::Base.transaction do
           game_option = GameOption.create_content(game_question, params)
         end
