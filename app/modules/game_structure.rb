@@ -209,7 +209,7 @@ module GameStructure
             _has_parent_question: true,
             _type: "dropdown,sector,math,text",
             _required_fields: "type",
-            faces: [
+            options: [
               {
                   display: "string",
                   solution: "string",
@@ -283,27 +283,21 @@ module GameStructure
   def tipping_structure
     {
       entity_type: "game_question",
+      bubble: "string",
+      question: "string",
+      tip: "string",
+      hint_content: "string",
+      correct_option_count: "positive_integer",
       _has_parent_question: false,
-      sections: [
+      _correct_option_count: "positive_integer",
+      _required_fields: "bubble,question,correct_option_count",
+      options: [
         {
-          entity_type: "game_question",
-          bubble: "string",
-          question: "string",
-          tip: "string",
-          hint_content: "string",
-          correct_option_count: "positive_integer",
-          _has_parent_question: true,
-          _correct_option_count: "positive_integer",
-          _required_fields: "bubble,question,correct_option_count",
-          options: [
-            {
-                entity_type: "game_option",
-                answer: "string",
-                correct: "bool",
-                _correct: "bool",
-                _required_fields: "answer,correct"
-            }
-          ]
+            entity_type: "game_option",
+            answer: "string",
+            correct: "bool",
+            _correct: "bool",
+            _required_fields: "answer,correct"
         }
       ]
     }

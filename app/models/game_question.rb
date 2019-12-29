@@ -29,7 +29,8 @@ class GameQuestion < ApplicationRecord
       new_list << { title: value[0][:title],
         type: value[0][:value_type],
         _type: "dropdown,sector,math,text",
-        faces: value}
+        faces: value,
+        options: value}
     end
     return new_list
   end
