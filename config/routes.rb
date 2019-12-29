@@ -92,6 +92,8 @@ Rails.application.routes.draw do
       post "question/:game_id/create" => "questions#create"
       # POST Create option for a question
       post "question/:game_question_id/option" => "questions#create_option"
+      # POST Create question for a parent_question
+      post "question/:game_question_id/child" => "questions#create_child_question"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)

@@ -178,16 +178,20 @@ class GameQuestion < ApplicationRecord
     return nil
   end
 
+  def create_child_question(params)
+    game_question = GameQuestion.create_game_question(params, linked_game_holder, false)
+    game_question.update_attributes!(parent_question: self)
+    raise ArgumentError.new("Game Question couldn't be created") if game_question.nil?
+    return game_question
+  end
+
   def self.create_complete_question(game_holder, params)
     parent_game_question = GameQuestion.create_game_question(params, game_holder, true)
     if params["blocks"]
       params["blocks"].each do |block_params|
-        game_question = GameQuestion.create_game_question(block_params, game_holder, false)
-        game_question.update_attributes!(parent_question: parent_game_question)
-        raise ArgumentError.new("Game Question couldn't be created") if game_question.nil?
+        parent_game_question.create_child_question(block_params)
       end
     end
-    puts parent_game_question.to_json
     return parent_game_question
   end
 

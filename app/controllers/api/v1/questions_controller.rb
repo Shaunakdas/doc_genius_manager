@@ -109,5 +109,23 @@ module Api::V1
         error_response("Couldn't create question because of error: #{error}", :not_found) 
       end
     end
+
+    # POST /api/v1/question/:game_question_id/child
+    def create_child_question
+      begin
+        parent_game_question = GameQuestion.find(params[:game_question_id])
+        child_game_question = parent_game_question.sub_questions.first
+        ActiveRecord::Base.transaction do
+          child_game_question = parent_game_question.create_child_question(params)
+        end
+        render json: child_game_question.details
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response("Couldn't create question because #{invalid.record.errors}", :not_found) 
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :not_found)
+      rescue Exception => error
+        error_response("Couldn't create question because of error: #{error}", :not_found) 
+      end
+    end
   end
 end
