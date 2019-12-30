@@ -189,7 +189,7 @@ module GameStructure
     {
       entity_type: "game_question",
       question: "string",
-      tips: "string",
+      tip: "string",
       hint_content: "string",
       answer: "string",
       _has_parent_question: false,
@@ -261,8 +261,6 @@ module GameStructure
           entity_type: "game_question",
           question: "string",
           section_question: "string",
-          time: "positive_integer",
-          _time: "positive_integer",
           solution: "string",
           _has_parent_question: true,
           _required_fields: "question,section_question,time",
@@ -287,9 +285,7 @@ module GameStructure
       question: "string",
       tip: "string",
       hint_content: "string",
-      correct_option_count: "positive_integer",
       _has_parent_question: false,
-      _correct_option_count: "positive_integer",
       _required_fields: "bubble,question,correct_option_count",
       options: [
         {

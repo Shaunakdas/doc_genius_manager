@@ -15,6 +15,7 @@ class Option < ApplicationRecord
       lower: "lower",
       sequence: "sequence",
       after_attempt: "after_attempt",
+      attempted: "after_attempt",
       hint: "hint",
       title: "title"
     }

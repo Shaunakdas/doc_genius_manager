@@ -6,7 +6,8 @@ class Question < ApplicationRecord
   include GameStructure
   def self.remove_question_fields params
     return params if params['question'].nil? || (params['question'].is_a? (String))
-    return params.delete('question') if params['question'].is_a? ActionController::Parameters
+    params.delete('question') if params['question'].is_a? ActionController::Parameters
+    return params
   end
 
   def self.attribute_mapping
