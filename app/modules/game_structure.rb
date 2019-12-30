@@ -263,7 +263,7 @@ module GameStructure
           section_question: "string",
           solution: "string",
           _has_parent_question: true,
-          _required_fields: "question,section_question,time",
+          _required_fields: "question,section_question",
           options: [
             {
                 entity_type: "game_option",
