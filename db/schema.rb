@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190905142701) do
+ActiveRecord::Schema.define(version: 20200101094443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(version: 20190905142701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "difficulty_index", default: 0
+    t.integer "delete_status", default: 0
+    t.integer "approval_status", default: 0
     t.index ["game_holder_id"], name: "index_game_questions_on_game_holder_id"
     t.index ["parent_question_id"], name: "index_game_questions_on_parent_question_id"
     t.index ["question_id"], name: "index_game_questions_on_question_id"

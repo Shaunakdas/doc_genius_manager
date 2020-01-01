@@ -5,7 +5,8 @@ class GameQuestion < ApplicationRecord
   belongs_to :parent_question, class_name: "GameQuestion", optional: true
   has_many :game_options, -> { order 'id asc' }
   has_many :game_question_attempts
-
+  enum delete_status: [ :active, :deleted ]
+  enum approval_status: [ :not_approved, :primary_approved, :secondary_approved ]
   has_many :hints, as: :acad_entity
 
   def proportion_blocks
