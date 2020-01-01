@@ -1,9 +1,11 @@
 class GameQuestion < ApplicationRecord
   belongs_to :question
   belongs_to :game_holder, optional: true
-  has_many :sub_questions, -> { order 'id asc' }, class_name: "GameQuestion", foreign_key: "parent_question_id"
+  has_many :sub_questions, -> { where(delete_status: :active).order('id asc') }, class_name: "GameQuestion", foreign_key: "parent_question_id"
+  has_many :all_sub_questions, -> { order 'id asc' }, class_name: "GameQuestion", foreign_key: "parent_question_id"
   belongs_to :parent_question, class_name: "GameQuestion", optional: true
-  has_many :game_options, -> { order 'id asc' }
+  has_many :game_options, -> { where(delete_status: :active).order('id asc') }
+  has_many :all_game_options, -> { order('id asc') }, class_name: "GameOption"
   has_many :game_question_attempts
   enum delete_status: [ :active, :deleted ]
   enum approval_status: [ :not_approved, :primary_approved, :secondary_approved ]

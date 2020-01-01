@@ -111,6 +111,38 @@ module Api::V1
       end
     end
 
+    # DELETE /api/v1/question/:game_question_id/:status
+    def delete_question
+      begin
+        game_question = GameQuestion.find(params[:game_question_id])
+        game_question.update_attributes!(delete_status: params[:status].to_i)
+        render json: { status: game_question.delete_status,
+          message: "GameQuestion of id =#{params[:game_question_id]} : #{game_question.delete_status}"}
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response("Couldn't create question because #{invalid.record.errors}", :ok) 
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find GameQuestion with 'id'=#{params[:game_question_id]}", :ok)
+      rescue Exception => error
+        error_response("Error: #{error}", :ok) 
+      end
+    end
+
+    # DELETE /api/v1/option/:game_option_id/:status
+    def delete_option
+      begin
+        game_option = GameOption.find(params[:game_option_id])
+        game_option.update_attributes!(delete_status: params[:status].to_i)
+        render json: { status: game_option.delete_status,
+          message: "Deleted GameOption of id =#{params[:game_option_id]} : #{game_option.delete_status}"}
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response("Couldn't create question because #{invalid.record.errors}", :ok) 
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find GameOption with 'id'=#{params[:game_option_id]}", :ok)
+      rescue Exception => error
+        error_response("Error: #{error}", :ok) 
+      end
+    end
+
     # POST /api/v1/question/:game_question_id/child
     def create_child_question
       begin

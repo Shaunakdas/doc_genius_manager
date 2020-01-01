@@ -9,7 +9,8 @@ class GameHolder < ApplicationRecord
   has_many :game_sessions
   has_one :score_structure
 
-  has_many :game_questions, -> { order 'id asc' }
+  has_many :game_questions, -> { where(delete_status: :active).order('id asc') }
+  has_many :all_game_questions, -> { order('id asc') }, class_name: "GameQuestion"
   # has_many :questions, through: :game_questions
 
   def to_s
