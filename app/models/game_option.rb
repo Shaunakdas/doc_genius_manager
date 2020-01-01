@@ -6,6 +6,7 @@ class GameOption < ApplicationRecord
   belongs_to :parent_option, class_name: "GameOption", optional: true
   belongs_to :option_type, optional: true
   enum position: [ :numerator, :denominator ]
+  enum delete_status: [ :active, :deleted ]
 
   def create_attempt_data option_obj, game_question_attempt
     op_attempt = game_option_attempts.create!(time_attempt: Time.now, game_option: self, game_question_attempt: game_question_attempt)

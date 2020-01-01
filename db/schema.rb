@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200101094443) do
+ActiveRecord::Schema.define(version: 20200101095119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20200101094443) do
     t.bigint "parent_option_id"
     t.integer "position"
     t.bigint "option_type_id"
+    t.integer "delete_status", default: 0
     t.index ["game_question_id"], name: "index_game_options_on_game_question_id"
     t.index ["option_id"], name: "index_game_options_on_option_id"
     t.index ["option_type_id"], name: "index_game_options_on_option_type_id"
