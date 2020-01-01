@@ -204,6 +204,7 @@ class GameQuestion < ApplicationRecord
     raise ArgumentError.new("Question couldn't be created") if question.nil?
     game_question = GameQuestion.create!(question: question, game_holder: game_holder)
     GameOption.create_game_option(game_question,params)
+    game_question.update_attributes!(game_holder: nil) if !is_parent
     return game_question
   end
 
