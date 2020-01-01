@@ -95,9 +95,9 @@ Rails.application.routes.draw do
       # POST Create question for a parent_question
       post "question/:game_question_id/child" => "questions#create_child_question"
       # POST Delete question for a parent_question
-      delete "question/:game_question_id/:status" => "questions#delete_question"
+      put "question_delete/:game_question_id/:status" => "questions#delete_question"
       # POST Delete option for a question
-      delete "option/:game_option_id/:status" => "questions#delete_option"
+      put "option_delete/:game_option_id/:status" => "questions#delete_option"
 
       # GameSession
       # Get GameSession List using search, filter and pagination. Req: (Auth token, Role, GameSession, Region, TargetExam, Query, Board, Page, Limit). Response: (GameSession Array)
