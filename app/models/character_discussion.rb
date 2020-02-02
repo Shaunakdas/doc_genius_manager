@@ -1,0 +1,2 @@
+class CharacterDiscussion < ApplicationRecord
+end

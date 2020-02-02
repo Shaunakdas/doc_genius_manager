@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200101095119) do
+ActiveRecord::Schema.define(version: 20200202040316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,43 @@ ActiveRecord::Schema.define(version: 20200101095119) do
     t.index ["slug"], name: "index_chapters_on_slug", unique: true
     t.index ["standard_id"], name: "index_chapters_on_standard_id"
     t.index ["stream_id"], name: "index_chapters_on_stream_id"
+  end
+
+  create_table "character_dialogs", force: :cascade do |t|
+    t.bigint "character_discussion_id"
+    t.bigint "character_id"
+    t.bigint "left_weapon_id"
+    t.string "left_weapon_colour"
+    t.bigint "right_weapon_id"
+    t.string "right_weapon_colour"
+    t.integer "count"
+    t.integer "position"
+    t.integer "animation"
+    t.integer "repeat_mode"
+    t.integer "sequence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_discussion_id"], name: "index_character_dialogs_on_character_discussion_id"
+    t.index ["character_id"], name: "index_character_dialogs_on_character_id"
+    t.index ["left_weapon_id"], name: "index_character_dialogs_on_left_weapon_id"
+    t.index ["right_weapon_id"], name: "index_character_dialogs_on_right_weapon_id"
+  end
+
+  create_table "character_discussions", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_character_discussions_on_slug", unique: true
+  end
+
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_characters_on_slug", unique: true
   end
 
   create_table "difficulty_levels", force: :cascade do |t|
@@ -486,6 +523,14 @@ ActiveRecord::Schema.define(version: 20200101095119) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "weapons", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_weapons_on_slug", unique: true
+  end
+
   create_table "working_rules", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -505,6 +550,10 @@ ActiveRecord::Schema.define(version: 20200101095119) do
   add_foreign_key "benifits", "question_types"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
+  add_foreign_key "character_dialogs", "character_discussions"
+  add_foreign_key "character_dialogs", "characters"
+  add_foreign_key "character_dialogs", "weapons", column: "left_weapon_id"
+  add_foreign_key "character_dialogs", "weapons", column: "right_weapon_id"
   add_foreign_key "game_holders", "question_types"
   add_foreign_key "game_option_attempts", "game_options"
   add_foreign_key "game_option_attempts", "game_question_attempts"
