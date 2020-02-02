@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200202040551) do
+ActiveRecord::Schema.define(version: 20200202042339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,16 @@ ActiveRecord::Schema.define(version: 20200202040551) do
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
     t.index ["slug"], name: "index_game_holders_on_slug", unique: true
+  end
+
+  create_table "game_level_victory_cards", force: :cascade do |t|
+    t.bigint "game_level_id"
+    t.bigint "victory_card_id"
+    t.integer "current_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_level_id"], name: "index_game_level_victory_cards_on_game_level_id"
+    t.index ["victory_card_id"], name: "index_game_level_victory_cards_on_victory_card_id"
   end
 
   create_table "game_levels", force: :cascade do |t|
@@ -507,6 +517,16 @@ ActiveRecord::Schema.define(version: 20200202040551) do
     t.index ["user_id"], name: "index_user_regions_on_user_id"
   end
 
+  create_table "user_victory_cards", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "victory_card_id"
+    t.integer "current_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_victory_cards_on_user_id"
+    t.index ["victory_card_id"], name: "index_user_victory_cards_on_victory_card_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", default: ""
     t.string "last_name", default: ""
@@ -543,6 +563,21 @@ ActiveRecord::Schema.define(version: 20200202040551) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "victory_cards", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "acad_entity_type"
+    t.bigint "acad_entity_id"
+    t.string "title"
+    t.string "description"
+    t.integer "max_count"
+    t.integer "sequence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acad_entity_type", "acad_entity_id"], name: "index_victory_cards_on_acad_entity_type_and_acad_entity_id"
+    t.index ["slug"], name: "index_victory_cards_on_slug", unique: true
+  end
+
   create_table "weapons", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -575,6 +610,8 @@ ActiveRecord::Schema.define(version: 20200202040551) do
   add_foreign_key "character_dialogs", "weapons", column: "left_weapon_id"
   add_foreign_key "character_dialogs", "weapons", column: "right_weapon_id"
   add_foreign_key "game_holders", "question_types"
+  add_foreign_key "game_level_victory_cards", "game_levels"
+  add_foreign_key "game_level_victory_cards", "victory_cards"
   add_foreign_key "game_levels", "character_discussions", column: "fail_discussion_id"
   add_foreign_key "game_levels", "character_discussions", column: "intro_discussion_id"
   add_foreign_key "game_levels", "character_discussions", column: "success_discussion_id"
@@ -601,6 +638,8 @@ ActiveRecord::Schema.define(version: 20200202040551) do
   add_foreign_key "topics", "chapters"
   add_foreign_key "user_regions", "regions"
   add_foreign_key "user_regions", "users"
+  add_foreign_key "user_victory_cards", "users"
+  add_foreign_key "user_victory_cards", "victory_cards"
   add_foreign_key "users", "roles"
   add_foreign_key "working_rules", "difficulty_levels"
 end
