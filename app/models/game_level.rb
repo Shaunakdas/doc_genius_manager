@@ -4,7 +4,8 @@ class GameLevel < ApplicationRecord
   belongs_to :success_discussion, class_name: "CharacterDiscussion", optional: true
   belongs_to :fail_discussion, class_name: "CharacterDiscussion", optional: true
   # :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled
-
+  has_many :game_level_victory_cards
+  has_many :victory_cards, through: :game_level_victory_cards
   def title
     game_holder.title
   end
@@ -52,5 +53,10 @@ class GameLevel < ApplicationRecord
   def fail_character_discussion
     return fail_discussion if !fail_discussion.nil?
     return CharacterDiscussion.get_default
+  end
+
+  def success_victory_cards
+    return victory_cards if victory_cards.count != 0 
+    return [VictoryCard.get_default]
   end
 end

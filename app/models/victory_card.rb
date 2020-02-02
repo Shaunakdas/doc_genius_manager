@@ -1,5 +1,5 @@
 class VictoryCard < ApplicationRecord
-  belongs_to :acad_entity, polymorphic: true
+  belongs_to :acad_entity, polymorphic: true, optional: true
   def self.get_default
     return VictoryCard.last if VictoryCard.all.count > 0
     victory_card = VictoryCard.new(name: "Default VictoryCard", slug: "default-victory-card-1")
