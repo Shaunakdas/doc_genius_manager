@@ -18,6 +18,17 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
     end
   end
 
+  # GET /api/v1/game/:id/level_details
+  # shows one standard (based on the supplied id) 
+  def level_details
+    begin
+      game_level = GameLevel.find(params[:id])
+      respond_with game_level, serializer: Api::V1::GameLevelDetailSerializer
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameLevel with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
   # GET /api/v1/game/result
   # uploads result of a game (based on the supplied id) 
   def result

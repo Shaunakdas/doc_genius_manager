@@ -56,5 +56,10 @@ module Api::V1
     def sub_title
       object.game_holder.acad_entity.chapter.name if object.game_holder.acad_entity
     end
+
+    def score_algo
+      return object.game_holder.score_structure.score_algo if object.game_holder.score_structure
+      return nil
+    end
   end
 end
