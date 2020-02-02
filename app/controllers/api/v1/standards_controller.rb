@@ -1,5 +1,5 @@
 class Api::V1::StandardsController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage,:streamwise_questions ]
+  before_action :authenticate_request!, :only => [ :homepage, :level_map, :streamwise_questions ]
   respond_to :json
   # GET /api/v1/standards
   def index
@@ -75,6 +75,26 @@ class Api::V1::StandardsController < Api::V1::ApiController
           error_type_response("User has not set his standard", :not_found, "standard_not_set")
         else
           respond_with @current_user, serializer: Api::V1::HomepageSerializer
+        end
+      rescue ActiveRecord::RecordNotFound
+        error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(@current_user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    else
+      error_response("Auth Token is not valid") 
+    end
+  end
+
+  # GET /api/v1/map
+  # shows one standard (based on the supplied id) 
+  def level_map
+    if @current_user
+      begin
+        if !@current_user.standard
+          error_type_response("User has not set his standard", :not_found, "standard_not_set")
+        else
+          respond_with @current_user, serializer: Api::V1::LevelMapSerializer
         end
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 

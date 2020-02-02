@@ -37,4 +37,13 @@ class Chapter < AcadEntity
     chapter_list = chapter_list.drop(page_num * limit).first(limit)
     list_response = {result: chapter_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
+
+
+  def practice_game_levels
+    chapter_game_levels = []
+    practice_game_holders.each do |game_holder|
+      chapter_game_levels = chapter_game_levels.concat(game_holder.game_levels)
+    end
+    return chapter_game_levels
+  end
 end

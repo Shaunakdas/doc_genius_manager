@@ -13,6 +13,8 @@ class GameHolder < ApplicationRecord
   has_many :all_game_questions, -> { order('id asc') }, class_name: "GameQuestion"
   # has_many :questions, through: :game_questions
 
+  has_many :game_levels
+
   def to_s
     "#{self.name}"
   end
