@@ -38,4 +38,19 @@ class GameLevel < ApplicationRecord
   def image_url
     game_holder.image_url
   end
+
+  def intro_character_discussion
+    return intro_discussion if !intro_discussion.nil?
+    return CharacterDiscussion.get_default
+  end
+
+  def success_character_discussion
+    return success_discussion if !success_discussion.nil?
+    return CharacterDiscussion.get_default
+  end
+
+  def fail_character_discussion
+    return fail_discussion if !fail_discussion.nil?
+    return CharacterDiscussion.get_default
+  end
 end
