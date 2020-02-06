@@ -639,6 +639,104 @@ def upload_estimation_data(book, count)
 end
 
 
+# PG: Percentage
+def upload_percentage_data(book, count)
+  # remove_game_holder_questions("percentage")
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        question_start = 3
+        if practice_type && game_holder
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          tip = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
+          hint = row.cells[question_start + 3]? row.cells[question_start + 3].value : nil
+          solution = row.cells[question_start + 4]? row.cells[question_start + 4].value : nil
+
+          break if Question.search_code(code).count > 0
+
+          question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution)
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+          
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+  update_gameholder_option_text("percentage")
+  update_gameholder_question_text("percentage")
+end
+
+# PG: SCQ
+def upload_tipping_data(book, count)
+  remove_game_holder_questions("tipping")
+  master_sheet = book[count]
+  master_sheet.each do |row|
+    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
+
+      if row.cells[0] && row.cells[1] && row.cells[2]
+        practice_type_name = row.cells[2].value
+        practice_type_slug = practice_type_name.downcase
+        game_holder_name = row.cells[0].value
+        game_holder_slug = row.cells[1].value
+
+        practice_type = PracticeType.find_by(:slug => practice_type_slug)
+        game_holder = GameHolder.find_by(:slug => game_holder_slug)
+
+        question_start = 3
+        if practice_type && game_holder
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          tip = row.cells[question_start + 2].value
+          hint = row.cells[question_start + 3]? row.cells[question_start + 3].value : nil
+          title = row.cells[question_start + 4].value
+          solution = row.cells[question_start + 5]? row.cells[question_start + 5].value : nil
+
+          break if Question.search_code(code).count > 0
+
+          question = Question.create!(display: display, code: code, tip: tip, hint: hint, title: title, solution: solution)
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
+
+          option_start = 9
+          option_width = 2
+          option_count = 9
+          (0..(option_count-1)).each do |counter|
+            display_index = option_start + (counter*option_width)
+            correct_index = option_start + (counter*option_width) +  1
+
+            if  row.cells[display_index] && row.cells[display_index].value
+              display = row.cells[display_index].value
+              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+
+              option = Option.create( display: display, correct: (correct==1))
+              puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
+              game_option = GameOption.create!(option: option, game_question: game_question)
+            end
+          end
+        end
+      end
+      
+    end
+    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+  end
+  update_gameholder_option_text("tipping")
+  update_gameholder_question_text("tipping")
+end
+
+
 # PG: Inversion
 def upload_inversion_data(book, count)
   remove_game_holder_questions("inversion")
@@ -706,43 +804,6 @@ def upload_inversion_data(book, count)
   end
   update_gameholder_option_text("inversion")
   update_gameholder_question_text("inversion")
-end
-
-
-# PG: Percentage
-def upload_percentage_data(book, count)
-  remove_game_holder_questions("percentage")
-  master_sheet = book[count]
-  master_sheet.each do |row|
-    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
-
-      if row.cells[0] && row.cells[1] && row.cells[2]
-        practice_type_name = row.cells[2].value
-        practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
-        game_holder_slug = row.cells[1].value
-
-        practice_type = PracticeType.find_by(:slug => practice_type_slug)
-        game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
-        if practice_type && game_holder
-          display = row.cells[3].value
-          tip = row.cells[4]? row.cells[4].value : nil
-          hint = row.cells[5]? row.cells[5].value : nil
-          solution = row.cells[6]? row.cells[6].value : nil
-
-          question = Question.create!(display: display, tip: tip, hint: hint, solution: solution)
-          puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
-          
-        end
-      end
-      
-    end
-    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
-  end
-  update_gameholder_option_text("percentage")
-  update_gameholder_question_text("percentage")
 end
 
 # PG: Proportion
@@ -894,59 +955,6 @@ def upload_refinement_data(book, count)
   end
   update_gameholder_option_text("refinement")
   update_gameholder_question_text("refinement")
-end
-
-# PG: SCQ
-def upload_tipping_data(book, count)
-  remove_game_holder_questions("tipping")
-  master_sheet = book[count]
-  master_sheet.each do |row|
-    if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
-
-      if row.cells[0] && row.cells[1] && row.cells[2]
-        practice_type_name = row.cells[2].value
-        practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
-        game_holder_slug = row.cells[1].value
-
-        practice_type = PracticeType.find_by(:slug => practice_type_slug)
-        game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
-        if practice_type && game_holder
-          display = row.cells[3].value
-          tip = row.cells[4].value
-          hint = row.cells[5]? row.cells[5].value : nil
-          title = row.cells[6].value
-          solution = row.cells[7]? row.cells[7].value : nil
-
-          question = Question.create!(display: display, tip: tip, hint: hint, title: title, solution: solution)
-          puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder)
-
-          option_start = 8
-          option_width = 2
-          option_count = 9
-          (0..(option_count-1)).each do |counter|
-            display_index = option_start + (counter*option_width)
-            correct_index = option_start + (counter*option_width) +  1
-
-            if  row.cells[display_index] && row.cells[display_index].value
-              display = row.cells[display_index].value
-              correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
-
-              option = Option.create( display: display, correct: (correct==1))
-              puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
-              game_option = GameOption.create!(option: option, game_question: game_question)
-            end
-          end
-        end
-      end
-      
-    end
-    break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
-  end
-  update_gameholder_option_text("tipping")
-  update_gameholder_question_text("tipping")
 end
 
 # PG: SCQ
@@ -1210,11 +1218,11 @@ upload_diction_data(book, game_start + 3)
 upload_discounting_data(book, game_start + 4)
 upload_division_data(book, game_start + 5)
 upload_estimation_data(book, game_start + 6)
-# upload_inversion_data(book, game_start + 7)
-# upload_percentage_data(book, game_start + 8)
-# upload_proportion_data(book, game_start + 9)
-# upload_refinement_data(book, game_start + 10)
-# upload_tipping_data(book, game_start + 11)
+upload_percentage_data(book, game_start + 7)
+upload_tipping_data(book, game_start + 8)
+# upload_inversion_data(book, game_start + 9)
+# upload_proportion_data(book, game_start + 10)
+# upload_refinement_data(book, game_start + 11)
 # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 # set_game_holder_title
