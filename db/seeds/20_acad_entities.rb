@@ -222,7 +222,7 @@ end
 
 # PG: Agility
 def upload_agility_data(book, count)
-  remove_game_holder_questions("agility")
+  # remove_game_holder_questions("agility")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
@@ -235,19 +235,23 @@ def upload_agility_data(book, count)
 
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
+        
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          solution = row.cells[4].value
-          title = row.cells[5].value
-          mode = row.cells[6].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          solution = row.cells[question_start + 2].value if row.cells[question_start + 4]
+          title = row.cells[question_start + 3].value
+          mode = row.cells[question_start + 4].value
+
+          break if Question.search_code(code).count > 0
 
           question = Question.create!(display: display, solution: solution,
-            title: title, mode: mode)
-          puts "Adding question display: #{display} , solution: #{solution}"
+          title: title, mode: mode, code: code)
+          puts "Adding question code: #{code} ,display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 7
+          option_start = 8
           option_width = 2
           option_count = 4
           (0..(option_count-1)).each do |counter|
@@ -277,7 +281,7 @@ end
 
 # PG: Purchasing
 def upload_purchasing_data(book, count)
-  remove_game_holder_questions("purchasing")
+  # remove_game_holder_questions("purchasing")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
@@ -291,18 +295,22 @@ def upload_purchasing_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          solution = row.cells[4].value
-          title = row.cells[5].value
-          mode = row.cells[6].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          solution = row.cells[question_start + 2].value if row.cells[question_start + 4]
+          title = row.cells[question_start + 3].value
+          mode = row.cells[question_start + 4].value
+
+          break if Question.search_code(code).count > 0
 
           question = Question.create!(display: display, solution: solution,
-            title: title, mode: mode)
-          puts "Adding question display: #{display} , solution: #{solution}"
+          title: title, mode: mode, code: code)
+          puts "Adding question code: #{code} ,display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 7
+          option_start = 8
           option_width = 2
           option_count = 4
           (0..(option_count-1)).each do |counter|
@@ -331,7 +339,7 @@ end
 
 # PG: Conversion
 def upload_conversion_data(book, count)
-  remove_game_holder_questions("conversion")
+  # remove_game_holder_questions("conversion")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -345,13 +353,17 @@ def upload_conversion_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
           solution = nil
-          solution = row.cells[4].value if row.cells[4]
+          solution = row.cells[question_start + 2].value if row.cells[question_start + 2]
 
-          question = Question.create!(display: display, solution: solution)
-          puts "Adding question display: #{display} , solution: #{solution}"
+          break if Question.search_code(code).count > 0
+
+          question = Question.create!(display: display, solution: solution, code: code)
+          puts "Adding question code: #{code} , display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
           option_start = 5
@@ -384,7 +396,7 @@ end
 
 # PG: Diction
 def upload_diction_data(book, count)
-  remove_game_holder_questions("diction")
+  # remove_game_holder_questions("diction")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -397,17 +409,21 @@ def upload_diction_data(book, count)
 
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
+        
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          hint = row.cells[4].value
-          solution = row.cells[5].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          hint = row.cells[question_start + 2].value
+          solution = row.cells[question_start + 3].value
 
-          question = Question.create!(display: display, hint: hint, solution: solution)
-          puts "Adding question display: #{display} , hint: #{hint}, solution: #{solution}"
+          break if Question.search_code(code).count > 0
+
+          question = Question.create!(display: display, hint: hint, solution: solution, code: code)
+          puts "Adding question code: #{code} , display: #{display} , hint: #{hint}, solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 6
+          option_start = 7
           option_width = 1
           option_count = 1
           (0..(option_count-1)).each do |counter|
@@ -433,7 +449,7 @@ end
 
 # PG: Discounting
 def upload_discounting_data(book, count)
-  remove_game_holder_questions("discounting")
+  # remove_game_holder_questions("discounting")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -447,15 +463,19 @@ def upload_discounting_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          solution = row.cells[4].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          solution = row.cells[question_start + 2].value
 
-          question = Question.create!(display: display, solution: solution)
-          puts "Adding question display: #{display} , solution: #{solution}"
+          break if Question.search_code(code).count > 0
+
+          question = Question.create!(display: display, solution: solution, code: code)
+          puts "Adding question code: #{code} , display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 5
+          option_start = 6
           option_width = 4
           option_count = 5
           (0..(option_count-1)).each do |counter|
@@ -487,7 +507,7 @@ end
 
 # PG: Division
 def upload_division_data(book, count)
-  remove_game_holder_questions("division")
+  # remove_game_holder_questions("division")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -501,17 +521,21 @@ def upload_division_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          hint = row.cells[4]? row.cells[4].value : nil
-          solution = row.cells[5].value
-          mode = row.cells[6].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          hint = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
+          solution = row.cells[question_start + 3].value
+          mode = row.cells[question_start + 4].value
 
-          question = Question.create!(display: display, hint: hint, solution: solution, mode: mode)
-          puts "Adding question display: #{display} , hint: #{hint}, solution: #{solution} , mode: #{mode}"
+          break if Question.search_code(code).count > 0
+          
+          question = Question.create!(display: display, hint: hint, solution: solution, mode: mode, code: code)
+          puts "Adding question code: #{code} , display: #{display} , hint: #{hint}, solution: #{solution} , mode: #{mode}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
           
-          option_start = 7
+          option_start = 8
           option_width = 3
           option_count = 5
           (0..(option_count-1)).each do |counter|
@@ -541,7 +565,7 @@ end
 
 # PG: Estimation
 def upload_estimation_data(book, count)
-  remove_game_holder_questions("estimation")
+  # remove_game_holder_questions("estimation")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -555,26 +579,30 @@ def upload_estimation_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          display = row.cells[3].value
-          tip = row.cells[4]? row.cells[4].value : nil
-          solution = row.cells[5].value
-          hint = row.cells[6].value
-          mode = row.cells[7].value
+          code = row.cells[question_start].value
+          display = row.cells[question_start + 1].value
+          tip = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
+          solution = row.cells[question_start + 3].value
+          hint = row.cells[question_start + 4].value
+          mode = row.cells[question_start + 5].value
 
-          big_gap = row.cells[10]? row.cells[10].value : nil
-          small_gap = row.cells[11]? row.cells[11].value : nil
-          tiny_gap = row.cells[12]? row.cells[12].value : nil
+          break if Question.search_code(code).count > 0
+
+          big_gap = row.cells[question_start + 8]? row.cells[question_start + 8].value : nil
+          small_gap = row.cells[question_start + 9]? row.cells[question_start + 9].value : nil
+          tiny_gap = row.cells[question_start + 10]? row.cells[question_start + 10].value : nil
 
           marker_gap = MarkerGap.create!( big: big_gap, small: small_gap, tiny: tiny_gap)
 
-          question = Question.create!(display: display, tip: tip, hint: hint, solution: solution, mode: mode, marker_gap: marker_gap)
-          puts "Adding question display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution} , mode: #{mode}"
+          question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution, mode: mode, marker_gap: marker_gap)
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution} , mode: #{mode}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder)
 
-          answer_index = 13
-          answer_title = 14
-          answer_sub_title = 15
+          answer_index = question_start + 11
+          answer_title = question_start + 12
+          answer_sub_title = question_start + 13
 
           display_index = row.cells[answer_index].value
           value = row.cells[answer_title].value
@@ -584,7 +612,7 @@ def upload_estimation_data(book, count)
           puts "Adding option, id: #{option.id} display_index: #{answer_index}, value: #{value}, sub_title: #{sub_title}"
           game_option = GameOption.create!(option: option, game_question: game_question)
 
-          option_start = 16
+          option_start = 17
           option_width = 2
           option_count = 12
           (0..(option_count-1)).each do |counter|
@@ -627,9 +655,12 @@ def upload_inversion_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          if row.cells[3] && row.cells[3].value && row.cells[3].value.length > 1
-            display = row.cells[3].value
+          code = row.cells[question_start].value
+          display_index = question_start + 1
+          if row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
+            display = row.cells[display_index].value
 
             parent_question = Question.create!(display: display)
             puts "Adding parent_question display: #{display}"
@@ -1172,13 +1203,13 @@ game_start = 5
 # upload_practice_types(book, 3)
 # upload_game_holder_details(book, 3)
 # set_acad_entity_enabled(true)
-# upload_agility_data(book, game_start)
-# upload_purchasing_data(book, game_start + 1)
-# upload_conversion_data(book, game_start + 2)
-# upload_diction_data(book, game_start + 3)
-# upload_discounting_data(book, game_start + 4)
-# upload_division_data(book, game_start + 5)
-# upload_estimation_data(book, game_start + 6)
+upload_agility_data(book, game_start)
+upload_purchasing_data(book, game_start + 1)
+upload_conversion_data(book, game_start + 2)
+upload_diction_data(book, game_start + 3)
+upload_discounting_data(book, game_start + 4)
+upload_division_data(book, game_start + 5)
+upload_estimation_data(book, game_start + 6)
 # upload_inversion_data(book, game_start + 7)
 # upload_percentage_data(book, game_start + 8)
 # upload_proportion_data(book, game_start + 9)

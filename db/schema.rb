@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200202042444) do
+ActiveRecord::Schema.define(version: 20200205093056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -363,6 +363,8 @@ ActiveRecord::Schema.define(version: 20200202042444) do
     t.integer "steps"
     t.string "setup"
     t.integer "position"
+    t.string "code"
+    t.index ["code"], name: "index_questions_on_code", unique: true
     t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
   end

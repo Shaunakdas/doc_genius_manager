@@ -57,4 +57,8 @@ class Question < ApplicationRecord
   def self.structure game
     GameStructure.parent_question_structure(game.slug)
   end
+
+  def self.search_code(search)
+    where('code LIKE :search', search: "#{search}")
+  end
 end
