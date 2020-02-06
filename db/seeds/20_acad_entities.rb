@@ -821,7 +821,7 @@ end
 
 # PG: Proportion
 def upload_proportion_data(book, count)
-  remove_game_holder_questions("proportion")
+  # remove_game_holder_questions("proportion")
   master_sheet = book[count]
   sequence = -1
   master_sheet.each do |row|
@@ -836,16 +836,22 @@ def upload_proportion_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
+        question_start = 3
         if practice_type && game_holder
-          new_seq = row.cells[3]? row.cells[3].value.to_i : nil
-          parent_display = row.cells[4].value
+          parent_code = row.cells[question_start].value
+          code = row.cells[question_start + 1].value
+
+          break if Question.search_code(parent_code).count > 0
+
+          new_seq = row.cells[question_start + 2]? row.cells[question_start + 2].value.to_i : nil
+          parent_display = row.cells[question_start + 3].value
           display = parent_display
           solution = nil
           puts "new_seq : #{new_seq},sequence : #{sequence}"
           parent_game_question = GameQuestion.includes(:sub_questions).where(game_holder: game_holder)[new_seq-1]
           if parent_game_question.nil?
             sequence = new_seq
-            parent_question = Question.create!(display: parent_display)
+            parent_question = Question.create!(code: parent_code, display: parent_display)
             puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
             parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
             puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
@@ -856,12 +862,12 @@ def upload_proportion_data(book, count)
 
           if parent_question
             parent_game_question = GameQuestion.where(question: parent_question, game_holder: game_holder).first
-            question = Question.create!(display: display, solution: solution, parent_question: parent_question)
+            question = Question.create!(code: code, display: display, solution: solution, parent_question: parent_question)
             puts "Adding question id: #{question.id}, display: #{display} , solution: #{solution}, parent_question_id: #{parent_question.id}"
             game_question = GameQuestion.create!(question: question, parent_question: parent_game_question)
             puts "Adding game_question id: #{game_question.id}, display: #{display} , solution: #{solution}, parent_question_id: #{parent_game_question.id}"
             
-            option_start = 7
+            option_start = 9
             option_width = 4
             option_count = 5
             (0..(option_count-1)).each do |counter|
@@ -903,7 +909,7 @@ end
 
 # PG: Refinement
 def upload_refinement_data(book, count)
-  remove_game_holder_questions("refinement")
+  # remove_game_holder_questions("refinement")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.to_s.include? ("for") )
@@ -1240,7 +1246,7 @@ upload_estimation_data(book, game_start + 6)
 upload_percentage_data(book, game_start + 7)
 upload_tipping_data(book, game_start + 8)
 upload_inversion_data(book, game_start + 9)
-# upload_proportion_data(book, game_start + 10)
+upload_proportion_data(book, game_start + 10)
 upload_refinement_data(book, game_start + 11)
 # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
