@@ -950,12 +950,16 @@ def upload_refinement_data(book, count)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
         
-        question_start = 3
+        difficulty = row.cells[3].value
+        
+        question_start = 4
         if practice_type && game_holder
           parent_code = row.cells[question_start].value
           code = row.cells[question_start + 1].value
 
           break if Question.search_code(parent_code).count > 0
+          # remove_question_code(parent_code)
+          # remove_question_code(code)
 
           if row.cells[question_start + 2]
             parent_display = row.cells[question_start + 2].value
@@ -965,7 +969,7 @@ def upload_refinement_data(book, count)
             if parent_game_question.nil?
               parent_question = Question.create!(display: parent_display, code: parent_code)
               puts "Adding parent_question code: #{parent_code}, display: #{parent_display}"
-              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder, difficulty_index: difficulty)
             end
             parent_question = parent_game_question.question
           end
@@ -982,7 +986,7 @@ def upload_refinement_data(book, count)
             game_question = GameQuestion.create!(question: question,
               parent_question: parent_game_question)
             
-            option_start = 9
+            option_start = 10
             option_width = 2
             option_count = 4
             (0..(option_count-1)).each do |counter|
