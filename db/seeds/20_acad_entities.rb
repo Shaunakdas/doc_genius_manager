@@ -916,34 +916,40 @@ def upload_refinement_data(book, count)
 
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
+        
+        question_start = 3
         if practice_type && game_holder
-          if row.cells[3]
-            parent_display = row.cells[3].value
+          parent_code = row.cells[question_start].value
+          code = row.cells[question_start + 1].value
+
+          break if Question.search_code(parent_code).count > 0
+
+          if row.cells[question_start + 2]
+            parent_display = row.cells[question_start + 2].value
 
             parent_game_question = check_gameholder_question(game_holder, parent_display)
 
             if parent_game_question.nil?
-              parent_question = Question.create!(display: parent_display)
-              puts "Adding parent_question display: #{parent_display}"
+              parent_question = Question.create!(display: parent_display, code: parent_code)
+              puts "Adding parent_question code: #{parent_code}, display: #{parent_display}"
               parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
             end
             parent_question = parent_game_question.question
           end
 
           if parent_game_question
-            display = row.cells[4]? row.cells[4].value : nil
-            title = row.cells[5]? row.cells[5].value : nil
-            solution = row.cells[6]? row.cells[6].value : nil
+            display = row.cells[question_start + 3]? row.cells[question_start + 3].value : nil
+            title = row.cells[question_start + 4]? row.cells[question_start + 4].value : nil
+            solution = row.cells[question_start + 5]? row.cells[question_start + 5].value : nil
 
-            question = Question.create!(display: display, solution: solution, title: title,
+            question = Question.create!(code: code, display: display, solution: solution, title: title,
               parent_question: parent_question)
-            puts "Adding question display: #{display} , solution: #{solution}, question: #{question.id}
+            puts "Adding question code: #{code}, display: #{display} , solution: #{solution}, question: #{question.id}
               parent_game_question: #{parent_game_question.id}, parent_question: #{parent_question.id}"
             game_question = GameQuestion.create!(question: question,
               parent_question: parent_game_question)
             
-            option_start = 7
+            option_start = 9
             option_width = 2
             option_count = 4
             (0..(option_count-1)).each do |counter|
@@ -1235,7 +1241,7 @@ upload_percentage_data(book, game_start + 7)
 upload_tipping_data(book, game_start + 8)
 upload_inversion_data(book, game_start + 9)
 # upload_proportion_data(book, game_start + 10)
-# upload_refinement_data(book, game_start + 11)
+upload_refinement_data(book, game_start + 11)
 # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 # set_game_holder_title
