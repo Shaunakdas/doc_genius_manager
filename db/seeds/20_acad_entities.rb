@@ -24,6 +24,15 @@ def remove_game_holder_references
   end
 end
 
+def remove_question_code(code)
+  Question.search_code(code).each do |q|
+    q.update_attributes!(code: nil)
+  end
+end
+
+# remove_question_code(parent_code)
+# remove_question_code(code)
+
 # Uploading basic acad entities
 def upload_basic_acad_entity(book, count)
   master_sheet = book[count]
@@ -681,7 +690,7 @@ end
 
 # PG: SCQ
 def upload_tipping_data(book, count)
-  remove_game_holder_questions("tipping")
+  # remove_game_holder_questions("tipping")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -739,7 +748,7 @@ end
 
 # PG: Inversion
 def upload_inversion_data(book, count)
-  remove_game_holder_questions("inversion")
+  # remove_game_holder_questions("inversion")
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -752,16 +761,20 @@ def upload_inversion_data(book, count)
 
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
-
+        
         question_start = 3
         if practice_type && game_holder
-          code = row.cells[question_start].value
-          display_index = question_start + 1
+          parent_code = row.cells[question_start].value
+          code = row.cells[question_start + 1].value
+
+          break if Question.search_code(parent_code).count > 0
+
+          display_index = question_start + 2
           if row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
             display = row.cells[display_index].value
 
-            parent_question = Question.create!(display: display)
-            puts "Adding parent_question display: #{display}"
+            parent_question = Question.create!(code: parent_code, display: display)
+            puts "Adding parent_question code: #{parent_code},  display: #{display}"
             parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
 
           end
@@ -772,16 +785,16 @@ def upload_inversion_data(book, count)
           end
 
           if parent_game_question
-            solution = row.cells[4]? row.cells[4].value : nil
+            solution = row.cells[display_index + 1]? row.cells[display_index + 1].value : nil
 
-            question = Question.create!(display: display, solution: solution,
+            question = Question.create!(code: code, display: display, solution: solution,
               parent_question: parent_question)
-            puts "Adding question display: #{display} , solution: #{solution}, question: #{question.id}
+            puts "Adding question code: #{code}, display: #{display} , solution: #{solution}, question: #{question.id}
               parent_game_question: #{parent_game_question.id}, parent_question: #{parent_question.id}"
             game_question = GameQuestion.create!(question: question,
               parent_question: parent_game_question)
             
-            option_start = 5
+            option_start = 7
             option_width = 1
             option_count = 2
             (0..(option_count-1)).each do |counter|
@@ -1220,7 +1233,7 @@ upload_division_data(book, game_start + 5)
 upload_estimation_data(book, game_start + 6)
 upload_percentage_data(book, game_start + 7)
 upload_tipping_data(book, game_start + 8)
-# upload_inversion_data(book, game_start + 9)
+upload_inversion_data(book, game_start + 9)
 # upload_proportion_data(book, game_start + 10)
 # upload_refinement_data(book, game_start + 11)
 # upload_dragonbox_data(book, game_start + 12)
