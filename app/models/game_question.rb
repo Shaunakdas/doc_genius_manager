@@ -1,6 +1,7 @@
 class GameQuestion < ApplicationRecord
   belongs_to :question
   belongs_to :game_holder, optional: true
+  belongs_to :game_level, optional: true
   has_many :sub_questions, -> { where(delete_status: :active).order('id asc') }, class_name: "GameQuestion", foreign_key: "parent_question_id"
   has_many :all_sub_questions, -> { order 'id asc' }, class_name: "GameQuestion", foreign_key: "parent_question_id"
   belongs_to :parent_question, class_name: "GameQuestion", optional: true

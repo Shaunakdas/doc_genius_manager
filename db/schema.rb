@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200205093056) do
+ActiveRecord::Schema.define(version: 20200207022000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,7 +257,9 @@ ActiveRecord::Schema.define(version: 20200205093056) do
     t.integer "difficulty_index", default: 0
     t.integer "delete_status", default: 0
     t.integer "approval_status", default: 0
+    t.bigint "game_level_id"
     t.index ["game_holder_id"], name: "index_game_questions_on_game_holder_id"
+    t.index ["game_level_id"], name: "index_game_questions_on_game_level_id"
     t.index ["parent_question_id"], name: "index_game_questions_on_parent_question_id"
     t.index ["question_id"], name: "index_game_questions_on_question_id"
   end
@@ -442,7 +444,9 @@ ActiveRecord::Schema.define(version: 20200205093056) do
     t.integer "marks_alone_box"
     t.integer "marks_minimum_steps"
     t.integer "marks_minimum_cards"
+    t.bigint "game_level_id"
     t.index ["game_holder_id"], name: "index_score_structures_on_game_holder_id"
+    t.index ["game_level_id"], name: "index_score_structures_on_game_level_id"
   end
 
   create_table "session_scores", force: :cascade do |t|
@@ -628,6 +632,7 @@ ActiveRecord::Schema.define(version: 20200205093056) do
   add_foreign_key "game_question_attempts", "game_questions"
   add_foreign_key "game_question_attempts", "game_sessions"
   add_foreign_key "game_questions", "game_holders"
+  add_foreign_key "game_questions", "game_levels"
   add_foreign_key "game_questions", "questions"
   add_foreign_key "game_sessions", "game_holders"
   add_foreign_key "game_sessions", "game_levels"
@@ -637,6 +642,7 @@ ActiveRecord::Schema.define(version: 20200205093056) do
   add_foreign_key "questions", "marker_gaps"
   add_foreign_key "region_percentile_scores", "regions"
   add_foreign_key "score_structures", "game_holders"
+  add_foreign_key "score_structures", "game_levels"
   add_foreign_key "session_scores", "game_sessions"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"

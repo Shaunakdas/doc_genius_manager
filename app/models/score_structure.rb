@@ -1,6 +1,6 @@
 class ScoreStructure < ApplicationRecord
   belongs_to :game_holder
-
+  belongs_to :game_level, optional: true
 
   def score_algo
     return {
