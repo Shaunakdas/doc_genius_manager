@@ -6,6 +6,12 @@ class GameLevel < ApplicationRecord
   # :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled
   has_many :game_level_victory_cards
   has_many :victory_cards, through: :game_level_victory_cards
+  has_one :score_structure
+  has_many :game_sessions
+  has_many :game_questions
+
+  enum practice_mode: [ :introduction, :learning, :practice]
+  # enum nature_effect: [ :
   def title
     game_holder.title
   end
