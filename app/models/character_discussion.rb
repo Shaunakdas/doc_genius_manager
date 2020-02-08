@@ -1,5 +1,6 @@
 class CharacterDiscussion < ApplicationRecord
   has_many :character_dialogs
+  enum stage: [ :introduction, :success, :failure]
   def self.get_default
     return CharacterDiscussion.last if CharacterDiscussion.all.count > 0
     character_discussion = CharacterDiscussion.new(name: "Default CharacterDiscussion", slug: "default-character-discussion-1")

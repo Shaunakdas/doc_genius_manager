@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200207022000) do
+ActiveRecord::Schema.define(version: 20200208073612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,9 @@ ActiveRecord::Schema.define(version: 20200207022000) do
     t.integer "sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "comment"
+    t.string "name"
+    t.string "slug"
     t.index ["character_discussion_id"], name: "index_character_dialogs_on_character_discussion_id"
     t.index ["character_id"], name: "index_character_dialogs_on_character_id"
     t.index ["left_weapon_id"], name: "index_character_dialogs_on_left_weapon_id"
@@ -135,6 +138,7 @@ ActiveRecord::Schema.define(version: 20200207022000) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stage"
     t.index ["slug"], name: "index_character_discussions_on_slug", unique: true
   end
 
