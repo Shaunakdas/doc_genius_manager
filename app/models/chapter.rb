@@ -9,6 +9,7 @@ class Chapter < AcadEntity
   has_many :session_scores, through: :game_sessions
   has_many :practice_game_holders, through: :topics, as: :acad_entity, class_name: "GameHolder"
   
+  has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
   has_many :acad_profiles, as: :acad_entity
   has_many :acad_entity_scores, as: :acad_entity
   has_many :region_percentile_scores, as: :acad_entity

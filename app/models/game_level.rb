@@ -9,6 +9,9 @@ class GameLevel < ApplicationRecord
   has_one :score_structure
   has_many :game_sessions
   has_many :game_questions
+  has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
+
+  has_many :game_levels
 
   enum practice_mode: [ :introduction, :learning, :practice]
   # enum nature_effect: [ :

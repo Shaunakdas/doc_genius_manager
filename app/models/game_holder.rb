@@ -11,6 +11,7 @@ class GameHolder < ApplicationRecord
 
   has_many :game_questions, -> { where(delete_status: :active).order('id asc') }
   has_many :all_game_questions, -> { order('id asc') }, class_name: "GameQuestion"
+  has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
   # has_many :questions, through: :game_questions
 
   has_many :game_levels
