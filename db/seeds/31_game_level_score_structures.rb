@@ -42,6 +42,8 @@ def upload_game_levels(book, count)
 end
 
 def delete_game_level_without_mode
+    delete_character_discussion_models
+    delete_victory_cards
     GameLevel.all.each do |g|
         ScoreStructure.delete(g.score_structure)
         GameLevel.delete(g) 
@@ -106,7 +108,23 @@ def upload_game_score_structures(book, count)
     end
 end
 
+def delete_character_discussion_models
+    GameLevel.all.each do |level|
+        level.update_attributes!(intro_discussion: nil, success_discussion: nil, fail_discussion: nil)
+    end
+    CharacterDialog.delete_all
+    CharacterDiscussion.delete_all
+    Character.delete_all
+    Weapon.delete_all
+end
+
+def delete_victory_cards
+    GameLevelVictoryCard.delete_all
+    VictoryCard.delete_all
+end
+
+
 game_start = 22
-# delete_game_level_without_mode
+delete_game_level_without_mode
 upload_game_levels(book, game_start)
 upload_game_score_structures(book, game_start)
