@@ -5,6 +5,8 @@ require 'rubyXL'
 # book = RubyXL::Parser.parse('db/seeds/excels/WorkingRules_Shaunak_v0.14.xlsx')
 book = RubyXL::Parser.parse('question_source/screenplays/scripts/Base_WorkingRule.xlsx')
 
+
+
 def remove_game_question_references
   GameHolder.all.each do |g|
     g.remove_game_questions
@@ -231,7 +233,7 @@ end
 
 # PG: Agility
 def upload_agility_data(book, count)
-  # remove_game_holder_questions("agility")
+  remove_game_holder_questions("agility") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
@@ -293,7 +295,7 @@ end
 
 # PG: Purchasing
 def upload_purchasing_data(book, count)
-  # remove_game_holder_questions("purchasing")
+  remove_game_holder_questions("purchasing") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.is_a? String) && (row.cells[0].value.include? ("for") )
@@ -354,7 +356,7 @@ end
 
 # PG: Conversion
 def upload_conversion_data(book, count)
-  # remove_game_holder_questions("conversion")
+  remove_game_holder_questions("conversion") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -384,20 +386,22 @@ def upload_conversion_data(book, count)
           puts "Adding question code: #{code} , display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
           
-          option_start = 6
-          option_width = 3
+          option_start = 7
+          option_width = 4
           option_count = 5
           (0..(option_count-1)).each do |counter|
             upper_index = option_start + (counter*option_width)
             lower_index = option_start + (counter*option_width) +  1
             sequence_index = option_start + (counter*option_width) +  2
+            hint_index = option_start + (counter*option_width) +  2
 
             if row.cells[upper_index] && row.cells[upper_index].value
               upper = row.cells[upper_index].value
               lower = row.cells[lower_index].value
               sequence = row.cells[sequence_index].value
+              hint = row.cells[hint_index].value
 
-              option = Option.create( upper: upper, lower: lower, sequence: sequence)
+              option = Option.create( upper: upper, lower: lower, sequence: sequence, hint: hint)
               puts "Adding option_#{(option_count+1)} upper: #{upper}, lower: #{lower}, sequence: #{sequence}"
               game_option = GameOption.create!(option: option, game_question: game_question)
             end
@@ -414,7 +418,7 @@ end
 
 # PG: Diction
 def upload_diction_data(book, count)
-  # remove_game_holder_questions("diction")
+  remove_game_holder_questions("diction") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -470,7 +474,7 @@ end
 
 # PG: Discounting
 def upload_discounting_data(book, count)
-  # remove_game_holder_questions("discounting")
+  remove_game_holder_questions("discounting") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -531,7 +535,7 @@ end
 
 # PG: Division
 def upload_division_data(book, count)
-  # remove_game_holder_questions("division")
+  remove_game_holder_questions("division") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -563,19 +567,21 @@ def upload_division_data(book, count)
           game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
           
           option_start = 9
-          option_width = 3
+          option_width = 4
           option_count = 5
           (0..(option_count-1)).each do |counter|
             value_type_index = option_start + (counter*option_width)
             display_index = option_start + (counter*option_width) +  1
             value_index = option_start + (counter*option_width) +  2
+            display_count_index = option_start + (counter*option_width) +  3
 
             if row.cells[value_type_index] && row.cells[value_type_index].value
               value_type = row.cells[value_type_index].value
               display = row.cells[display_index].value
               value = row.cells[value_index].value
+              display_count = row.cells[display_count_index].value
 
-              option = Option.create( value_type: value_type, display: display, value: value)
+              option = Option.create( value_type: value_type, display: display, value: value, display_index: display_count)
               puts "Adding option_#{(option_count+1)} value_type: #{value_type}, display: #{display}, value: #{value}"
               game_option = GameOption.create!(option: option, game_question: game_question)
             end
@@ -592,7 +598,7 @@ end
 
 # PG: Estimation
 def upload_estimation_data(book, count)
-  # remove_game_holder_questions("estimation")
+  remove_game_holder_questions("estimation") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -671,7 +677,7 @@ end
 
 # PG: Percentage
 def upload_percentage_data(book, count)
-  # remove_game_holder_questions("percentage")
+  remove_game_holder_questions("percentage") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -714,7 +720,7 @@ end
 
 # PG: SCQ
 def upload_tipping_data(book, count)
-  # remove_game_holder_questions("tipping")
+  remove_game_holder_questions("tipping") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -775,7 +781,7 @@ end
 
 # PG: Inversion
 def upload_inversion_data(book, count)
-  # remove_game_holder_questions("inversion")
+  remove_game_holder_questions("inversion") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -794,10 +800,11 @@ def upload_inversion_data(book, count)
           parent_code = row.cells[question_start].value
           code = row.cells[question_start + 1].value
 
-          break if Question.search_code(parent_code).count > 0
+          break if Question.search_code(code).count > 0
+          parent_game_question = Question.where(code: parent_code).first
 
           display_index = question_start + 2
-          if row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
+          if parent_game_question.nil? && row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
             display = row.cells[display_index].value
 
             parent_question = Question.create!(code: parent_code, display: display)
@@ -806,10 +813,10 @@ def upload_inversion_data(book, count)
 
           end
 
-          if !parent_game_question
-            parent_game_question = game_holder.game_questions.first
-            parent_question = parent_game_question.question
-          end
+          # if !parent_game_question
+          #   parent_game_question = game_holder.game_questions.first
+          #   parent_question = parent_game_question.question
+          # end
 
           if parent_game_question
             solution = row.cells[display_index + 1]? row.cells[display_index + 1].value : nil
@@ -848,7 +855,7 @@ end
 
 # PG: Proportion
 def upload_proportion_data(book, count)
-  # remove_game_holder_questions("proportion")
+  remove_game_holder_questions("proportion") if remove_game_holder_ref_flag
   master_sheet = book[count]
   sequence = -1
   master_sheet.each do |row|
@@ -873,12 +880,12 @@ def upload_proportion_data(book, count)
           new_seq = row.cells[question_start + 2]? row.cells[question_start + 2].value.to_i : nil
           parent_display = row.cells[question_start + 3].value
           display = parent_display
-          solution = nil
+          solution = row.cells[question_start + 5].value
           puts "new_seq : #{new_seq},sequence : #{sequence}"
           parent_game_question = GameQuestion.includes(:sub_questions).where(game_holder: game_holder)[new_seq-1]
           if parent_game_question.nil?
             sequence = new_seq
-            parent_question = Question.create!(code: parent_code, display: parent_display)
+            parent_question = Question.create!(code: parent_code, display: parent_display, solution: solution)
             puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
             parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
             puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
@@ -936,7 +943,7 @@ end
 
 # PG: Refinement
 def upload_refinement_data(book, count)
-  # remove_game_holder_questions("refinement")
+  remove_game_holder_questions("refinement") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value && (row.cells[0].value.to_s.include? ("for") )
@@ -1259,6 +1266,9 @@ def replace_slash(text)
   return nil
 end
 
+def remove_game_holder_ref_flag
+  return true
+end
 
 game_start = 5
 # remove_game_question_references
