@@ -3,6 +3,7 @@ module Api::V1
     attributes :id, :name
     has_many :character_dialogs, serializer: CharacterDialogSerializer
     def character_dialogs
+      return object.character_dialogs if object.character_dialogs.count > 0
       [CharacterDialog.get_default]
     end
   end
