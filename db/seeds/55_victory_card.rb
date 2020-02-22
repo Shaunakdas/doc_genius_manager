@@ -86,7 +86,7 @@ def create_game_level_vistory_card
 end
 
 game_start = 24
-delete_victory_cards
-# delete_game_level_without_mode
-upload_character_victory_cards(book, game_start)
-create_game_level_vistory_card
+# delete_victory_cards
+# # delete_game_level_without_mode
+# upload_character_victory_cards(book, game_start)
+# create_game_level_vistory_card
