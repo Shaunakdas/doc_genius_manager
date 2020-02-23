@@ -1,9 +1,13 @@
 module Api::V1::PracticeQuestions
   class InversionGameSerializer < PracticeGameSerializer
-    attributes :title, :time, :entry_sequence, :entry_delay, :question,  :pairs, :content_report
+    attributes :title, :time, :entry_sequence, :entry_delay, :question, :questions,  :pairs, :content_report
 
     def question
       object.game_questions[0].question.display
+    end
+    
+    def questions
+      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: InversionBlockSerializer)
     end
 
     def pairs
@@ -12,8 +16,8 @@ module Api::V1::PracticeQuestions
         list << InversionQuestionSerializer.new(q).as_json[:inversion_question]
       end
       powerup = ["shrink", "arrow", "blast", "snow"].sample
-      powerup_index = rand(3..15)
-      list[powerup_index][:powerup] = powerup if powerup_index
+      powerup_index = rand(0..(list.count-1))
+      list[powerup_index][:powerup] = powerup if list.length > 3 && powerup_index
       return list
     end
 

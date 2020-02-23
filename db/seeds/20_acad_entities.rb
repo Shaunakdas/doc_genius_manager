@@ -315,7 +315,7 @@ def upload_purchasing_data(book, count)
         if practice_type && game_holder
           code = row.cells[question_start].value
           display = row.cells[question_start + 1].value
-          solution = row.cells[question_start + 2].value if row.cells[question_start + 4]
+          solution = row.cells[question_start + 2].value if row.cells[question_start + 2]
           title = row.cells[question_start + 3].value
           mode = row.cells[question_start + 4].value
 
@@ -393,13 +393,13 @@ def upload_conversion_data(book, count)
             upper_index = option_start + (counter*option_width)
             lower_index = option_start + (counter*option_width) +  1
             sequence_index = option_start + (counter*option_width) +  2
-            hint_index = option_start + (counter*option_width) +  2
+            hint_index = option_start + (counter*option_width) +  3
 
             if row.cells[upper_index] && row.cells[upper_index].value
               upper = row.cells[upper_index].value
               lower = row.cells[lower_index].value
               sequence = row.cells[sequence_index].value
-              hint = row.cells[hint_index].value
+              hint = row.cells[hint_index]? row.cells[hint_index].value : nil
 
               option = Option.create( upper: upper, lower: lower, sequence: sequence, hint: hint)
               puts "Adding option_#{(option_count+1)} upper: #{upper}, lower: #{lower}, sequence: #{sequence}"
@@ -753,17 +753,19 @@ def upload_tipping_data(book, count)
           game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
 
           option_start = 10
-          option_width = 2
+          option_width = 3
           option_count = 9
           (0..(option_count-1)).each do |counter|
             display_index = option_start + (counter*option_width)
             correct_index = option_start + (counter*option_width) +  1
+            hint_index = option_start + (counter*option_width) +  2
 
             if  row.cells[display_index] && row.cells[display_index].value
               display = row.cells[display_index].value
               correct = row.cells[correct_index].nil? ? 0 : row.cells[correct_index].value
+              hint = row.cells[hint_index].nil? ? nil : row.cells[hint_index].value
 
-              option = Option.create( display: display, correct: (correct==1))
+              option = Option.create( display: display, correct: (correct==1), hint: hint)
               puts "Adding option_#{(option_count+1)} display: #{display} , correct: #{correct}"
               game_option = GameOption.create!(option: option, game_question: game_question)
             end
@@ -801,10 +803,10 @@ def upload_inversion_data(book, count)
           code = row.cells[question_start + 1].value
 
           break if Question.search_code(code).count > 0
-          parent_game_question = Question.where(code: parent_code).first
+          parent_question = Question.where(code: parent_code).first
 
           display_index = question_start + 2
-          if parent_game_question.nil? && row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
+          if parent_question.nil? && row.cells[display_index] && row.cells[display_index].value && row.cells[display_index].value.length > 1
             display = row.cells[display_index].value
 
             parent_question = Question.create!(code: parent_code, display: display)
@@ -818,7 +820,8 @@ def upload_inversion_data(book, count)
           #   parent_question = parent_game_question.question
           # end
 
-          if parent_game_question
+          if !parent_question.nil?
+            parent_game_question = GameQuestion.where(question: parent_question).first
             solution = row.cells[display_index + 1]? row.cells[display_index + 1].value : nil
 
             question = Question.create!(code: code, display: display, solution: solution,
@@ -882,7 +885,7 @@ def upload_proportion_data(book, count)
           display = parent_display
           solution = row.cells[question_start + 5].value
           puts "new_seq : #{new_seq},sequence : #{sequence}"
-          parent_game_question = GameQuestion.includes(:sub_questions).where(game_holder: game_holder)[new_seq-1]
+          parent_game_question = GameQuestion.includes(:sub_questions).where(game_holder: game_holder).sort_by {|obj|obj.id}[new_seq-1]
           if parent_game_question.nil?
             sequence = new_seq
             parent_question = Question.create!(code: parent_code, display: parent_display, solution: solution)
@@ -1260,6 +1263,9 @@ end
 def replace_slash(text)
   if text
     new_text = text.gsub(/\\\\/, '\\')
+    new_text = new_text.gsub(/<br\/>\n/, "<br/>")
+    new_text = new_text.gsub(/<p\/>\n/, "<p/>")
+    new_text = new_text.gsub(/\\table/, "\table")
     return new_text.gsub(/\\n/, "\n") if new_text.include?("\\n")
     return new_text
   end
@@ -1270,6 +1276,12 @@ def remove_game_holder_ref_flag
   return true
 end
 
+def remove_question_codes
+  Question.where.not(code: nil).each do |q|
+    q.update_attributes!(code: nil)
+  end
+end
+
 game_start = 5
 # remove_game_question_references
 # remove_game_holder_references
@@ -1277,19 +1289,20 @@ game_start = 5
 # upload_practice_types(book, 3)
 # upload_game_holder_details(book, 3)
 # set_acad_entity_enabled(true)
-upload_agility_data(book, game_start)
-upload_purchasing_data(book, game_start + 1)
-upload_conversion_data(book, game_start + 2)
-upload_diction_data(book, game_start + 3)
-upload_discounting_data(book, game_start + 4)
-upload_division_data(book, game_start + 5)
-upload_estimation_data(book, game_start + 6)
-upload_percentage_data(book, game_start + 7)
-upload_tipping_data(book, game_start + 8)
-upload_inversion_data(book, game_start + 9)
-upload_proportion_data(book, game_start + 10)
-upload_refinement_data(book, game_start + 11)
-upload_dragonbox_data(book, game_start + 12)
+# remove_question_codes
+# upload_agility_data(book, game_start)
+# upload_purchasing_data(book, game_start + 1)
+# upload_conversion_data(book, game_start + 2)
+# upload_diction_data(book, game_start + 3)
+# upload_discounting_data(book, game_start + 4)
+# upload_division_data(book, game_start + 5)
+# upload_estimation_data(book, game_start + 6)
+# upload_percentage_data(book, game_start + 7)
+# upload_tipping_data(book, game_start + 8)
+# upload_inversion_data(book, game_start + 9)
+# upload_proportion_data(book, game_start + 10)
+# upload_refinement_data(book, game_start + 11)
+# # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 # set_game_holder_title
 # update_question_text

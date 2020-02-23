@@ -14,7 +14,7 @@ class GameHolder < ApplicationRecord
   has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
   # has_many :questions, through: :game_questions
 
-  has_many :game_levels
+  has_many :game_levels, -> { order('sequence asc') }
 
   def to_s
     "#{self.name}"
