@@ -21,18 +21,18 @@ def upload_game_levels(book, count)
                 game_level_slug = get_val(row.cells[4])
                 game_level_params = {
                     game_holder: game_holder,
-                    sequence: get_val(row.cells[2]),
+                    sequence: get_val(row.cells[2]).to_i,
                     name: get_val(row.cells[3]),
                     slug: game_level_slug,
                     practice_mode: get_val(row.cells[5]),
                     nature_effect: get_val(row.cells[6])
                 }
-
                 #Create or find stream
                 if not game_level = GameLevel.find_by(:slug => game_level_slug)
                     puts "Adding GameLevel #{game_level_params.to_json} "
                     game_level = GameLevel.create!(game_level_params)
                 else
+                    puts "Updating GameLevel #{game_level_params.to_json} "
                     game_level.update_attributes!(game_level_params)
                 end
             end
@@ -63,7 +63,7 @@ def upload_game_score_structures(book, count)
             if game_level
                 game_level_name = row.cells[3].value
 
-                score_index = 7
+                score_index = 8
 
                 score_structure_params = {
                     game_level: game_level,

@@ -54,39 +54,48 @@ def upload_character_victory_cards(book, count)
 end
 
 def create_game_level_vistory_card
-    GameLevel.all.each do |level|
-        return if level.linked_victory_card.nil?
+    GameLevel.order('id ASC').all.each do |level|
+        puts "GameLevel : #{level.to_json}"
+        next if level.linked_victory_card.nil?
         GameLevelVictoryCard.create!(game_level: level,
             victory_card: level.linked_victory_card,
             current_count: 1)
+        puts "Creating GameLevelVictoryCard for GameLevel : #{level.to_json} for card: #{level.linked_victory_card.to_json}"
     end
-    GameHolder.all.each do |game_holder|
-        return if game_holder.linked_victory_card.nil?
+    GameHolder.order('id ASC').where.not(sequence: nil).all.each do |game_holder|
+        puts "GameHolder : #{game_holder.to_json}"
+        next if game_holder.linked_victory_card.nil?
         max_count = 0
         game_holder.game_levels.each do |game_level|
-            max_count = [max_count,game_level.sequence].max
-            GameLevelVictoryCard.create!(game_level: game_level,
+            max_count = [max_count,game_level.sequence.to_i].max
+            card_ref = GameLevelVictoryCard.create!(game_level: game_level,
                 victory_card: game_holder.linked_victory_card,
                 current_count: game_level.sequence)
+            puts "Creating GameLevelVictoryCard attributes :#{card_ref.to_json}"
         end
         game_holder.linked_victory_card.update_attributes!(max_count: max_count)
+        puts "Creating GameLevelVictoryCard for GameHolder : #{game_holder.to_json} for card: #{game_holder.linked_victory_card.to_json}"
     end
-    Chapter.all.each do |chapter|
-        return if chapter.linked_victory_card.nil?
+    Chapter.order('id ASC').all.each do |chapter|
+        puts "Chapter : #{chapter.to_json}"
+        next if chapter.linked_victory_card.nil?
         max_count = 0
-        chapter.practice_game_holders.each do |game_holder|
-            max_count = [max_count,game_holder.sequence].max
+        chapter.practice_game_holders.where.not(sequence: nil).each do |game_holder|
+            max_count = [max_count,game_holder.sequence.to_i].max
             game_level = game_holder.game_levels.order("sequence DESC").first
-            GameLevelVictoryCard.create!(game_level: game_level,
-                victory_card: chapter.linked_victory_card,
-                current_count: game_holder.sequence)
+            if game_level
+                card_ref = GameLevelVictoryCard.create!(game_level: game_level,
+                    victory_card: chapter.linked_victory_card,
+                    current_count: game_holder.sequence)
+                puts "Creating GameLevelVictoryCard attributes :#{card_ref.to_json}"
+            end
         end
         chapter.linked_victory_card.update_attributes!(max_count: max_count)
+        puts "Creating GameLevelVictoryCard for Chapter : #{chapter.to_json} for card: #{chapter.linked_victory_card.to_json}"
     end
 end
 
 game_start = 24
-# delete_victory_cards
-# # delete_game_level_without_mode
-# upload_character_victory_cards(book, game_start)
-# create_game_level_vistory_card
+delete_victory_cards
+upload_character_victory_cards(book, game_start)
+create_game_level_vistory_card
