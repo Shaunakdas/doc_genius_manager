@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :title, :time, :sections, :content_report
 
     def sections
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: PercentagesQuestionSerializer)
+      ActiveModel::ArraySerializer.new(linked_game_questions, each_serializer: PercentagesQuestionSerializer)
     end
 
     def time
@@ -14,7 +14,7 @@ module Api::V1::PracticeQuestions
     end
 
     def content_report
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: PercentagesContentSerializer)
+      ActiveModel::ArraySerializer.new(linked_game_questions, each_serializer: PercentagesContentSerializer)
     end
 
   end

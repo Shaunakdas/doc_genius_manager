@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :title, :lives, :correct_count, :time, :sections
 
     def sections
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: ConversionQuestionSerializer)
+      ActiveModel::ArraySerializer.new(linked_game_questions, each_serializer: ConversionQuestionSerializer)
     end
 
     def time

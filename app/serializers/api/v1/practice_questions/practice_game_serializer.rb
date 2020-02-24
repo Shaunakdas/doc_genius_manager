@@ -35,5 +35,17 @@ module Api::V1::PracticeQuestions
     def minimum_correct_count
       3
     end
+
+    def linked_game_questions
+      if object.class.name == "GameLevel"
+        puts object.game_questions.count
+        return object.game_questions if object.game_questions.count > 0
+        return object.game_holder.game_questions
+      elsif object.class.name == "GameHolder"
+        return object.game_questions
+      else
+        return []
+      end
+    end
   end
 end

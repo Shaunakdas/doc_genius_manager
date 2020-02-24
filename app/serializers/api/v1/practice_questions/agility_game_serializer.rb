@@ -3,7 +3,7 @@ module Api::V1::PracticeQuestions
     attributes :title, :lives, :correct_count, :time, :sections, :content_report
 
     def sections
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: AgilityQuestionSerializer)
+      ActiveModel::ArraySerializer.new(linked_game_questions, each_serializer: AgilityQuestionSerializer)
     end
 
     def time
@@ -14,7 +14,7 @@ module Api::V1::PracticeQuestions
     end
 
     def content_report
-      ActiveModel::ArraySerializer.new(object.game_questions, each_serializer: AgilityContentSerializer)
+      ActiveModel::ArraySerializer.new(linked_game_questions, each_serializer: AgilityContentSerializer)
     end
   end
 end
