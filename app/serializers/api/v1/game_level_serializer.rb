@@ -4,7 +4,7 @@ module Api::V1
     has_one :game, serializer: GameSerializer
 
     def question_input
-      object.game_holder.get_questions
+      object.get_questions 
     end
 
     def benefits
@@ -58,6 +58,7 @@ module Api::V1
     end
 
     def score_algo
+      return object.score_structure.score_algo if object.score_structure
       return object.game_holder.score_structure.score_algo if object.game_holder.score_structure
       return nil
     end
