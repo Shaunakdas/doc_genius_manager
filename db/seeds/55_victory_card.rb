@@ -37,7 +37,8 @@ def upload_character_victory_cards(book, count)
                     name: get_val(row.cells[4]),
                     slug: get_val(row.cells[5]),
                     title: get_val(row.cells[6]),
-                    description: get_val(row.cells[7])
+                    description: get_val(row.cells[7]),
+                    max_count: 1
                 }
 
                 #Create or find CharacterDiscussion
@@ -82,7 +83,7 @@ def create_game_level_vistory_card
         max_count = 0
         chapter.practice_game_holders.where.not(sequence: nil).each do |game_holder|
             max_count = [max_count,game_holder.sequence.to_i].max
-            game_level = game_holder.game_levels.order("sequence DESC").first
+            game_level = game_holder.game_levels.order("sequence DESC").last
             if game_level
                 card_ref = GameLevelVictoryCard.create!(game_level: game_level,
                     victory_card: chapter.linked_victory_card,

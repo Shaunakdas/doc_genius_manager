@@ -6,6 +6,6 @@ module Api::V1
     has_one :intro_character_discussion, serializer: CharacterDiscussionSerializer
     has_one :success_character_discussion, serializer: CharacterDiscussionSerializer
     has_one :fail_character_discussion, serializer: CharacterDiscussionSerializer
-    has_many :success_victory_cards, serializer: VictoryCardSerializer
+    has_many :success_victory_cards, serializer: GameLevelVictoryCardSerializer
   end
 end

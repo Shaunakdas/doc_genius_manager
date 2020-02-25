@@ -6,6 +6,7 @@ class GameLevel < ApplicationRecord
   # :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled
   has_many :game_level_victory_cards
   has_many :victory_cards, through: :game_level_victory_cards
+  has_many :game_level_victory_cards
   has_one :score_structure
   has_many :game_sessions
   has_many :game_questions
@@ -67,6 +68,7 @@ class GameLevel < ApplicationRecord
   end
 
   def success_victory_cards
+    return game_level_victory_cards if game_level_victory_cards.count > 0
     return victory_cards if victory_cards.count != 0 
     return [VictoryCard.get_default]
   end
