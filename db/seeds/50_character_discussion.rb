@@ -118,5 +118,4 @@ end
 
 game_start = 23
 delete_character_discussion_models
-# delete_game_level_without_mode
 upload_character_discussions(book, game_start)

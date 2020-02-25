@@ -35,5 +35,5 @@ def upload_game_holder_sequences(book, count)
 end
 
 game_start = 3
-# delete_game_holder_sequences
-# upload_game_holder_sequences(book, game_start)
+delete_game_holder_sequences
+upload_game_holder_sequences(book, game_start)

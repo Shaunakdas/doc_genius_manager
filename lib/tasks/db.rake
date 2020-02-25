@@ -3,6 +3,7 @@ namespace :db do
   desc "Dumps the database to backups"
   task :dump => :environment do
       cmd = nil
+      #   [IMP] use "-h #{host}" for staging and prod dumps
       with_config do |app, host, db, user|
           cmd = "pg_dump -F c -v #{host} -U #{user} -d #{db} -f #{Rails.root}/db/backups/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{db}.psql"
       end

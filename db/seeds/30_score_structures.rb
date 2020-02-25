@@ -496,7 +496,7 @@ def add_dragonbox_score_structure(game_holder)
 end
 
 
-add_game_holder_score_structure
+# add_game_holder_score_structure
 
 def set_game_holder_content
   GameHolder.all.each do |game_holder|
