@@ -21,7 +21,7 @@ gem 'pg', '~> 0.20'
 gem 'figaro'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 
 # RuboCop is a Ruby static code analyzer. Out of the box it will enforce
 # many of the guidelines outlined in the community Ruby Style Guide.
