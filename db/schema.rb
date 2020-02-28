@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200208073612) do
+ActiveRecord::Schema.define(version: 20200228090202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -569,7 +569,8 @@ ActiveRecord::Schema.define(version: 20200208073612) do
     t.date "birth"
     t.integer "registration_method"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
