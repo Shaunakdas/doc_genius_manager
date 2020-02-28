@@ -2,12 +2,12 @@ class User < ApplicationRecord
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable,
-         :confirmable, :lockable
-  validates_presence_of :email
-  validates_uniqueness_of :email, case_sensitive: false
-  validates_format_of :email, with: /@/
+  # devise :database_authenticatable, :registerable,
+  #        :recoverable, :rememberable, :trackable,
+  #        :confirmable, :lockable
+  # validates_presence_of :email
+  # validates_uniqueness_of :email, case_sensitive: false
+  # validates_format_of :email, with: /@/ 
 
   # validates_presence_of :first_name, :last_name
   # validates_uniqueness_of :mobile_number, case_sensitive: false
@@ -26,6 +26,10 @@ class User < ApplicationRecord
   # attr_accessor :first_name, :last_name, :email
   def to_s
     "#{self.first_name} #{self.last_name}"
+  end
+
+  def email_required?
+    false
   end
   
   def acad_scores(acad_entity)
