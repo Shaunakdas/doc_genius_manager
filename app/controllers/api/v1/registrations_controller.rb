@@ -16,6 +16,32 @@ module Api::V1
       end
     end
 
+    # post "sign_up/phone"
+    def sign_up_phone
+      begin
+        params[:user][:registration_method] = :mobile
+        if not user = User.where(mobile_number: params[:user][:mobile_number]).first
+          user = User.new(user_params)
+          user.save!
+        end
+        puts user.to_json
+        response = payload(user)
+        response[:standards] = Standard.list({})
+        render json: response
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    end
+
+    # post "verify/otp"
+    def verify_otp
+      begin
+        render json: {verified: true}
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    end
+
     # post "activate"
     def activate
       render json: {}
@@ -82,7 +108,7 @@ module Api::V1
       return nil unless user and user.id
       {
         auth_token: JsonWebToken.encode({user_id: user.id}),
-        user: {id: user.id, email: user.email}
+        user: {id: user.id, mobile_number: user.mobile_number}
       }
     end
   end
