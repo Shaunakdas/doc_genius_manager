@@ -25,6 +25,7 @@ module Api::V1
           user.save!
         end
         puts user.to_json
+        user.update_acad_entity({standard_id: 1})
         response = payload(user)
         response[:standards] = Standard.list({})
         render json: response
