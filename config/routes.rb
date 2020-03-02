@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  # devise_for :users
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
@@ -122,6 +122,8 @@ Rails.application.routes.draw do
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
       # post "registrations/sign_up_number" => "registrations#sign_up_number"
       post "sign_up/email" => "registrations#sign_up_email"
+      post "sign_up/phone" => "registrations#sign_up_phone"
+      get "verify/otp" => "registrations#verify_otp"
       # Activate User by verifying OTP. Req: (Number, OTP). Response: (Auth Token)
       post "activate" => "registrations#activate"
       # Fill User Details. Req: (Auth Token, First Name, Last Name, Date of birth, Sex, EMail, First Time). Response: (Success)

@@ -1,6 +1,6 @@
 module Api::V1
   class GameLevelSerializer < AcadEntitySerializer
-    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small
+    attributes :id, :title, :sub_title, :practice_mode, :nature_effect,:name, :slug, :sequence, :game, :image_url, :enabled, :score_small
     has_one :game, serializer: GameSerializer
 
     def question_input
