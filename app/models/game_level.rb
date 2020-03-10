@@ -73,7 +73,11 @@ class GameLevel < ApplicationRecord
     return [VictoryCard.get_default]
   end
 
-
+  def parse_result user, result_json
+    session = GameSession.create!(user: user, start: Time.now, game_level: self, game_holder: game_holder)
+    session.parse_result(result_json)
+    return session
+  end
 
   def get_questions
     puts game.slug

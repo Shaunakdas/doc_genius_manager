@@ -117,6 +117,8 @@ Rails.application.routes.draw do
       get "game/:id/level_details" => "game_holders#level_details"
       # Post Result of GameHolder attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
       post "game/result" => "game_holders#result"
+      # Post Result of GameLevel attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      post "game/level_result" => "game_holders#level_result"
       
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
