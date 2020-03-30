@@ -199,4 +199,14 @@ class GameLevel < ApplicationRecord
       return GameLevel.where(practice_mode: practice_mode).where.not(intro_discussion: nil).first.intro_discussion
     end
   end
+
+  def sub_questions
+    list = []
+    game_questions.each do |g_q|
+      g_q.sub_questions.each do |s_q|
+        list << s_q
+      end
+    end
+    return list
+  end
 end

@@ -38,11 +38,21 @@ module Api::V1::PracticeQuestions
 
     def linked_game_questions
       if object.class.name == "GameLevel"
-        puts object.game_questions.count
         return object.game_questions if object.game_questions.count > 0
         return object.game_holder.game_questions
       elsif object.class.name == "GameHolder"
         return object.game_questions
+      else
+        return []
+      end
+    end
+
+    def linked_sub_questions
+      if object.class.name == "GameLevel"
+        return object.sub_questions if object.sub_questions.count > 0
+        return object.game_holder.sub_questions
+      elsif object.class.name == "GameHolder"
+        return object.sub_questions
       else
         return []
       end

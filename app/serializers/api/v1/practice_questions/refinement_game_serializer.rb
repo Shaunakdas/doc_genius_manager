@@ -14,7 +14,7 @@ module Api::V1::PracticeQuestions
     end
 
     def content_report
-      ActiveModel::ArraySerializer.new(object.sub_questions, each_serializer: RefinementContentSerializer)
+      ActiveModel::ArraySerializer.new(linked_sub_questions, each_serializer: RefinementContentSerializer)
     end
   end
 end
