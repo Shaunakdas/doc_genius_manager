@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PercentagesQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :tips, :hint,:hint_content, :answer, :numpad
+    attributes :id, :question, :tips, :hint,:hint_content, :answer, :numpad, :post_submit_text
 
     def numpad
       answer.tr("0-9", "").split("")

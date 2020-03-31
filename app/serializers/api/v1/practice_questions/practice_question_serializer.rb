@@ -89,5 +89,9 @@ module Api::V1::PracticeQuestions
     def steps
       object.question.steps
     end
+
+    def post_submit_text
+      object.question.post_submit_text
+    end
   end
 end

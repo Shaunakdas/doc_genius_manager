@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class EstimationQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :tips, :hint, :solution, :number_line
+    attributes :id, :question, :tips, :hint, :solution, :number_line, :post_submit_text
 
     def options
       
