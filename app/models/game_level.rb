@@ -209,4 +209,21 @@ class GameLevel < ApplicationRecord
     end
     return list
   end
+
+  def background_list
+    {
+      1 => "green_forest",
+      2 => "coniferous",
+      3 => "desert",
+      6 => "jungle",
+      7 => "crystal",
+      8 => "swamp",
+      12 => "bamboo_forest",
+      13 => "tundra",
+    }
+  end
+
+  def background_area
+    return background_list[game_holder.acad_entity.chapter.id] if !game_holder.acad_entity.chapter.nil?
+  end
 end
