@@ -34,6 +34,7 @@ class GameQuestion < ApplicationRecord
         type: value[0][:value_type],
         _type: "dropdown,sector,math,text",
         solution: question.solution,
+        hint_structure: Question.parse_hint_structure(question.solution),
         faces: value,
         options: value}
     end

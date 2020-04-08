@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class EstimationQuestionSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :tips, :hint, :solution, :number_line, :post_submit_text
+    attributes :id, :question, :tips, :hint, :solution, :hint_structure, :number_line, :post_submit_text
 
     def options
       
@@ -8,6 +8,10 @@ module Api::V1::PracticeQuestions
 
     def hint
       object.question.solution
+    end
+
+    def hint_structure
+      Question.parse_hint_structure(object.question.solution)
     end
 
     def answer

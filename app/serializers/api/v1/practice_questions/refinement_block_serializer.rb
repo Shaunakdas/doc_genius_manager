@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class RefinementBlockSerializer < PracticeQuestionSerializer
-    attributes :id, :question, :section_question, :time, :_time, :hint, :solution, :options
+    attributes :id, :question, :section_question, :time, :_time, :hint, :hint_structure, :solution, :options
 
     def options
       ActiveModel::ArraySerializer.new(object.game_options, each_serializer: RefinementOptionSerializer)
@@ -16,6 +16,10 @@ module Api::V1::PracticeQuestions
 
     def hint
       object.question.solution
+    end
+
+    def hint_structure
+      Question.parse_hint_structure(object.question.solution)
     end
   end
 end

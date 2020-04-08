@@ -61,4 +61,15 @@ class Question < ApplicationRecord
   def self.search_code(search)
     where('code LIKE :search', search: "#{search}")
   end
+
+  def self.parse_hint_structure hint
+    return nil if hint.nil?
+    # return hint if !(hint.include?('<br/>') || hint.include?('<p/>'))
+    pages = hint.split('<p/>')
+    page_json = []
+    pages.each do |page|
+      page_json << { lines: page.split('<br/>')}
+    end
+    return { pages: page_json}
+  end
 end
