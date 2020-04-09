@@ -1,6 +1,6 @@
 module Api::V1
   class GameLevelSerializer < AcadEntitySerializer
-    attributes :id, :title, :sub_title, :practice_mode, :nature_effect,:name, :slug, :sequence, :game, :image_url, :enabled, :score_small
+    attributes :id, :title, :sub_title, :practice_mode, :nature_effect,:name, :slug, :sequence, :game, :image_url, :enabled, :score_small, :background_area
     has_one :game, serializer: GameSerializer
 
     def question_input
@@ -61,6 +61,10 @@ module Api::V1
       return object.score_structure.score_algo if object.score_structure
       return object.game_holder.score_structure.score_algo if object.game_holder.score_structure
       return nil
+    end
+
+    def background_area
+      object.background_area
     end
   end
 end
