@@ -14,7 +14,7 @@ module Api::V1::PracticeQuestions
     end
 
     def content_report
-      ActiveModel::ArraySerializer.new(object.game_options, each_serializer: TippingContentSerializer)
+      ActiveModel::ArraySerializer.new(linked_sub_questions, each_serializer: TippingContentSerializer)
     end
   end
 end
