@@ -69,8 +69,8 @@ class GameLevel < ApplicationRecord
 
   def success_victory_cards
     return game_level_victory_cards if game_level_victory_cards.count > 0
-    return victory_cards if victory_cards.count != 0 
-    return [VictoryCard.get_default]
+    # return victory_cards if victory_cards.count != 0 
+    return [VictoryCard.get_default.game_level_victory_card]
   end
 
   def parse_result user, result_json

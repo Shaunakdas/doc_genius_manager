@@ -43,7 +43,8 @@ class Chapter < AcadEntity
   def practice_game_levels
     chapter_game_levels = []
     practice_game_holders.each do |game_holder|
-      chapter_game_levels = chapter_game_levels.concat(game_holder.game_levels)
+      enabled_game_levels = game_holder.game_levels.where(enabled: true)
+      chapter_game_levels = chapter_game_levels.concat(enabled_game_levels)
     end
     return chapter_game_levels
   end
