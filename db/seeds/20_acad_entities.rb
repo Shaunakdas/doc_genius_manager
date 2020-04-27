@@ -155,15 +155,14 @@ def upload_practice_types(book, count)
       topic_name = row.cells[12].value
       topic_slug = row.cells[13].value
 
-      if row.cells[14].value
-        practice_type_name = row.cells[14].value
+      if row.cells[16] && row.cells[16].value
+        practice_type_name = row.cells[16].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[16].value
-        game_holder_slug = row.cells[17].value
+        game_holder_name = row.cells[21].value
+        game_holder_slug = row.cells[22].value
       end
 
       topic = Topic.find_by(:slug => topic_slug)
-
       if topic.nil?
         chapter = Chapter.find_by(:slug => chapter_slug)
         puts "Adding topic #{topic_name}, slug: #{topic_slug}"
@@ -185,7 +184,6 @@ def upload_practice_types(book, count)
       elsif !game_holder.nil?
         game_holder.update_attributes!(acad_entity: topic)
       end
-      
 
     end
     break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
@@ -230,7 +228,6 @@ def set_acad_entity_enabled(enabled)
 end
 
 
-
 # PG: Agility
 def upload_agility_data(book, count)
   remove_game_holder_questions("agility") if remove_game_holder_ref_flag
@@ -241,9 +238,10 @@ def upload_agility_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -263,7 +261,8 @@ def upload_agility_data(book, count)
           question = Question.create!(display: display, solution: solution,
           title: title, mode: mode, code: code)
           puts "Adding question code: #{code} ,display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
           option_start = 9
           option_width = 2
@@ -303,9 +302,10 @@ def upload_purchasing_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -325,7 +325,8 @@ def upload_purchasing_data(book, count)
           question = Question.create!(display: display, solution: solution,
           title: title, mode: mode, code: code)
           puts "Adding question code: #{code} ,display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
           option_start = 9
           option_width = 2
@@ -364,9 +365,10 @@ def upload_conversion_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -384,8 +386,9 @@ def upload_conversion_data(book, count)
 
           question = Question.create!(display: display, solution: solution, code: code)
           puts "Adding question code: #{code} , display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
-          
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
+
           option_start = 7
           option_width = 4
           option_count = 5
@@ -426,9 +429,10 @@ def upload_diction_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
         
@@ -446,7 +450,8 @@ def upload_diction_data(book, count)
 
           question = Question.create!(display: display, hint: hint, solution: solution, code: code)
           puts "Adding question code: #{code} , display: #{display} , hint: #{hint}, solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
           option_start = 8
           option_width = 1
@@ -482,9 +487,10 @@ def upload_discounting_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -501,7 +507,8 @@ def upload_discounting_data(book, count)
 
           question = Question.create!(display: display, solution: solution, code: code)
           puts "Adding question code: #{code} , display: #{display} , solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
           option_start = 7
           option_width = 4
@@ -543,9 +550,10 @@ def upload_division_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -564,7 +572,8 @@ def upload_division_data(book, count)
           
           question = Question.create!(display: display, hint: hint, solution: solution, mode: mode, code: code)
           puts "Adding question code: #{code} , display: #{display} , hint: #{hint}, solution: #{solution} , mode: #{mode}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
           option_start = 9
           option_width = 4
@@ -606,9 +615,10 @@ def upload_estimation_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -634,7 +644,8 @@ def upload_estimation_data(book, count)
 
           question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution, mode: mode, marker_gap: marker_gap)
           puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution} , mode: #{mode}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
 
           answer_index = question_start + 11
           answer_title = question_start + 12
@@ -685,9 +696,10 @@ def upload_percentage_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -706,7 +718,8 @@ def upload_percentage_data(book, count)
 
           question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution)
           puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
           
         end
       end
@@ -728,9 +741,10 @@ def upload_tipping_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -750,7 +764,8 @@ def upload_tipping_data(book, count)
 
           question = Question.create!(display: display, code: code, tip: tip, hint: hint, title: title, solution: solution)
           puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
-          game_question = GameQuestion.create!(question: question, game_holder: game_holder, difficulty_index: difficulty)
+          game_question = GameQuestion.create!(question: question, game_holder: game_holder,
+            difficulty_index: difficulty, game_level: game_level)
 
           option_start = 10
           option_width = 3
@@ -791,9 +806,10 @@ def upload_inversion_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
         
@@ -811,7 +827,8 @@ def upload_inversion_data(book, count)
 
             parent_question = Question.create!(code: parent_code, display: display)
             puts "Adding parent_question code: #{parent_code},  display: #{display}"
-            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder,
+              game_level: game_level)
 
           end
 
@@ -867,9 +884,10 @@ def upload_proportion_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -890,7 +908,8 @@ def upload_proportion_data(book, count)
             sequence = new_seq
             parent_question = Question.create!(code: parent_code, display: parent_display, solution: solution)
             puts "Adding parent question parent_display: #{parent_display}, id: #{parent_question.id}"
-            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder)
+            parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder,
+              game_level: game_level)
             puts "Adding parent question parent_game_question: #{parent_display}, id: #{parent_game_question.id}"
           else
             parent_question = parent_game_question.question
@@ -954,9 +973,10 @@ def upload_refinement_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
         
@@ -979,7 +999,8 @@ def upload_refinement_data(book, count)
             if parent_game_question.nil?
               parent_question = Question.create!(display: parent_display, code: parent_code)
               puts "Adding parent_question code: #{parent_code}, display: #{parent_display}"
-              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder, difficulty_index: difficulty)
+              parent_game_question = GameQuestion.create!(question: parent_question, game_holder: game_holder,
+                difficulty_index: difficulty, game_level: game_level)
             end
             parent_question = parent_game_question.question
           end
@@ -1033,9 +1054,10 @@ def upload_dragonbox_data(book, count)
       if row.cells[0] && row.cells[1] && row.cells[2]
         practice_type_name = row.cells[2].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[0].value
         game_holder_slug = row.cells[1].value
+        game_level_slug = row.cells[0].value
 
+        game_level = GameLevel.find_by(:slug => game_level_slug)
         practice_type = PracticeType.find_by(:slug => practice_type_slug)
         game_holder = GameHolder.find_by(:slug => game_holder_slug)
 
@@ -1180,6 +1202,13 @@ def change_game_holder_enabled_status(enabled)
   end
 end
 
+def change_game_level_enabled_status(enabled)
+  GameLevel.joins(:game_questions).group('game_levels.id').each do |g_l|
+    g_l.update_attributes!(enabled: enabled)
+    puts "Enabling GameLevel: #{g_l.name}" 
+  end
+end
+
 def set_game_holder_title
   GameHolder.all.each do |g_h|
     g_h.update_attributes!(title: "#{g_h.game.name} GameHolder")
@@ -1304,6 +1333,7 @@ upload_proportion_data(book, game_start + 10)
 upload_refinement_data(book, game_start + 11)
 # # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
+change_game_level_enabled_status(true)
 # set_game_holder_title
 # update_question_text
 # update_option_text

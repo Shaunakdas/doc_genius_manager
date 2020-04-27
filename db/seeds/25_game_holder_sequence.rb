@@ -19,10 +19,10 @@ def upload_game_holder_sequences(book, count)
     master_sheet = book[count]
     master_sheet.each do |row|
         if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.to_s.include? 'C06' )
-            game_holder_slug = get_val(row.cells[17])
+            game_holder_slug = get_val(row.cells[22])
 
             game_holder = GameHolder.find_by(:slug => game_holder_slug)
-            sequence = get_val(row.cells[15])
+            sequence = get_val(row.cells[19])
             if game_holder && sequence
                 puts "Mapping GameHolder #{game_holder.to_json} to Sequence #{sequence}"
                 game_holder.update_attributes!(sequence: sequence)
@@ -35,5 +35,5 @@ def upload_game_holder_sequences(book, count)
 end
 
 game_start = 3
-delete_game_holder_sequences
-upload_game_holder_sequences(book, game_start)
+# delete_game_holder_sequences
+# upload_game_holder_sequences(book, game_start)
