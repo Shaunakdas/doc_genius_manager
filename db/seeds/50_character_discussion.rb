@@ -117,5 +117,5 @@ def get_weapon row, cell_index
 end
 
 game_start = 23
-delete_character_discussion_models
-upload_character_discussions(book, game_start)
+# delete_character_discussion_models
+# upload_character_discussions(book, game_start)

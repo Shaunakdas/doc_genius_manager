@@ -42,5 +42,5 @@ def upload_game_level_questions(book, count)
 end
 
 game_start = 25
-delete_game_level_questions
-upload_game_level_questions(book, game_start)
+# delete_game_level_questions
+# upload_game_level_questions(book, game_start)
