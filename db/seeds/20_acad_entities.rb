@@ -18,6 +18,10 @@ def remove_game_holder_questions(name)
     g.remove_game_questions
     puts "Removed game question refs of gameholder : #{g.name}"
   end
+  GameLevel.search(name).each do |g|
+    g.remove_game_questions
+    puts "Removed game level refs of game_level : #{g.name}"
+  end
 end
 
 def remove_game_holder_references
@@ -1331,7 +1335,7 @@ upload_tipping_data(book, game_start + 8)
 upload_inversion_data(book, game_start + 9)
 upload_proportion_data(book, game_start + 10)
 upload_refinement_data(book, game_start + 11)
-# # upload_dragonbox_data(book, game_start + 12)
+# upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 change_game_level_enabled_status(true)
 # set_game_holder_title

@@ -16,6 +16,11 @@ class GameLevel < ApplicationRecord
 
   enum practice_mode: [ :introduction, :learning, :practice]
   # enum nature_effect: [ :
+
+  def self.search(search)
+    where('name LIKE :search', search: "%#{search}%")
+  end
+  
   def title
     game_holder.title
   end
@@ -225,5 +230,11 @@ class GameLevel < ApplicationRecord
 
   def background_area
     return background_list[game_holder.acad_entity.chapter.id] if !game_holder.acad_entity.chapter.nil?
+  end
+
+  def remove_game_questions
+    game_questions.each do |ques|
+      ques.update_attributes!(game_level: nil)
+    end
   end
 end
