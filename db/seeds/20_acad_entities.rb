@@ -201,13 +201,13 @@ def upload_game_holder_details(book, count)
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (['C06','C07'].include?row.cells[0].value ) && row.cells[1].value == 'Maths'
 
-      if row.cells[14].value
-        practice_type_name = row.cells[14].value
+      if row.cells[16] && row.cells[16].value
+        practice_type_name = row.cells[16].value
         practice_type_slug = practice_type_name.downcase
-        game_holder_name = row.cells[16].value
-        game_holder_slug = row.cells[17].value
-        game_holder_sequence = row.cells[15].value
-        game_holder_title = row.cells[18].value
+        game_holder_name = row.cells[21].value
+        game_holder_slug = row.cells[22].value
+        game_holder_sequence = row.cells[19].value
+        game_holder_title = row.cells[23].value
       end
 
       game_holder = GameHolder.find_by(:slug => game_holder_slug)
@@ -1316,12 +1316,15 @@ def remove_question_codes
 end
 
 game_start = 5
-# remove_game_question_references
-# remove_game_holder_references
 # upload_basic_acad_entity(book, 0)
 # upload_practice_types(book, 3)
 # upload_game_holder_details(book, 3)
 # set_acad_entity_enabled(true)
+
+
+
+
+# Once Game Levels and Game Questions are done. 
 # remove_question_codes
 # upload_agility_data(book, game_start)
 # upload_purchasing_data(book, game_start + 1)
@@ -1338,6 +1341,4 @@ game_start = 5
 # upload_dragonbox_data(book, game_start + 12)
 # change_game_holder_enabled_status(true)
 # change_game_level_enabled_status(true)
-# set_game_holder_title
-# update_question_text
-# update_option_text
+

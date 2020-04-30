@@ -65,6 +65,7 @@ def upload_character_discussions(book, count)
                 right_weapon_index = 16
                 left_weapon = get_weapon(row, left_weapon_index)
                 right_weapon = get_weapon(row, right_weapon_index)
+                armory_index = 19
 
                 if discussion && character
                     dialog_index = 5
@@ -81,7 +82,19 @@ def upload_character_discussions(book, count)
                         left_weapon: left_weapon,
                         left_weapon_colour: get_val(row.cells[left_weapon_index+2]),
                         right_weapon: right_weapon,
-                        right_weapon_colour: get_val(row.cells[right_weapon_index+2])
+                        right_weapon_colour: get_val(row.cells[right_weapon_index+2]),
+                        helmet_name: get_val(row.cells[armory_index]),
+                        helmet_colour: get_val(row.cells[armory_index+1]),
+                        armor_name: get_val(row.cells[armory_index+2]),
+                        armor_colour: get_val(row.cells[armory_index+3]),
+                        cape_name: get_val(row.cells[armory_index+4]),
+                        cape_colour: get_val(row.cells[armory_index+5]),
+                        pants_name: get_val(row.cells[armory_index+6]),
+                        pants_colour: get_val(row.cells[armory_index+7]),
+                        gloves_name: get_val(row.cells[armory_index+8]),
+                        gloves_colour: get_val(row.cells[armory_index+9]),
+                        boots_name: get_val(row.cells[armory_index+10]),
+                        boots_colour: get_val(row.cells[armory_index+11])
                     }
                     #Create or find Characterdialog
                     if not dialog = CharacterDialog.find_by(:slug => dialog_slug)
