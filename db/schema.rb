@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200427172515) do
+ActiveRecord::Schema.define(version: 20200429192326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,18 @@ ActiveRecord::Schema.define(version: 20200427172515) do
     t.string "comment"
     t.string "name"
     t.string "slug"
+    t.string "helmet_name"
+    t.string "helmet_colour"
+    t.string "armor_name"
+    t.string "armor_colour"
+    t.string "cape_name"
+    t.string "cape_colour"
+    t.string "pants_name"
+    t.string "pants_colour"
+    t.string "gloves_name"
+    t.string "gloves_colour"
+    t.string "boots_name"
+    t.string "boots_colour"
     t.index ["character_discussion_id"], name: "index_character_dialogs_on_character_discussion_id"
     t.index ["character_id"], name: "index_character_dialogs_on_character_id"
     t.index ["left_weapon_id"], name: "index_character_dialogs_on_left_weapon_id"

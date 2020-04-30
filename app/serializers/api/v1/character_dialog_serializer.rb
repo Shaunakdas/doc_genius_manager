@@ -1,7 +1,8 @@
 module Api::V1
   class CharacterDialogSerializer < ActiveModel::Serializer
     attributes :id, :character, :left_weapon_colours, :right_weapon,
-      :right_weapon_colours, :count, :comment, :comment_time,  :position, :animation, :repeat_mode, :sequence 
+      :right_weapon_colours, :helmet, :armor, :cape, :pants, :gloves, :boots,
+      :count, :comment, :comment_time,  :position, :animation, :repeat_mode, :sequence 
     has_one :left_weapon, serializer: WeaponSerializer
     has_one :right_weapon, serializer: WeaponSerializer
     has_one :character, serializer: CharacterSerializer
@@ -9,14 +10,46 @@ module Api::V1
       return object.comment.split(/\s+/).length/2 if !object.comment.nil?
     end
 
-    def right_weapon_colours
-      return [] if object.right_weapon_colour.nil?
-      return object.right_weapon_colour.split(';')
+    def helmet
+      {
+        name: object.helmet_name,
+        colours: object.helmet_colours
+      }
     end
 
-    def left_weapon_colours
-      return [] if object.left_weapon_colour.nil?
-      return object.left_weapon_colour.split(';')
+    def armor
+      {
+        name: object.armor_name,
+        colours: object.armor_colours
+      }
+    end
+
+    def cape
+      {
+        name: object.cape_name,
+        colours: object.cape_colours
+      }
+    end
+
+    def pants
+      {
+        name: object.pants_name,
+        colours: object.pants_colours
+      }
+    end
+
+    def gloves
+      {
+        name: object.gloves_name,
+        colours: object.gloves_colours
+      }
+    end
+
+    def boots
+      {
+        name: object.boots_name,
+        colours: object.boots_colours
+      }
     end
   end
 end
