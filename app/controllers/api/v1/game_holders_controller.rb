@@ -1,5 +1,5 @@
 class Api::V1::GameHoldersController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage, :details, :result, :level_result ]
+  before_action :authenticate_request!, :only => [ :homepage, :details, :result,:level_details, :level_result ]
   respond_to :json
   # GET /api/v1/games
   def index
@@ -23,7 +23,7 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   def level_details
     begin
       game_level = GameLevel.find(params[:id])
-      respond_with game_level, serializer: Api::V1::GameLevelDetailSerializer
+      respond_with Api::V1::GameLevelDetailSerializer.new(game_level, {scope: @current_user})
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameLevel with 'id'=#{params[:id]}", :not_found) 
     end
