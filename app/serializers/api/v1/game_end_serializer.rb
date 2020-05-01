@@ -7,11 +7,13 @@ module Api::V1
     def final_ranking
       return nil if object.game_level.nil?
       user_ranking = object.game_level.user_ranking
-      user_position = user_ranking.select{ |user| user[:user_id] == object.user.id} 
-      current_ranking = user_ranking.index(user_position)
+      current_ranking = user_ranking.find_index{ |user| user[:user_id] == object.user.id}
       return {
         top: user_ranking.first(3),
-        user_ranking: current_ranking.to_i+1
+        current_user: {
+          ranking: current_ranking.to_i+1,
+          details: user_ranking[current_ranking]
+        }
       }
     end
 
