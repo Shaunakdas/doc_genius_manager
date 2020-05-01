@@ -1,8 +1,19 @@
 module Api::V1
   class GameEndSerializer < ActiveModel::Serializer
-    attributes :id,:start, :finish, :difficulty_block, :proficiency_block
+    attributes :id,:start, :finish, :difficulty_block, :proficiency_block, :final_ranking
 
     has_one :attempt_score, serializer: AttemptScoreSerializer
+
+    def final_ranking
+      return nil if object.game_level.nil?
+      user_ranking = object.game_level.user_ranking
+      user_position = user_ranking.select{ |user| user[:user_id] == object.user.id} 
+      current_ranking = user_ranking.index(user_position)
+      return {
+        top: user_ranking.first(3),
+        user_ranking: current_ranking.to_i+1
+      }
+    end
 
     def difficulty_block
       if object.game_holder.id.even?

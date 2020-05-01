@@ -11,6 +11,7 @@ class GameLevel < ApplicationRecord
   has_many :game_sessions
   has_many :game_questions
   has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
+  has_many :attempt_scores, through: :game_sessions
 
   has_many :game_questions, -> { order('difficulty_index asc') }
 
@@ -236,5 +237,17 @@ class GameLevel < ApplicationRecord
     game_questions.each do |ques|
       ques.update_attributes!(game_level: nil)
     end
+  end
+
+  def user_ranking
+    sorted_scores = attempt_scores.sort_by{|score| score.total_value}.reverse
+    uniq_scores = []
+    sorted_scores.each do |score|
+      user = score.attempt_item.user
+      uniq_scores << { user_id: user.id,
+        username: user.first_name, 
+        score_value: score.total_value} 
+    end
+    return uniq_scores.uniq{|x| x[:user_id]}
   end
 end
