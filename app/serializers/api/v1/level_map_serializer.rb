@@ -25,7 +25,8 @@ module Api::V1
       chapters.each do |chapter|
         chapter[:activities] = chapter[:activities].as_json
         chapter[:activities].each do |activity|
-          activity[:star_count] = list[activity[:id]]
+          activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
+          activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
         end
       end
       return chapters
@@ -33,7 +34,7 @@ module Api::V1
 
     def star_list
       return nil if object.game_sessions.length == 0
-      attempt_list =  object.game_sessions.order(:created_at).uniq{|x| x.game_level_id}
+      attempt_list =  object.game_sessions.order(:created_at).reverse.uniq{|x| x.game_level_id}
       star_counts = {}
       attempt_list.each do |game_session|
         star_counts[game_session.game_level_id]=game_session.attempt_score.star_count if !game_session.attempt_score.nil?
