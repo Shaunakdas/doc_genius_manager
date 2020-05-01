@@ -1,6 +1,6 @@
 module Api::V1
   class LevelMapSerializer < ActiveModel::Serializer
-    attributes :id, :first_name, :last_name, :email, :sex, :birth, :standard, :suggested_games, :chapters, :star_list
+    attributes :id, :first_name, :last_name, :email, :sex, :birth, :standard, :suggested_games, :chapters
     
     def sex
       object.sex.to_s.humanize if object.sex.present? 
@@ -11,11 +11,24 @@ module Api::V1
     end
 
     def suggested_games
-      ActiveModel::ArraySerializer.new(object.practice_game_holders, each_serializer: GameHolderSerializer)
+      suggested_games = Rails.cache.fetch("suggested_games_cache", expires_in: 10.hours) do
+        ActiveModel::ArraySerializer.new(object.practice_game_holders, each_serializer: GameHolderSerializer)
+      end
+      return suggested_games
     end
 
     def chapters
-      ActiveModel::ArraySerializer.new(object.enabled_chapters, each_serializer: ChapterLevelSerializer)
+      chapters = Rails.cache.fetch("chapter_cache", expires_in: 2.hours) do
+        ActiveModel::ArraySerializer.new(object.enabled_chapters, each_serializer: ChapterLevelSerializer).as_json
+      end
+      list = star_list.to_h
+      chapters.each do |chapter|
+        chapter[:activities] = chapter[:activities].as_json
+        chapter[:activities].each do |activity|
+          activity[:star_count] = list[activity[:id]]
+        end
+      end
+      return chapters
     end
 
     def star_list
@@ -27,6 +40,5 @@ module Api::V1
       end
       return star_counts
     end
-    # has_many :recent_questions, serializer: QuestionTypeSerializer
   end
 end
