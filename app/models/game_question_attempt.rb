@@ -7,7 +7,7 @@ class GameQuestionAttempt < ApplicationRecord
   def set_attempt_score question_obj
     section_data = question_obj[:section_attempt_data]
     create_attempt_score!(get_attempt_fields(section_data))
-    if section_data[:attempted_option]
+    if section_data[:attempted_option] && section_data[:attempted_option] > 0
       game_option = GameOption.find(section_data[:attempted_option])
       game_option.create_attempt_data(nil, self)
     end
