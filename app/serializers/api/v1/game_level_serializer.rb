@@ -71,5 +71,9 @@ module Api::V1
     def star_count
       nil
     end
+
+    def nature_effect
+      ["rain", "lightning", "mist", "snow", "leaves", "fire"][object.id%6] if object.practice_mode == "practice"
+    end
   end
 end

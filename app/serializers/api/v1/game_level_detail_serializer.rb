@@ -27,9 +27,5 @@ module Api::V1
       return nil if last_session.nil?
       return last_session.attempt_score.star_count
     end
-
-    def nature_effect
-      ["rain", "lightning", "mist", "snow", "leaves", "fire"][object.id%6] if object.practice_mode == "practice"
-    end
   end
 end
