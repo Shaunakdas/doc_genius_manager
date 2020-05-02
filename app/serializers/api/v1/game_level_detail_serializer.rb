@@ -29,7 +29,7 @@ module Api::V1
     end
 
     def nature_effect
-      ["rain", "lightning", "mist", "snow", "leaves", "fire"][object.id%6]
+      ["rain", "lightning", "mist", "snow", "leaves", "fire"][object.id%6] if object.practice_mode == "practice"
     end
   end
 end
