@@ -250,4 +250,21 @@ class GameLevel < ApplicationRecord
     end
     return uniq_scores.uniq{|x| x[:user_id]}
   end
+
+  def next_game_level
+    enabled_levels = game_holder.acad_entity.chapter.practice_game_levels
+    current_index = enabled_levels.index(self)+1
+    return nil if enabled_levels.length == current_index
+    return enabled_levels[current_index]
+  end
+
+  def next_game_levels
+    enabled_levels = game_holder.acad_entity.chapter.practice_game_levels
+    current_index = enabled_levels.index(self)
+    return enabled_levels[current_index+1..-1]
+  end
+
+  def all_character_discussions
+    [intro_discussion, success_discussion, fail_discussion]
+  end
 end

@@ -52,9 +52,131 @@ def upload_character_victory_cards(book, count)
                 else
                     victory_card.update_attributes!(victory_card_params)
                 end
+
+                weapon_index = 25
+                armory_index = 13
+                update_level_weapon(row, weapon_index, acad_entity) if acad_entity_type == "GameLevel"
+                update_level_armory(row, armory_index, acad_entity) if acad_entity_type == "GameHolder"
             end
         end
         break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+    end
+end
+
+def update_level_weapon row, weapon_index, game_level
+    puts "Updating weapon item of future game levels"
+    weapon = get_weapon(row, weapon_index)
+    weapon_color = get_val(row.cells[weapon_index+2])
+    game_level.success_discussion.
+        update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
+    return nil if game_level.next_game_level.nil?
+    game_level.next_game_level.intro_discussion.
+        update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
+    game_level.next_game_level.fail_discussion.
+        update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
+end
+
+def update_level_armory row, armory_index, game_holder
+    puts "Updating armory item of future game levels"
+    game_level = game_holder.game_levels.where(enabled: true).last
+    return nil if game_level.nil?
+    boots_index = armory_index
+    pants_index = armory_index + 2
+    gloves_index = armory_index + 4
+    armor_index = armory_index + 6
+    cape_index = armory_index + 8
+    helmet_index = armory_index + 10
+
+    boots_name = get_val(row.cells[boots_index])
+    boots_colour = get_val(row.cells[boots_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(boots_name: boots_name, boots_colour: boots_colour)
+        puts "Updated boots in #{dialog.to_json}"
+    end
+    
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(boots_name: boots_name, boots_colour: boots_colour)
+                puts "Updated boots in #{dialog.to_json}"
+            end
+        end
+    end
+
+    pants_name = get_val(row.cells[pants_index])
+    pants_colour = get_val(row.cells[pants_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(pants_name: pants_name, pants_colour: pants_colour)
+        puts "Updated pants in #{dialog.to_json}"
+    end
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(pants_name: pants_name, pants_colour: pants_colour)
+                puts "Updated pants in #{dialog.to_json}"
+            end
+        end
+    end
+
+    gloves_name = get_val(row.cells[gloves_index])
+    gloves_colour = get_val(row.cells[gloves_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(gloves_name: gloves_name, gloves_colour: gloves_colour)
+        puts "Updated gloves in #{dialog.to_json}"
+    end
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(gloves_name: gloves_name, gloves_colour: gloves_colour)
+                puts "Updated gloves in #{dialog.to_json}"
+            end
+        end
+    end
+
+    armor_name = get_val(row.cells[armor_index])
+    armor_colour = get_val(row.cells[armor_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(armor_name: armor_name, armor_colour: armor_colour)
+        puts "Updated Armor in #{dialog.to_json}"
+    end
+    
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(armor_name: armor_name, armor_colour: armor_colour)
+            puts "Updated Armor in #{dialog.to_json}"
+            end
+        end
+    end
+
+    cape_name = get_val(row.cells[cape_index])
+    cape_colour = get_val(row.cells[cape_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(cape_name: cape_name, cape_colour: cape_colour)
+        puts "Updated cape in #{dialog.to_json}"
+    end
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(cape_name: cape_name, cape_colour: cape_colour)
+                puts "Updated cape in #{dialog.to_json}"
+            end
+        end
+    end
+
+    helmet_name = get_val(row.cells[helmet_index])
+    helmet_colour = get_val(row.cells[helmet_index + 1])
+    game_level.success_discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+        dialog.update_attributes!(helmet_name: helmet_name, helmet_colour: helmet_colour)
+        puts "Updated helmet in #{dialog.to_json}"
+    end
+    game_level.next_game_levels.each do |level|
+        level.all_character_discussions.each do |discussion|
+            discussion.character_dialogs.where(character: get_arjun_character).each do |dialog|
+                dialog.update_attributes!(helmet_name: helmet_name, helmet_colour: helmet_colour)
+                puts "Updated helmet in #{dialog.to_json}"
+            end
+        end
     end
 end
 
@@ -151,34 +273,36 @@ def get_complete_discussion row, start_index, weapon_index, stage, game_level
         character = drona_flag ? get_drona_character : get_arjun_character
         if drona_flag
             right_weapon = get_weapon(row, weapon_index)
-            right_weapon_color = get_val(row.cells[weapon_index+2])
+            right_weapon_colour = get_val(row.cells[weapon_index+2])
         else
             left_weapon = get_weapon(row, weapon_index+3)
-            left_weapon_color = get_val(row.cells[weapon_index+5])
+            left_weapon_colour = get_val(row.cells[weapon_index+5])
         end
         comment = get_val(row.cells[start_index + index])
         if discussion && character
             if finished 
                 if (game_level.practice_mode != "introduction") && (stage != "Introduction")
                     final_index = setup_discussion(discussion, character, stage, final_index, drona_flag, nil,
-                        left_weapon, left_weapon_color, right_weapon, right_weapon_color, "walk_out")
+                        left_weapon, left_weapon_colour, right_weapon, right_weapon_colour, "walk_out")
                 end
                 break
             end
             if (game_level.practice_mode == "introduction") && (stage == "Introduction") && drona_flag && (index == 0)
                 final_index = setup_discussion(discussion, character, stage, final_index, drona_flag, nil,
-                    left_weapon, left_weapon_color, right_weapon, right_weapon_color, "walk_in")
+                    left_weapon, left_weapon_colour, right_weapon, right_weapon_colour, "walk_in")
             elsif (game_level.practice_mode == "introduction") && (stage == "Introduction") && !drona_flag && (index == 1)
                 final_index = setup_discussion(discussion, character, stage, final_index, drona_flag, nil,
-                    left_weapon, left_weapon_color, right_weapon, right_weapon_color, "walk_in")
+                    left_weapon, left_weapon_colour, right_weapon, right_weapon_colour, "walk_in")
             end
+            animation = "talk"
+            animation = "strike" if (game_level.practice_mode != "introduction") && (stage == "Success")
             final_index = setup_discussion(discussion, character, stage, final_index, drona_flag, comment,
-                left_weapon, left_weapon_color, right_weapon, right_weapon_color, "talk")
+                left_weapon, left_weapon_colour, right_weapon, right_weapon_colour, animation)
         end
     end
 end
 
-def setup_discussion discussion, character, stage, index, drona_flag, comment, left_weapon, left_weapon_color, right_weapon, right_weapon_color, animation
+def setup_discussion discussion, character, stage, index, drona_flag, comment, left_weapon, left_weapon_colour, right_weapon, right_weapon_colour, animation
     dialog_slug = create_slug("#{stage} Dialog")
     dialog_params = {
         character_discussion: discussion,
@@ -190,9 +314,9 @@ def setup_discussion discussion, character, stage, index, drona_flag, comment, l
         comment: comment,
         repeat_mode: "never",
         left_weapon: left_weapon,
-        left_weapon_colour: left_weapon_color,
+        left_weapon_colour: left_weapon_colour,
         right_weapon: right_weapon,
-        right_weapon_colour: right_weapon_color,
+        right_weapon_colour: right_weapon_colour,
     }
     character_dialog = get_dialog(dialog_slug, dialog_params)
     return index + 1
@@ -271,11 +395,11 @@ def get_dialog dialog_slug, dialog_params
     end
 end
 
-# game_start = 25
-# delete_character_discussion_models
-# upload_character_discussions(book, game_start)
+game_start = 25
+delete_character_discussion_models
+upload_character_discussions(book, game_start)
 
-# game_start = 26
-# delete_victory_cards
-# upload_character_victory_cards(book, game_start)
-# create_game_level_vistory_card
+game_start = 26
+delete_victory_cards
+upload_character_victory_cards(book, game_start)
+create_game_level_vistory_card
