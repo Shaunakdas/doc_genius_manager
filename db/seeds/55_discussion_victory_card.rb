@@ -19,7 +19,7 @@ def delete_victory_cards
 end
 
 # Uploading basic acad entities
-def upload_character_victory_cards(book, count)
+def upload_character_victory_cards(book, count, update_armory)
     master_sheet = book[count]
     master_sheet.each do |row|
         if row.cells[0]  && row.cells[0].value
@@ -34,29 +34,34 @@ def upload_character_victory_cards(book, count)
             end
 
             if acad_entity
-                victory_card_slug = get_val(row.cells[3])
-                victory_card_params = {
-                    acad_entity: acad_entity,
-                    sequence: get_val(row.cells[6]),
-                    name: get_val(row.cells[9]),
-                    slug: get_val(row.cells[10]),
-                    title: get_val(row.cells[11]),
-                    description: get_val(row.cells[12]),
-                    max_count: 1
-                }
-
-                #Create or find CharacterDiscussion
-                if not victory_card = VictoryCard.find_by(:slug => victory_card_slug)
-                    puts "Adding VictoryCard #{victory_card_params.to_json} "
-                    victory_card = VictoryCard.create!(victory_card_params)
+                if acad_entity_type == "GameHolder" && update_armory
+                    armory_index = 13
+                    update_level_armory(row, armory_index, acad_entity)
                 else
-                    victory_card.update_attributes!(victory_card_params)
-                end
+                    victory_card_slug = get_val(row.cells[10])
+                    victory_card_params = {
+                        acad_entity: acad_entity,
+                        sequence: get_val(row.cells[6]),
+                        name: get_val(row.cells[9]),
+                        slug: get_val(row.cells[10]),
+                        title: get_val(row.cells[11]),
+                        description: get_val(row.cells[12]),
+                        max_count: 1
+                    }
 
-                weapon_index = 25
-                armory_index = 13
-                update_level_weapon(row, weapon_index, acad_entity) if acad_entity_type == "GameLevel"
-                update_level_armory(row, armory_index, acad_entity) if acad_entity_type == "GameHolder"
+                    #Create or find CharacterDiscussion
+                    if not victory_card = VictoryCard.find_by(:slug => victory_card_slug)
+                        puts "Adding VictoryCard #{victory_card_params.to_json} "
+                        victory_card = VictoryCard.create!(victory_card_params)
+                    else
+                        victory_card.update_attributes!(victory_card_params)
+                    end
+
+                    weapon_index = 25
+                    update_level_weapon(row, weapon_index, acad_entity) if acad_entity_type == "GameLevel" && !update_armory
+                end
+                
+                 
             end
         end
         break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
@@ -70,8 +75,10 @@ def update_level_weapon row, weapon_index, game_level
     game_level.success_discussion.
         update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
     return nil if game_level.next_game_level.nil?
+    return nil if game_level.next_game_level.intro_discussion.nil?
     game_level.next_game_level.intro_discussion.
         update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
+    return nil if game_level.next_game_level.fail_discussion.nil?
     game_level.next_game_level.fail_discussion.
         update_dialog_weapon("arjun-arj", weapon, weapon_color, true)
 end
@@ -396,10 +403,13 @@ def get_dialog dialog_slug, dialog_params
 end
 
 game_start = 25
-delete_character_discussion_models
-upload_character_discussions(book, game_start)
+# delete_character_discussion_models
+# upload_character_discussions(book, game_start)
 
 game_start = 26
-delete_victory_cards
-upload_character_victory_cards(book, game_start)
-create_game_level_vistory_card
+# delete_victory_cards
+# upload_character_victory_cards(book, game_start, false)
+# create_game_level_vistory_card
+
+# GameHolder
+# upload_character_victory_cards(book, game_start, true)
