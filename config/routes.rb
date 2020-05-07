@@ -141,6 +141,10 @@ Rails.application.routes.draw do
       #   collection do
       #   end
       # end
+
+      # VictoryCard
+      # Get VictoryCard List
+      get "victory_cards" => "victory_cards#index"
       
       # Passwords
       # Forgot Password. Req: (Login). Response: ()
