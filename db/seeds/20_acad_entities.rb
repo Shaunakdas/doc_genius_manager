@@ -634,26 +634,30 @@ def upload_estimation_data(book, count)
           display = row.cells[question_start + 1].value
           tip = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
           solution = row.cells[question_start + 3].value
-          hint = row.cells[question_start + 4].value
-          mode = row.cells[question_start + 5].value
+          post_submit_text = row.cells[question_start + 4].value
+          mode = row.cells[question_start + 7].value
 
           break if Question.search_code(code).count > 0
           # remove_question_code(code)
 
-          big_gap = row.cells[question_start + 8]? row.cells[question_start + 8].value : nil
-          small_gap = row.cells[question_start + 9]? row.cells[question_start + 9].value : nil
-          tiny_gap = row.cells[question_start + 10]? row.cells[question_start + 10].value : nil
+          number_line_index = question_start + 8
+
+          big_gap = row.cells[number_line_index + 2]? row.cells[number_line_index + 2].value : nil
+          small_gap = row.cells[number_line_index + 3]? row.cells[number_line_index + 3].value : nil
+          tiny_gap = row.cells[number_line_index + 4]? row.cells[number_line_index + 4].value : nil
 
           marker_gap = MarkerGap.create!( big: big_gap, small: small_gap, tiny: tiny_gap)
 
-          question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution, mode: mode, marker_gap: marker_gap)
-          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution} , mode: #{mode}"
+          question = Question.create!(display: display, code: code, tip: tip,
+            post_submit_text: post_submit_text, solution: solution, mode: mode, marker_gap: marker_gap)
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, post_submit_text: #{post_submit_text},
+            solution: #{solution} , mode: #{mode}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder,
             difficulty_index: difficulty, game_level: game_level)
 
-          answer_index = question_start + 11
-          answer_title = question_start + 12
-          answer_sub_title = question_start + 13
+          answer_index = number_line_index + 5
+          answer_title = number_line_index + 6
+          answer_sub_title = number_line_index + 7
 
           display_index = row.cells[answer_index].value
           value = row.cells[answer_title].value
@@ -663,7 +667,7 @@ def upload_estimation_data(book, count)
           puts "Adding option, id: #{option.id} display_index: #{answer_index}, value: #{value}, sub_title: #{sub_title}"
           game_option = GameOption.create!(option: option, game_question: game_question)
 
-          option_start = 18
+          option_start = number_line_index + 8
           option_width = 2
           option_count = 12
           (0..(option_count-1)).each do |counter|
