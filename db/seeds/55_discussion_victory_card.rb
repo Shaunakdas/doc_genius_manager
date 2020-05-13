@@ -255,8 +255,8 @@ def upload_character_discussions(book, count)
                 failure_index = 25
 
                 get_complete_discussion(row, introduction_index, weapon_index, "Introduction", game_level)
-                get_complete_discussion(row, introduction_index, weapon_index, "Success", game_level)
-                get_complete_discussion(row, introduction_index, weapon_index, "Failure", game_level)
+                get_complete_discussion(row, success_index, weapon_index, "Success", game_level)
+                get_complete_discussion(row, failure_index, weapon_index, "Failure", game_level)
             end
         end
         break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
