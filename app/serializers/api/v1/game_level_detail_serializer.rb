@@ -25,6 +25,7 @@ module Api::V1
       return nil if scope.nil?
       last_session = GameSession.where(user: scope, game_level:object).last
       return nil if last_session.nil?
+      return nil if last_session.attempt_score.nil?
       return last_session.attempt_score.star_count
     end
   end
