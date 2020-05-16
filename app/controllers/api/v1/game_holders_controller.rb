@@ -46,6 +46,7 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   def level_result
     begin
       game_level = GameLevel.find(params[:game_id] || params[:id])
+      game_session = nil
       ActiveRecord::Base.transaction do
         game_session = game_level.parse_result(@current_user, params)
       end
