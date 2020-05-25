@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200429192326) do
+ActiveRecord::Schema.define(version: 20200525174033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 20200429192326) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "question_type_id"
+    t.bigint "game_level_id"
+    t.index ["game_level_id"], name: "index_benifits_on_game_level_id"
     t.index ["question_type_id"], name: "index_benifits_on_question_type_id"
     t.index ["slug"], name: "index_benifits_on_slug", unique: true
   end
@@ -216,6 +218,8 @@ ActiveRecord::Schema.define(version: 20200429192326) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enabled", default: false
+    t.string "title"
+    t.string "description"
     t.index ["fail_discussion_id"], name: "index_game_levels_on_fail_discussion_id"
     t.index ["game_holder_id"], name: "index_game_levels_on_game_holder_id"
     t.index ["intro_discussion_id"], name: "index_game_levels_on_intro_discussion_id"
@@ -629,6 +633,7 @@ ActiveRecord::Schema.define(version: 20200429192326) do
   add_foreign_key "acad_entity_scores", "users"
   add_foreign_key "acad_profiles", "users"
   add_foreign_key "acad_standings", "users"
+  add_foreign_key "benifits", "game_levels"
   add_foreign_key "benifits", "question_types"
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
