@@ -12,22 +12,20 @@ class GameLevel < ApplicationRecord
   has_many :game_questions
   has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
   has_many :attempt_scores, through: :game_sessions
+  has_many :benifits
 
   has_many :game_questions, -> { order('difficulty_index asc') }
 
   enum practice_mode: [ :introduction, :learning, :practice]
-  # enum nature_effect: [ :
+  enum nature_effect: [ :rain, :lightning, :mist, :snow, :leaves ]
 
   def self.search(search)
     where('name LIKE :search', search: "%#{search}%")
   end
-  
-  def title
-    game_holder.title
-  end
 
   def sub_title
-    game_holder.sub_title
+    return game_holder.sub_title if description.nil?
+    return description
   end
 
   def enabled

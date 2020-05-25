@@ -65,6 +65,7 @@ class Question < ApplicationRecord
   def self.parse_hint_structure hint
     return nil if hint.nil?
     # return hint if !(hint.include?('<br/>') || hint.include?('<p/>'))
+    hint = hint.gsub("\table", "\\table")
     pages = hint.split('<p/>')
     page_json = []
     pages.each do |page|
