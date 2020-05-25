@@ -5,14 +5,20 @@ module Api::V1
     has_one :game, serializer: GameSerializer
 
     def question_input
-      object.get_questions 
+      object.get_questions
+    end
+  
+    def title
+      return object.game_holder.title if object.title.nil?
+      return object.title
     end
 
     def benefits
-      [
+      return [
         "First Benefit",
         "Second Benefit"
-      ]
+      ] if object.benifits.count == 0
+      return object.benifits.map { |r| r.explainer }
     end
 
     def score_small
@@ -70,10 +76,6 @@ module Api::V1
 
     def star_count
       nil
-    end
-
-    def nature_effect
-      ["rain", "lightning", "mist", "snow", "leaves", "fire"][object.id%6] if object.practice_mode == "practice"
     end
   end
 end
