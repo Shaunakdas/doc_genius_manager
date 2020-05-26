@@ -11,6 +11,30 @@ module Api::V1
       object.id
     end
 
+    def score
+      session_list = []
+      GameSession.joins(:attempt_score).where(user: scope, game_level: object).each do |ses|
+        next if ses.attempt_score.nil?
+        session_list << { id: ses.id, score: ses.attempt_score.total_value, date: ses.created_at,
+          passed: ses.attempt_score.passed, time_spent: ses.attempt_score.time_spent}
+      end
+      top = session_list.sort_by{ |ses| ses[:score]}.reverse.map { |obj| obj[:score] }
+      recent = session_list.sort_by{ |ses| ses[:score]}.reverse.map { |obj| obj[:score] }
+      time_spent = session_list.inject(0){|sum,e| sum + e[:time_spent].to_i }
+      wins = session_list.inject(0){|sum,e| sum + (e[:passed] && 1 || 0) }
+      return {
+        highest: top[0].to_i,
+        difficulty: {
+          current: 100,
+          max: 400
+        },
+        time_trained: time_spent,
+        wins: wins,
+        top: top.first(10),
+        recent: recent.first(6)
+      }
+    end
+
     def background_area
       object.background_area
     end
