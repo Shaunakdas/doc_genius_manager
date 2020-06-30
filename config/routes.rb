@@ -55,6 +55,8 @@ Rails.application.routes.draw do
       # Chapters
       # Get Chapters List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
       get "chapters" => "chapters#index"
+      # Get Chapters List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
+      get "chapter_list" => "chapters#list"
 
       # resources :standards  do 
       #   collection do

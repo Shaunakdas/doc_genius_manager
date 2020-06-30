@@ -21,6 +21,10 @@ class Chapter < AcadEntity
     end
   end
 
+  def practice_topics
+    topics.where(enabled: true).sort_by{|obj| obj.sequence}
+  end
+
   def self.list(list_params)
     chapter_list = Chapter.all
     if list_params["standard_id"]
