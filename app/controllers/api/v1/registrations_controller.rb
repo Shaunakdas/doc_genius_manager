@@ -20,15 +20,18 @@ module Api::V1
     def sign_up_phone
       begin
         params[:user][:registration_method] = :mobile
-        if not user = User.where(mobile_number: params[:user][:mobile_number]).first
-          user = User.new(user_params)
-          user.save!
+        validation_result = User.mobile_create_validate(params[:user][:mobile_number], params[:user][:first_name])
+        if validation_result[:errored]
+          error_response(validation_result[:error_msg], :unprocessable_entity) 
+        
+        elsif !validation_result[:user].nil?
+          user = validation_result[:user]
+          user.update_acad_entity({standard_id: 1})
+          response = payload(user)
+          response[:standards] = Standard.list({})
+          render json: response
         end
-        puts user.to_json
-        user.update_acad_entity({standard_id: 1})
-        response = payload(user)
-        response[:standards] = Standard.list({})
-        render json: response
+        
       rescue ActiveRecord::RecordInvalid => invalid
         error_response(user.errors.full_messages[0], :unprocessable_entity) 
       end

@@ -202,6 +202,65 @@ class User < ApplicationRecord
     game_sessions.where(game_holder: game_holder).to_a.sum(&:time_spent)
   end
 
+
+  def send_otp
+    puts "Sending OTP"
+  end
+
+  def self.mobile_create_validate mobile_number, username
+    error_code = 0
+    errored = false
+    send_otp = true
+    error_msg = ""
+    user=nil
+    
+    if mobile_number.nil? || username.nil?
+      errored = true
+      error_code = 1
+      error_msg = "We need both mobile_number and username for login"
+
+    elsif !validate_mobile(mobile_number)
+      # First check for mobile_number datatype
+      errored = true
+      error_code = 2
+      error_msg = "Your mobile number is not valid."
+
+    elsif !validate_usr(username)
+      # Second check for username data
+      errored = true
+      error_code = 3
+      error_msg = "Your username is not valid. Kindly ensure that username has atleast 4 characters and atmost 16 characters."
+
+    elsif user = User.find_by(mobile_number: mobile_number)
+      # Mobile exists, ignore username - search using mobile - Send OTP
+      user.send_otp
+
+    elsif user = User.find_by(username: username)
+      # Mobile doesn't exist, username exists - Error
+      errored = true
+      error_code = 4
+      error_msg = "This username already exists. Kindly choose different username"
+    
+    else
+      # Mobile doesn't exist, username doesn't exist - create using mobile - Send OTP
+      user = User.create_mobile_user(username,mobile_number)
+      user.send_otp
+    end
+    return {
+      error_code: error_code,
+      errored: errored,
+      send_otp: !errored,
+      error_msg: error_msg,
+      user: user
+    }
+  end
+
+  def self.create_mobile_user username, mobile_number
+    u = User.create!(username: username, mobile_number: mobile_number)
+    u.save!
+    return u
+  end
+
   private
 
   def generate_token
@@ -210,5 +269,13 @@ class User < ApplicationRecord
 
   def set_default_role
     self.role ||= Role.find_by_name('student')
+  end
+
+  def self.validate_usr username
+    !!username[/\A\w{4,16}\z/]
+  end
+
+  def self.validate_mobile mobile_number
+    !!mobile_number[/[7-9][0-9]{9}/]
   end
 end
