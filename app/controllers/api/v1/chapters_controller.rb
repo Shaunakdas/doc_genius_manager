@@ -1,6 +1,6 @@
 module Api::V1
   class ChaptersController < ApiController
-    before_action :authenticate_request!, only: [ :index, :list ]
+    before_action :authenticate_request!, only: [ :topicwise_levels, :list ]
     respond_to :json
     # GET /api/v1/standards
     def index
@@ -16,6 +16,14 @@ module Api::V1
         error_response("Auth Token is not valid") 
       end
       
+    end
+
+    def topicwise_levels
+      if @current_user
+        respond_with Api::V1::TopicwiseSerializer.new(@current_user, {scope: params[:topic_id]})
+      else
+        error_response("Auth Token is not valid") 
+      end
     end
   end
 end

@@ -11,5 +11,13 @@ class Topic < AcadEntity
   has_many :acad_entity_scores, as: :acad_entity
   has_many :region_percentile_scores, as: :acad_entity
   has_many :practice_game_holders, -> { order(sequence: :asc) }, as: :acad_entity, class_name: "GameHolder"
-
+  
+  def practice_game_levels
+    topic_game_levels = []
+    practice_game_holders.each do |game_holder|
+      enabled_game_levels = game_holder.game_levels.where(enabled: true)
+      topic_game_levels = topic_game_levels.concat(enabled_game_levels)
+    end
+    return topic_game_levels
+  end
 end
