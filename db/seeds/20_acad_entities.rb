@@ -14,13 +14,15 @@ def remove_game_question_references
 end
 
 def remove_game_holder_questions(name)
-  GameHolder.search(name).each do |g|
+  game= PracticeType.find_by(slug: name)
+  return nil if game.nil?
+  GameHolder.where(game_id: game.id).each do |g|
     g.remove_game_questions
     puts "Removed game question refs of gameholder : #{g.name}"
-  end
-  GameLevel.search(name).each do |g|
-    g.remove_game_questions
-    puts "Removed game level refs of game_level : #{g.name}"
+    g.game_levels.each do |g|
+      g.remove_game_questions
+      puts "Removed game level refs of game_level : #{g.name}"
+    end
   end
 end
 
@@ -696,7 +698,7 @@ end
 
 # PG: Percentage
 def upload_percentage_data(book, count)
-  remove_game_holder_questions("percentage") if remove_game_holder_ref_flag
+  remove_game_holder_questions("percentages") if remove_game_holder_ref_flag
   master_sheet = book[count]
   master_sheet.each do |row|
     if row.cells[0]  && row.cells[0].value  && (row.cells[0].value.include? ("for") )
@@ -720,12 +722,13 @@ def upload_percentage_data(book, count)
           tip = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
           hint = row.cells[question_start + 3]? row.cells[question_start + 3].value : nil
           solution = row.cells[question_start + 4]? row.cells[question_start + 4].value : nil
+          mode = row.cells[question_start + 5]? row.cells[question_start + 5].value : nil
 
           break if Question.search_code(code).count > 0
           # remove_question_code(code)
 
-          question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution)
-          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}"
+          question = Question.create!(display: display, code: code, tip: tip, hint: hint, solution: solution, mode: mode)
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, solution: #{solution}, mode: #{mode}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder,
             difficulty_index: difficulty, game_level: game_level)
           
@@ -771,10 +774,11 @@ def upload_tipping_data(book, count)
           # remove_question_code(code)
 
           question = Question.create!(display: display, code: code, tip: tip, hint: hint, title: title, solution: solution)
-          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title}, solution: #{solution}"
+          puts "Adding question code: #{code} , display: #{display} , tip: #{tip}, hint: #{hint}, title: #{title},
+          solution: #{solution}, game_level: #{game_level.id}, game_holder: #{game_holder.id}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder,
             difficulty_index: difficulty, game_level: game_level)
-
+          puts "Added Tipping GameQuestion #{game_question.to_json}"
           option_start = 10
           option_width = 3
           option_count = 9

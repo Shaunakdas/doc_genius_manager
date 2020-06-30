@@ -25,7 +25,9 @@ def upload_game_levels(book, count)
                     name: get_val(row.cells[3]),
                     slug: game_level_slug,
                     practice_mode: get_val(row.cells[5]),
-                    nature_effect: get_val(row.cells[6])
+                    nature_effect: get_val(row.cells[6]),
+                    title: get_val(row.cells[7]),
+                    description: get_val(row.cells[8])
                 }
                 #Create or find stream
                 if not game_level = GameLevel.find_by(:slug => game_level_slug)
@@ -35,9 +37,34 @@ def upload_game_levels(book, count)
                     puts "Updating GameLevel #{game_level_params.to_json} "
                     game_level.update_attributes!(game_level_params)
                 end
+                add_benifits(game_level, get_val(row.cells[9]), get_val(row.cells[10]))
             end
         end
         break if row.cells[0] && row.cells[0].value && (row.cells[0].value == 'End')
+    end
+end
+
+def add_benifits game_level, benifit_1, benifit_2
+    return nil if game_level.nil? || benifit_1.nil?
+    benifit_1 = "First Benifit" if benifit_1.nil?
+    benifit_2 = "Second Benifit" if benifit_2.nil?
+    benifit_params = {
+        game_level: game_level,
+        name: "Benifit for #{game_level.name}"
+    }
+    create_update_benifit( game_level, benifit_params.merge!(explainer: benifit_1), 0)
+    create_update_benifit( game_level, benifit_params.merge!(explainer: benifit_2), 1)
+end
+
+def create_update_benifit game_level, benifit_params, benifit_index
+    slug = "benifit-for-"+game_level.slug+((0...6).map { ('a'..'z').to_a[rand(26)] }.join)
+    if game_level.benifits.count == benifit_index
+        puts "Adding Benifit #{benifit_params.to_json} "
+        benifit = Benifit.create!(benifit_params.merge!(slug: slug))
+    else
+        return nil if game_level.benifits[benifit_index].nil?
+        puts "Updating Benifit #{benifit_params.to_json} "
+        game_level.benifits[benifit_index].update_attributes!(benifit_params)
     end
 end
 
@@ -63,7 +90,7 @@ def upload_game_score_structures(book, count)
             if game_level
                 game_level_name = row.cells[3].value
 
-                score_index = 8
+                score_index = 12
 
                 score_structure_params = {
                     game_level: game_level,
