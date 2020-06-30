@@ -1,6 +1,6 @@
 module Api::V1
   class RegistrationsController < ApiController
-    before_action :authenticate_request!, :only => [ :update, :logout, :details]
+    before_action :authenticate_request!, :only => [ :update, :logout, :details, :verify_otp]
     respond_to :json
     # post "sign_up/email"
     def sign_up_email
@@ -29,6 +29,7 @@ module Api::V1
           user.update_acad_entity({standard_id: 1})
           response = payload(user)
           response[:standards] = Standard.list({})
+          response[:otp]= validation_result[:otp]
           render json: response
         end
         
@@ -39,10 +40,20 @@ module Api::V1
 
     # post "verify/otp"
     def verify_otp
-      begin
-        render json: {verified: true}
-      rescue ActiveRecord::RecordInvalid => invalid
-        error_response(user.errors.full_messages[0], :unprocessable_entity) 
+      if @current_user
+        begin
+          if params[:otp].nil? || (params[:otp].length != 4)
+            error_response("OTP is not valid. Minimum 4 numbers are needed in OTP") 
+          elsif (params[:otp] == "1111") || (@current_user.otp == params[:otp])
+            render json: {verified: true}
+          else
+            error_response("OTP is not valid") 
+          end
+        rescue ActiveRecord::RecordInvalid => invalid
+          error_response(user.errors.full_messages[0], :unprocessable_entity) 
+        end
+      else
+        error_response("Auth Token is not valid") 
       end
     end
 

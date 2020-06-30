@@ -205,6 +205,9 @@ class User < ApplicationRecord
 
   def send_otp
     puts "Sending OTP"
+    otp = generate_otp
+    update_attributes!(otp: otp)
+    return otp
   end
 
   def self.mobile_create_validate mobile_number, username
@@ -213,6 +216,7 @@ class User < ApplicationRecord
     send_otp = true
     error_msg = ""
     user=nil
+    otp = ""
     
     if mobile_number.nil? || username.nil?
       errored = true
@@ -233,7 +237,7 @@ class User < ApplicationRecord
 
     elsif user = User.find_by(mobile_number: mobile_number)
       # Mobile exists, ignore username - search using mobile - Send OTP
-      user.send_otp
+      otp = user.send_otp
 
     elsif user = User.find_by(username: username)
       # Mobile doesn't exist, username exists - Error
@@ -244,14 +248,15 @@ class User < ApplicationRecord
     else
       # Mobile doesn't exist, username doesn't exist - create using mobile - Send OTP
       user = User.create_mobile_user(username,mobile_number)
-      user.send_otp
+      otp = user.send_otp
     end
     return {
       error_code: error_code,
       errored: errored,
       send_otp: !errored,
       error_msg: error_msg,
-      user: user
+      user: user,
+      otp: otp
     }
   end
 
@@ -263,8 +268,12 @@ class User < ApplicationRecord
 
   private
 
+  def generate_otp
+    rand(5 ** 5).to_s.rjust(4,'0') 
+  end
+
   def generate_token
-    SecureRandom.random_number(999999)
+    SecureRandom.random_number(999999)  
   end
 
   def set_default_role
