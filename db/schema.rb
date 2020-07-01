@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200630103713) do
+ActiveRecord::Schema.define(version: 20200701040708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -525,6 +525,18 @@ ActiveRecord::Schema.define(version: 20200630103713) do
     t.index ["slug"], name: "index_subjects_on_slug", unique: true
   end
 
+  create_table "topic_level_standings", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.bigint "game_level_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "jump"
+    t.index ["game_level_id"], name: "index_topic_level_standings_on_game_level_id"
+    t.index ["topic_id"], name: "index_topic_level_standings_on_topic_id"
+    t.index ["user_id"], name: "index_topic_level_standings_on_user_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -673,6 +685,9 @@ ActiveRecord::Schema.define(version: 20200630103713) do
   add_foreign_key "session_scores", "game_sessions"
   add_foreign_key "streams", "subjects"
   add_foreign_key "sub_topics", "topics"
+  add_foreign_key "topic_level_standings", "game_levels"
+  add_foreign_key "topic_level_standings", "topics"
+  add_foreign_key "topic_level_standings", "users"
   add_foreign_key "topics", "chapters"
   add_foreign_key "user_regions", "regions"
   add_foreign_key "user_regions", "users"
