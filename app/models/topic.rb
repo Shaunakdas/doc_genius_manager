@@ -69,4 +69,22 @@ class Topic < AcadEntity
     end
     return false
   end
+
+
+  def background_list
+    {
+      1 => "green_forest",
+      2 => "coniferous",
+      3 => "desert",
+      6 => "jungle",
+      7 => "crystal",
+      8 => "swamp",
+      12 => "bamboo_forest",
+      13 => "tundra",
+    }
+  end
+
+  def background_area
+    return background_list[id]
+  end
 end

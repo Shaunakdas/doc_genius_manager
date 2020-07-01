@@ -1,8 +1,22 @@
 module Api::V1
   class TopicwiseSerializer < ActiveModel::Serializer
     attributes :id, :first_name, :last_name, :email, :sex, :birth,
-      :level_locked, :standard, :suggested_games, :level_list, :jump
+      :level_locked, :title, :background, :standard, :suggested_games, :level_list, :jump
     
+    def first_name
+      object.username
+    end
+
+    def title
+      topic = Topic.find(scope[:topic_id])
+      topic.name
+    end
+
+    def background
+      topic = Topic.find(scope[:topic_id])
+      topic.background_area
+    end
+
     def sex
       object.sex.to_s.humanize if object.sex.present? 
     end
