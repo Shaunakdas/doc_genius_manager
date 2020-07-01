@@ -40,7 +40,7 @@ module Api::V1
     end
 
     def locked_status star,current
-      return false if !object.role.nil? && object.role.slug == "Admin"
+      return false if !object.role.nil? && object.role.slug == "teacher"
       return true if (star.nil? && current.nil?)
       return false
     end
