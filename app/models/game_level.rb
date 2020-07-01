@@ -36,6 +36,15 @@ class GameLevel < ApplicationRecord
     game_holder.game
   end
 
+  def set_attempt_standing user
+    level_standing = user.level_standing
+    if level_standing.nil?
+      level_standing = AcadStanding.new(acad_entity: self, user: user).save!
+    else
+      level_standing.update_attributes!(acad_entity: self)
+    end
+  end
+
   def self.create_default_levels
     Standard.first.chapters.all.each do |c|
       c.practice_game_holders.all.each do |g_h|
@@ -251,6 +260,13 @@ class GameLevel < ApplicationRecord
 
   def next_game_level
     enabled_levels = game_holder.acad_entity.chapter.practice_game_levels
+    current_index = enabled_levels.index(self)+1
+    return nil if enabled_levels.length == current_index
+    return enabled_levels[current_index]
+  end
+
+  def next_topic_level
+    enabled_levels = game_holder.acad_entity.practice_game_levels
     current_index = enabled_levels.index(self)+1
     return nil if enabled_levels.length == current_index
     return enabled_levels[current_index]

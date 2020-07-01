@@ -27,6 +27,7 @@ module Api::V1
         elsif !validation_result[:user].nil?
           user = validation_result[:user]
           user.update_acad_entity({standard_id: 1})
+          Standard.find(1).set_fresh_standing(user)
           response = payload(user)
           response[:standards] = Standard.list({})
           response[:otp]= validation_result[:otp]

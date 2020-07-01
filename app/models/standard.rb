@@ -47,6 +47,17 @@ class Standard < AcadEntity
     return streams
   end
 
+  def first_topic
+    chapters.where(enabled: true).first.
+      topics.where(enabled: true).order('sequence ASC').first
+  end
+  
+
+  def set_fresh_standing user
+    return nil if first_topic.nil?
+    first_topic.set_fresh_standing(user)
+  end
+
   # def question_types(list_params)
   #   question_types = self.question_types
   #   total_count = question_types.count

@@ -20,4 +20,53 @@ class Topic < AcadEntity
     end
     return topic_game_levels
   end
+
+  def next_chapter_topic
+    enabled_topics = chapter.practice_topics
+    current_index = enabled_topics.index(self)+1
+    return nil if enabled_topics.length == current_index
+    return enabled_topics[current_index]
+  end
+
+  def set_fresh_standing user
+    set_attempt_standing(user)
+    level_standing = user.level_standing
+    if level_standing.nil?
+      level_standing = AcadStanding.new(acad_entity: practice_game_levels.first, user: user).save!
+    elsif level = TopicLevelStanding.where(user: user, topic: self).first
+      level_standing.update_attributes!(acad_entity: level.game_level)
+    else
+      level_standing.update_attributes!(acad_entity: practice_game_levels.first)
+    end
+  end
+
+  def set_attempt_standing user
+    topic_standing = user.topic_standing
+    if topic_standing.nil?
+      topic_standing = AcadStanding.new(acad_entity: self, user: user).save!
+    else
+      topic_standing.update_attributes!(acad_entity: self)
+    end
+  end
+
+  def set_level_standing level,user
+    # Only to be used after game attempt with more than 1 star rating
+    level_standings = TopicLevelStanding.where(topic: self, user: user)
+    if level_standings.count == 0
+      level_standing = TopicLevelStanding.new(topic: self, game_level: level, user: user)
+      level_standing.save!
+    else
+      level_standing = level_standings.first
+      level_standing.update_attributes!(game_level: level, jump: true)
+    end
+  end
+
+  def reset_jump user
+    level_standings = TopicLevelStanding.where(topic: self, user: user, jump: true)
+    if level_standings.count > 0
+      level_standings.first.update_attributes!(jump: false)
+      return true
+    end
+    return false
+  end
 end

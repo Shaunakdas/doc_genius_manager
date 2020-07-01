@@ -202,7 +202,6 @@ class User < ApplicationRecord
     game_sessions.where(game_holder: game_holder).to_a.sum(&:time_spent)
   end
 
-
   def send_otp
     puts "Sending OTP"
     otp = generate_otp
@@ -264,6 +263,18 @@ class User < ApplicationRecord
     u = User.create!(username: username, mobile_number: mobile_number)
     u.save!
     return u
+  end
+
+  def topic_standing
+    standing = AcadStanding.where(acad_entity_type: "Topic", user: self).first
+    return nil if standing.nil?
+    return standing
+  end
+
+  def level_standing
+    standing = AcadStanding.where(acad_entity_type: "GameLevel", user: self).first
+    return nil if standing.nil?
+    return standing
   end
 
   private

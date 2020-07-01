@@ -19,8 +19,24 @@ module Api::V1
     end
 
     def topicwise_levels
+      jump = false
       if @current_user
-        respond_with Api::V1::TopicwiseSerializer.new(@current_user, {scope: params[:topic_id]})
+        begin
+          if !params[:topic_id].nil?
+            topic = Topic.find(params[:topic_id])
+            topic.set_fresh_standing(@current_user)
+          else
+            topic = @current_user.topic_standing.acad_entity
+            jump = topic.reset_jump(@current_user)
+          end
+          scope = {
+            topic_id: topic.id,
+            jump: jump
+          }
+          respond_with Api::V1::TopicwiseSerializer.new(@current_user, {scope: scope})
+        rescue ActiveRecord::RecordNotFound
+          error_response("Couldn't find Topic with 'id'=#{params[:topic_id]}", :not_found) 
+        end
       else
         error_response("Auth Token is not valid") 
       end

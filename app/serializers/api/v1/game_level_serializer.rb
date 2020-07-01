@@ -1,7 +1,7 @@
 module Api::V1
   class GameLevelSerializer < AcadEntitySerializer
     attributes :id, :title, :sub_title, :practice_mode, :nature_effect,:name, :slug, :sequence,
-    :game, :image_url, :enabled, :score_small, :background_area, :star_count
+    :game, :image_url, :enabled, :score_small, :background_area, :star_count, :current
     has_one :game, serializer: GameSerializer
 
     def question_input
@@ -75,6 +75,10 @@ module Api::V1
     end
 
     def star_count
+      nil
+    end
+
+    def current
       nil
     end
   end

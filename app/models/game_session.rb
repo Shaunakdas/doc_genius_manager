@@ -50,6 +50,9 @@ class GameSession < ApplicationRecord
 
   def parse_result result_json
     create_attempt_score!(get_attempt_fields(result_json[:game_attempt_data]))
+    if attempt_score
+      attempt_score.create_standings
+    end
     ques_list = result_json[:sections] if result_json[:sections]
     ques_list = result_json[:pairs] if result_json[:pairs]
     ques_list.each do |question_json|

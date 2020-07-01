@@ -1,7 +1,7 @@
 module Api::V1
   class TopicwiseSerializer < ActiveModel::Serializer
     attributes :id, :first_name, :last_name, :email, :sex, :birth,
-      :level_locked, :standard, :suggested_games, :level_list
+      :level_locked, :standard, :suggested_games, :level_list, :jump
     
     def sex
       object.sex.to_s.humanize if object.sex.present? 
@@ -13,13 +13,18 @@ module Api::V1
 
     def suggested_games
       suggested_games = Rails.cache.fetch("suggested_games_cache", expires_in: 10.hours) do
-        ActiveModel::ArraySerializer.new(object.practice_game_holders, each_serializer: GameHolderSerializer)
+        ActiveModel::ArraySerializer.new([object.practice_game_holders.first], each_serializer: GameHolderSerializer)
       end
       return suggested_games
     end
 
+    def current_level_id
+      return nil if object.level_standing.nil?
+      return object.level_standing.acad_entity.id
+    end
+
     def level_list
-      topic = Topic.find(scope)
+      topic = Topic.find(scope[:topic_id])
       return nil if topic.nil?
       levels = Rails.cache.fetch("topic_#{topic.id}_cache", expires_in: 2.hours) do
         ActiveModel::ArraySerializer.new(topic.practice_game_levels, each_serializer: GameLevelSerializer).as_json
@@ -28,8 +33,19 @@ module Api::V1
       levels.each do |activity|
         activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
         activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
+        activity[:current] = current_activity(current_level_id,activity[:id])
       end
       return levels
+    end
+
+    def current_activity current_level_id, iterator_id
+      return nil if current_level_id.nil?
+      if current_level_id == iterator_id
+        return {
+          jump: scope[:jump],
+          standing: true
+        }
+      end
     end
 
     def star_list
@@ -44,6 +60,10 @@ module Api::V1
 
     def level_locked
       false
+    end
+
+    def jump
+      return scope[:jump]
     end
   end
 end
