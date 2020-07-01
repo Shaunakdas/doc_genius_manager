@@ -34,8 +34,15 @@ module Api::V1
         activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
         activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
         activity[:current] = current_activity(current_level_id,activity[:id])
+        activity[:locked] = locked_status(activity[:star_count],activity[:current] )
       end
       return levels
+    end
+
+    def locked_status star,current
+      return false if !object.role.nil? && object.role.slug == "Admin"
+      return true if (star.nil? && current.nil?)
+      return false
     end
 
     def current_activity current_level_id, iterator_id
