@@ -268,4 +268,9 @@ class GameLevel < ApplicationRecord
   def all_character_discussions
     [intro_discussion, success_discussion, fail_discussion]
   end
+
+  def s3_slug
+    return nil if !enabled || slug.nil?
+    "#{slug.split("-")[-1]}_l"
+  end
 end

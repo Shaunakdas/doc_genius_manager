@@ -52,4 +52,8 @@ class Chapter < AcadEntity
     end
     return chapter_game_levels
   end
+
+  def s3_slug
+    "#{id}_c"
+  end
 end

@@ -218,4 +218,12 @@ class GameQuestion < ApplicationRecord
       end
     end
   end
+
+  def option_hint_list
+    option_list = []
+    game_options.each_with_index do |go,i|
+      option_list << (i+1) if !go.option.hint.nil?
+    end
+    return option_list
+  end
 end

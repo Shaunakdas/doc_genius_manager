@@ -73,4 +73,13 @@ class Question < ApplicationRecord
     end
     return { pages: page_json}
   end
+
+  def s3_slug
+    return nil if code.nil?
+    "#{code.split("-")[-1]}_q"
+  end
+
+  def has_hint
+    !hint.nil? || !solution.nil?
+  end
 end
