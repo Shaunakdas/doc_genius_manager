@@ -150,7 +150,7 @@ def delete_victory_cards
     VictoryCard.delete_all
 end
 
-
+# Dont USE IT ANYMORE
 game_start = 22
 # delete_game_level_without_mode
 
