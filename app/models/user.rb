@@ -164,6 +164,11 @@ class User < ApplicationRecord
     [standard, first_chapter, first_topic].each { |entity| entity.acad_profiles.create!(user_id: self.id) if entity }
   end
 
+  def last_attempt_time
+    return nil if game_sessions.count == 0
+    return game_sessions.last.created_at.strftime("%Y-%m-%d %H:%M")
+  end
+
   def check_for_game_holders(chapter,topic)
     if chapter && topic.practice_game_holders.length == 0
       return chapter.topics.where(

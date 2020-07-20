@@ -10,8 +10,15 @@ module Api::V1
 
     def list
       if @current_user
-        puts @current_user
-        respond_with @current_user.enabled_chapters, each_serializer: Api::V1::ChapterTopicSerializer, location: '/standards'
+        meta = nil
+        recent_level = @current_user.level_standing
+        if recent_level
+          meta = {
+            title: recent_level.acad_entity.title,
+            date: @current_user.last_attempt_time
+          }
+        end
+        respond_with @current_user.enabled_chapters, each_serializer: Api::V1::ChapterTopicSerializer, meta: meta, location: '/standards'
       else
         error_response("Auth Token is not valid") 
       end
