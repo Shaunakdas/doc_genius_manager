@@ -89,13 +89,24 @@ class Api::V1::StandardsController < Api::V1::ApiController
   # GET /api/v1/map
   # shows one standard (based on the supplied id) 
   def level_map
-    if @current_user
-      begin
-        if !@current_user.standard
-          error_type_response("User has not set his standard", :not_found, "standard_not_set")
-        else
-          respond_with @current_user, serializer: Api::V1::LevelMapSerializer
-        end
+    jump = false
+      if @current_user
+        puts current_user.id
+        begin
+          if !params[:topic_id].nil?
+            topic = Topic.find(params[:topic_id])
+            topic.set_fresh_standing(@current_user)
+          else
+            topic_stading = @current_user.topic_standing
+            Standard.find(1).set_fresh_standing(@current_user) if topic_stading.nil?
+            topic = @current_user.topic_standing.acad_entity
+            jump = topic.reset_jump(@current_user)
+          end
+          scope = {
+            topic_id: topic.id,
+            jump: jump
+          }
+          respond_with Api::V1::LevelMapSerializer.new(@current_user, {scope: scope})
       rescue ActiveRecord::RecordNotFound
         error_response("Couldn't find User with 'id'=#{params[:id]}", :not_found) 
       rescue ActiveRecord::RecordInvalid => invalid

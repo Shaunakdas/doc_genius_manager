@@ -21,15 +21,40 @@ module Api::V1
       chapters = Rails.cache.fetch("chapter_cache", expires_in: 2.hours) do
         ActiveModel::ArraySerializer.new(object.enabled_chapters, each_serializer: ChapterLevelSerializer).as_json
       end
+      user_level = current_level_id.nil? ? nil : current_level_id.to_s.to_i
       list = star_list.to_h
       chapters.each do |chapter|
         chapter[:activities] = chapter[:activities].as_json
         chapter[:activities].each do |activity|
           activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
           activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
+          activity[:current] = current_activity(user_level,activity[:id])
+          activity[:locked] = locked_status(activity[:star_count],activity[:current] )
         end
       end
       return chapters
+    end
+
+    def locked_status star,current
+      return false if !object.role.nil? && object.role.slug == "teacher"
+      return true if (star.nil? && current.nil?)
+      return false
+    end
+
+    def current_activity current_level_id, iterator_id
+      return nil if current_level_id.nil?
+      if current_level_id == iterator_id
+        return {
+          jump: scope[:jump],
+          standing: true
+        }
+      end
+    end
+
+    def current_level_id
+      puts "checking current_level_id"
+      return nil if object.level_standing.nil?
+      return object.level_standing.acad_entity.id
     end
 
     def star_list
