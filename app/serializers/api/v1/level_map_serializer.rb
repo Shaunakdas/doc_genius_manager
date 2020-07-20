@@ -26,10 +26,15 @@ module Api::V1
       chapters.each do |chapter|
         chapter[:activities] = chapter[:activities].as_json
         chapter[:activities].each do |activity|
-          activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
-          activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
-          activity[:current] = current_activity(user_level,activity[:id])
-          activity[:locked] = locked_status(activity[:star_count],activity[:current] )
+          if !list[activity["id"]].nil?
+            activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
+            activity["current"] = current_activity(user_level,activity["id"])
+            activity["locked"] = locked_status(activity[:star_count],activity["current"] )
+          else
+            activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
+            activity[:current] = current_activity(user_level,activity[:id])
+            activity[:locked] = locked_status(activity[:star_count],activity[:current] )
+          end
         end
       end
       return chapters
