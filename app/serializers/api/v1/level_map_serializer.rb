@@ -1,6 +1,6 @@
 module Api::V1
   class LevelMapSerializer < ActiveModel::Serializer
-    attributes :id, :first_name, :last_name, :email, :sex, :birth, :level_locked, :standard, :suggested_games, :chapters
+    attributes :id, :current_level, :first_name, :last_name, :email, :sex, :birth, :standard, :suggested_games, :chapters
     
     def sex
       object.sex.to_s.humanize if object.sex.present? 
@@ -12,7 +12,7 @@ module Api::V1
 
     def suggested_games
       suggested_games = Rails.cache.fetch("suggested_games_cache", expires_in: 10.hours) do
-        ActiveModel::ArraySerializer.new(object.practice_game_holders, each_serializer: GameHolderSerializer)
+        ActiveModel::ArraySerializer.new([object.practice_game_holders.first], each_serializer: GameHolderSerializer)
       end
       return suggested_games
     end
@@ -28,12 +28,12 @@ module Api::V1
         chapter[:activities].each do |activity|
           if !list[activity["id"]].nil?
             activity["star_count"] = list[activity["id"]] if !list[activity["id"]].nil?
-            activity["current"] = current_activity(user_level,activity["id"])
-            activity["locked"] = locked_status(activity[:star_count],activity["current"] )
+            current = current_activity(user_level,activity["id"])
+            activity["locked"] = locked_status(activity["star_count"],current )
           else
             activity[:star_count] = list[activity[:id]] if !list[activity[:id]].nil?
-            activity[:current] = current_activity(user_level,activity[:id])
-            activity[:locked] = locked_status(activity[:star_count],activity[:current] )
+            current = current_activity(user_level,activity[:id])
+            activity[:locked] = locked_status(activity[:star_count],current )
           end
         end
       end
@@ -72,8 +72,11 @@ module Api::V1
       return star_counts
     end
 
-    def level_locked
-      false
+    def current_level
+      {
+        jump: scope[:jump],
+        level_id: current_level_id
+      }
     end
   end
 end
