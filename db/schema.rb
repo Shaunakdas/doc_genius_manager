@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200701040708) do
+ActiveRecord::Schema.define(version: 20200723060322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,8 @@ ActiveRecord::Schema.define(version: 20200701040708) do
     t.string "gloves_colour"
     t.string "boots_name"
     t.string "boots_colour"
+    t.string "audio_url"
+    t.string "image_url"
     t.index ["character_discussion_id"], name: "index_character_dialogs_on_character_discussion_id"
     t.index ["character_id"], name: "index_character_dialogs_on_character_id"
     t.index ["left_weapon_id"], name: "index_character_dialogs_on_left_weapon_id"
@@ -350,6 +352,7 @@ ActiveRecord::Schema.define(version: 20200701040708) do
     t.string "sub_title"
     t.integer "reference_id"
     t.boolean "positive"
+    t.string "prefix_url"
   end
 
   create_table "practice_types", force: :cascade do |t|
@@ -388,6 +391,7 @@ ActiveRecord::Schema.define(version: 20200701040708) do
     t.integer "position"
     t.string "code"
     t.string "post_submit_text"
+    t.string "audio_url"
     t.index ["code"], name: "index_questions_on_code", unique: true
     t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
