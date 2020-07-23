@@ -1,8 +1,8 @@
 module Api::V1
   class CharacterDialogSerializer < ActiveModel::Serializer
     attributes :id, :character, :left_weapon_colours, :right_weapon,
-      :right_weapon_colours, :helmet, :armor, :cape, :pants, :gloves, :boots,
-      :count, :comment, :comment_time,  :position, :animation, :repeat_mode, :sequence 
+      :right_weapon_colours, :helmet, :armor, :cape, :pants, :gloves, :boots, :count,
+      :comment, :comment_time,  :position, :animation, :repeat_mode, :sequence, :audio_url, :image_url
     has_one :left_weapon, serializer: WeaponSerializer
     has_one :right_weapon, serializer: WeaponSerializer
     has_one :character, serializer: CharacterSerializer

@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PracticeQuestionSerializer < ActiveModel::Serializer
-    attributes :id, :entity_type, :_has_parent_question, :question_updated_at
+    attributes :id, :entity_type, :_has_parent_question, :question_updated_at, :audio_url
 
     def _has_parent_question
       !object.parent_question.nil?
@@ -55,7 +55,7 @@ module Api::V1::PracticeQuestions
     end
 
     def hint_structure
-      Question.parse_hint_structure(object.question.hint)
+      Question.parse_hint_structure(object.question.hint,object.question.prefix_url)
     end
 
     def tips
@@ -96,6 +96,10 @@ module Api::V1::PracticeQuestions
 
     def post_submit_text
       object.question.post_submit_text
+    end
+
+    def audio_url
+      object.question.audio_url
     end
   end
 end

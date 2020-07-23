@@ -62,14 +62,19 @@ class Question < ApplicationRecord
     where('code LIKE :search', search: "#{search}")
   end
 
-  def self.parse_hint_structure hint
+  def self.parse_hint_structure hint,prefix_url=nil
     return nil if hint.nil?
     # return hint if !(hint.include?('<br/>') || hint.include?('<p/>'))
     hint = hint.gsub("\table", "\\table")
     pages = hint.split('<p/>')
     page_json = []
+    last_count = 1
     pages.each do |page|
-      page_json << { lines: page.split('<br/>')}
+      lines = page.split('<br/>')
+      images = []
+      images << Array.new(lines.count){|a| a = "#{prefix_url}hint/#{a + last_count}.mp3"}
+      page_json << { lines: lines, images: images}
+      last_count = lines.count + 1
     end
     return { pages: page_json}
   end

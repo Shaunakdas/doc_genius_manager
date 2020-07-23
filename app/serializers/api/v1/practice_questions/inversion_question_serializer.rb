@@ -16,7 +16,7 @@ module Api::V1::PracticeQuestions
     end
 
     def hint_structure
-      Question.parse_hint_structure(object.question.solution)
+      Question.parse_hint_structure(object.question.solution,object.question.prefix_url)
     end
 
     def powerup

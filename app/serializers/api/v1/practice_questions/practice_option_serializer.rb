@@ -63,7 +63,7 @@ module Api::V1::PracticeQuestions
     end
 
     def hint_structure
-      Question.parse_hint_structure(object.option.hint)
+      Question.parse_hint_structure(object.option.hint,object.option.prefix_url)
     end
 
     def title
