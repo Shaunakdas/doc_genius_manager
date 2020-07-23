@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200723060322) do
+ActiveRecord::Schema.define(version: 20200723063135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -392,6 +392,7 @@ ActiveRecord::Schema.define(version: 20200723060322) do
     t.string "code"
     t.string "post_submit_text"
     t.string "audio_url"
+    t.string "prefix_url"
     t.index ["code"], name: "index_questions_on_code", unique: true
     t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
