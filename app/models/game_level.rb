@@ -273,4 +273,32 @@ class GameLevel < ApplicationRecord
     return nil if !enabled || slug.nil?
     "#{slug.split("-")[-1]}_l"
   end
+
+  def dialog_audios
+    audio_list = []
+    all_character_discussions.each do |disco|
+      disco.character_dialogs.each do |dialog|
+        audio_list << dialog.audio_url if dialog.audio_url
+      end
+    end
+    return audio_list
+  end
+  
+  def dialog_images
+    image_list = []
+    all_character_discussions.each do |disco|
+      disco.character_dialogs.each do |dialog|
+        image_list << dialog.image_url if dialog.image_url
+      end
+    end
+    return image_list
+  end
+
+  def question_audios
+    audio_list = []
+    game_questions.each do |gq|
+      audio_list << gq.question.audio_url if gq.question.audio_url
+    end
+    return audio_list
+  end
 end

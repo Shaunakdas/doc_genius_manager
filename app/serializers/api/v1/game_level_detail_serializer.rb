@@ -2,7 +2,7 @@ module Api::V1
   class GameLevelDetailSerializer < GameLevelSerializer
     attributes  :star_count, :chapter_sequence, :background_area ,:benefits, :score, :sub_title, :question_input, :score_algo,
       :practice_mode, :nature_effect, :sequence, :intro_character_discussion, :success_character_discussion,
-      :fail_character_discussion, :final_victory_cards 
+      :fail_character_discussion, :final_victory_cards, :dialog_audios, :dialog_images, :question_audios
     has_one :intro_character_discussion, serializer: CharacterDiscussionSerializer
     has_one :success_character_discussion, serializer: CharacterDiscussionSerializer
     has_one :fail_character_discussion, serializer: CharacterDiscussionSerializer
