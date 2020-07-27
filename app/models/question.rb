@@ -71,9 +71,8 @@ class Question < ApplicationRecord
     last_count = 1
     pages.each do |page|
       lines = page.split('<br/>')
-      images = []
-      images << Array.new(lines.count){|a| a = "#{prefix_url}hint/#{a + last_count}.mp3"}
-      page_json << { lines: lines, images: images}
+      audios = Array.new(lines.count){|a| a = "#{prefix_url}hint/#{a + last_count}.mp3"}
+      page_json << { lines: lines, audios: audios}
       last_count = lines.count + 1
     end
     return { pages: page_json}
