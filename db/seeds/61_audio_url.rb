@@ -39,36 +39,46 @@ def set_necessary_level_urls s3_prefix
     level = GameLevel.find(k)
     current_prefix = url
     level.all_character_discussions.each do |discuss|
-      discuss.character_dialogs.where(animation: "talk").each_with_index do |dialog,i|
+      discuss.character_dialogs.where.not(comment: nil).each_with_index do |dialog,i|
         next if dialog.comment.nil?
         audio_url = "#{current_prefix}d/#{discuss.stage.first}/#{i+1}.mp3"
-        audio_url = "#{s3_prefix}def/#{default_audio_map[dialog.comment.to_sym]}.mp3" if default_audio_map.has_key?(dialog.comment.to_sym)
+        audio_url = "#{s3_prefix}def/#{default_audio_map[dialog.comment.strip.to_sym]}.mp3" if default_audio_map.has_key?(dialog.comment.strip.to_sym)
         dialog.update_attributes!(audio_url: audio_url)
         puts "Setting Level: #{level.title}, Discussion Stage: #{discuss.stage}, id: #{i+1}, audio_url: #{audio_url}"
       end
     end
     if level.practice_mode != "practice"
       level.game_questions.each do |gq|
-        current_prefix += "#{gq.question.s3_slug}/"
-        gq.question.update_attributes!(prefix_url: "#{current_prefix}")
-        puts "Setting Level: #{level.title}, Question title: #{gq.question.display}, audio_prefix: #{current_prefix}"
-      
-        # If question's options has hints
-        hint_options = gq.option_hint_list
-        if hint_options.count > 0
-          current_prefix += "options/"
-          hint_options.each_with_index do |op,i|
-            gq.game_options[i].option.update_attributes!(prefix_url: "#{current_prefix}#{op}_op/")
-            puts "Setting Level: #{level.title}, Option Index: #{op}, audio_prefix: #{current_prefix}#{op}_op/"
-          end
-          current_prefix = current_prefix.chomp("options/")
-        end
-  
-        # Question Asset Urls is over
-        current_prefix  = current_prefix.chomp("#{gq.question.s3_slug}/")
+        current_prefix = set_question_prefixes(current_prefix, gq, level)
       end
     end
   end
+end
+
+def set_question_prefixes current_prefix, gq, level
+  current_prefix = current_prefix + "#{gq.question.s3_slug}/"
+  gq.question.update_attributes!(prefix_url: "#{current_prefix}")
+  puts "Setting Level: #{level.title}, Question title: #{gq.question.display}, audio_prefix: #{current_prefix}"
+
+  # If question's options has hints
+  hint_options = gq.option_hint_list
+  if hint_options.count > 0
+    current_prefix += "options/"
+    hint_options.each_with_index do |op,i|
+      gq.game_options[i].option.update_attributes!(prefix_url: "#{current_prefix}#{op}_op/")
+      puts "Setting Level: #{level.title}, Option Index: #{op}, audio_prefix: #{current_prefix}#{op}_op/"
+    end
+    current_prefix = current_prefix.chomp("options/")
+  end
+
+  # If Game has sub_questions
+  gq.sub_questions.each do |sgq|
+    set_question_prefixes(current_prefix, sgq, level)
+  end
+
+  # Question Asset Urls is over
+  current_prefix  = current_prefix.chomp("#{gq.question.s3_slug}/")
+  return current_prefix
 end
 
 # Based on available files, add image and question audio
@@ -80,7 +90,7 @@ def get_file_list
   option_hint_audios = []
   level_map = {}
   chapter = nil
-  File.readlines('folder_structure.txt').each do |line|
+  File.readlines('file_structure.txt').each do |line|
     location = line.split('./').last.chomp("\n")
     next if location.index("_c").nil?
     chap_id = location.split("_c/").first
@@ -120,6 +130,9 @@ def set_links(level_map,discussion_images, question_audios, question_hint_audios
     if level.practice_mode != "practice"
       level.game_questions.each do |gq|
         set_question_audio(gq.question, question_audios)
+        gq.sub_questions.each do |sgq|
+          set_question_audio(sgq.question, question_audios)
+        end
       end
     end
 
@@ -152,8 +165,8 @@ end
 # delete_dialog_urls
 
 # Compulsory File urls and Prefix urls added
-# set_necessary_level_urls(s3_prefix)
+set_necessary_level_urls(s3_prefix)
 
 
 # Based on available files, add image and question audio
-# get_file_list
+get_file_list
