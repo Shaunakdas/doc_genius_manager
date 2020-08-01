@@ -11,7 +11,8 @@ module Api::V1::PracticeQuestions
     end
 
     def tips
-      object.question.tip.nil? ? [] : object.question.tip.split('\\n')
+      # object.question.tip.nil? ? [] : object.question.tip.split('\\n')
+      [object.question.tip]
     end
   end
 end

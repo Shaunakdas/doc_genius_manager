@@ -10,6 +10,10 @@ class Question < ApplicationRecord
     return params
   end
 
+  def self.search_prefix(prefix)
+    where('code LIKE :search', search: "#{prefix}%")
+  end
+
   def self.attribute_mapping
     {
       mode: "mode",

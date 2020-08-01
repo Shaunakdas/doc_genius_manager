@@ -24,6 +24,9 @@ def remove_game_holder_questions(name)
       puts "Removed game level refs of game_level : #{g.name}"
     end
   end
+  Question.search_prefix(name).each do |q|
+    q.update_attributes!(code: nil)
+  end
 end
 
 def remove_game_holder_references
@@ -258,14 +261,14 @@ def upload_agility_data(book, count)
           code = row.cells[question_start].value
           display = row.cells[question_start + 1].value
           solution = row.cells[question_start + 2].value if row.cells[question_start + 4]
-          title = row.cells[question_start + 3].value
+          post_submit_text = row.cells[question_start + 3].value
           mode = row.cells[question_start + 4].value
 
           break if Question.search_code(code).count > 0
           # remove_question_code(code)
 
           question = Question.create!(display: display, solution: solution,
-          title: title, mode: mode, code: code)
+          post_submit_text: post_submit_text, mode: mode, code: code)
           puts "Adding question code: #{code} ,display: #{display} , solution: #{solution}"
           game_question = GameQuestion.create!(question: question, game_holder: game_holder,
             difficulty_index: difficulty, game_level: game_level)
@@ -572,6 +575,7 @@ def upload_division_data(book, count)
           hint = row.cells[question_start + 2]? row.cells[question_start + 2].value : nil
           solution = row.cells[question_start + 3].value
           mode = row.cells[question_start + 4].value
+          post_submit_text = row.cells[question_start + 5].value
 
           break if Question.search_code(code).count > 0
           # remove_question_code(code)
@@ -581,7 +585,7 @@ def upload_division_data(book, count)
           game_question = GameQuestion.create!(question: question, game_holder: game_holder,
             difficulty_index: difficulty, game_level: game_level)
           
-          option_start = 9
+          option_start = 10
           option_width = 4
           option_count = 5
           (0..(option_count-1)).each do |counter|
@@ -1283,7 +1287,7 @@ end
 def replace_question_slash(q)
   q.display = replace_slash(q.display)
   q.hint = replace_slash(q.hint)
-  q.tip = replace_slash(q.tip)
+  # q.tip = replace_slash(q.tip)
   q.solution = replace_slash(q.solution)
   q.title = replace_slash(q.title)
   q.save!
@@ -1334,6 +1338,8 @@ game_start = 5
 game_start = 5
 # Once Game Levels and Game Questions are done. 
 # remove_question_codes
+
+
 # upload_agility_data(book, game_start)
 # upload_purchasing_data(book, game_start + 1)
 # upload_conversion_data(book, game_start + 2)
@@ -1341,7 +1347,7 @@ game_start = 5
 # upload_discounting_data(book, game_start + 4)
 # upload_division_data(book, game_start + 5)
 # upload_estimation_data(book, game_start + 6)
-# upload_percentage_data(book, game_start + 7)
+upload_percentage_data(book, game_start + 7)
 # upload_tipping_data(book, game_start + 8)
 # upload_inversion_data(book, game_start + 9)
 # upload_proportion_data(book, game_start + 10)
