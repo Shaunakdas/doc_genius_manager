@@ -162,6 +162,7 @@ def set_question_audio question, question_audios
 end
 
 
+# du -a > file_structure.txt
 # delete_dialog_urls
 
 # Compulsory File urls and Prefix urls added

@@ -1310,7 +1310,7 @@ def replace_slash(text)
     new_text = text.gsub(/\\\\/, '\\')
     new_text = new_text.gsub(/<br\/>\n/, "<br/>")
     new_text = new_text.gsub(/<p\/>\n/, "<p/>")
-    new_text = new_text.gsub(/\\table/, "\table")
+    # new_text = new_text.gsub(/\\table/, "\table")
     return new_text.gsub(/\\n/, "\n") if new_text.include?("\\n")
     return new_text
   end
@@ -1347,7 +1347,7 @@ game_start = 5
 # upload_discounting_data(book, game_start + 4)
 # upload_division_data(book, game_start + 5)
 # upload_estimation_data(book, game_start + 6)
-upload_percentage_data(book, game_start + 7)
+# upload_percentage_data(book, game_start + 7)
 # upload_tipping_data(book, game_start + 8)
 # upload_inversion_data(book, game_start + 9)
 # upload_proportion_data(book, game_start + 10)
