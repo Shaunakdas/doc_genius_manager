@@ -1,6 +1,6 @@
 module Api::V1
   class LevelMapSerializer < ActiveModel::Serializer
-    attributes :id, :current_level, :first_name, :last_name, :email, :sex, :birth, :standard, :suggested_games, :chapters
+    attributes :id, :current_level, :first_name, :last_name, :username, :email, :sex, :birth, :standard, :suggested_games, :chapters
     
     def sex
       object.sex.to_s.humanize if object.sex.present? 
