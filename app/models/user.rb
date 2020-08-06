@@ -207,10 +207,21 @@ class User < ApplicationRecord
     game_sessions.where(game_holder: game_holder).to_a.sum(&:time_spent)
   end
 
-  def send_otp
+
+  def self.twilio_client
+    account_sid = 'AC2d2b007e1adae1c206d6d37757ad42e9'
+    auth_token = '3805cff4c7892a22e22cf245c6a1d820'
+    client = Twilio::REST::Client.new(account_sid, auth_token)
+    return client
+  end
+
+  def send_otp mobile_number
     puts "Sending OTP"
     otp = generate_otp
     update_attributes!(otp: otp)
+    message = "OTP for Gurukul of Drona is: #{otp}. "
+    from = '+12023353127'
+    User.twilio_client.messages.create(from: from, to: "+91#{mobile_number}", body: message)
     return otp
   end
 
@@ -241,7 +252,7 @@ class User < ApplicationRecord
 
     elsif user = User.find_by(mobile_number: mobile_number)
       # Mobile exists, ignore username - search using mobile - Send OTP
-      otp = user.send_otp
+      otp = user.send_otp(mobile_number)
 
     elsif user = User.find_by(username: username)
       # Mobile doesn't exist, username exists - Error
@@ -252,7 +263,7 @@ class User < ApplicationRecord
     else
       # Mobile doesn't exist, username doesn't exist - create using mobile - Send OTP
       user = User.create_mobile_user(username,mobile_number)
-      otp = user.send_otp
+      otp = user.send_otp(mobile_number)
     end
     return {
       error_code: error_code,
