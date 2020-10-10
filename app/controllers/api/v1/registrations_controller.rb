@@ -46,6 +46,7 @@ module Api::V1
           if params[:otp].nil? || (params[:otp].length != 4)
             error_response("OTP is not valid. Minimum 4 numbers are needed in OTP") 
           elsif (params[:otp] == "1111") || (@current_user.otp == params[:otp])
+            @current_user.update_attributes!(push_id: params[:push_id]) if !params[:push_id].nil?
             render json: {verified: true}
           else
             error_response("OTP is not valid") 

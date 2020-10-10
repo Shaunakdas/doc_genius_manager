@@ -219,9 +219,11 @@ class User < ApplicationRecord
     puts "Sending OTP"
     otp = generate_otp
     update_attributes!(otp: otp)
-    message = "OTP for Gurukul of Drona is: #{otp}. "
-    from = '+12023353127'
-    User.twilio_client.messages.create(from: from, to: "+91#{mobile_number}", body: message)
+    if Rails.env.production? 
+      message = "OTP for Gurukul of Drona is: #{otp}. "
+      from = '+12023353127'
+      User.twilio_client.messages.create(from: from, to: "+91#{mobile_number}", body: message)
+    end
     return otp
   end
 
