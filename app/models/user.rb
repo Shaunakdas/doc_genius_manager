@@ -314,6 +314,6 @@ class User < ApplicationRecord
   end
 
   def self.validate_mobile mobile_number
-    !!mobile_number[/[7-9][0-9]{9}/]
+    !!mobile_number[/[5-9][0-9]{9}/]
   end
 end
