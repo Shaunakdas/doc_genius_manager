@@ -19,6 +19,7 @@ module Api::V1
     # post "sign_up/phone"
     def sign_up_phone
       begin
+        params[:user][:first_name] = User.generate_username if !params[:user].has_key?(:first_name)
         params[:user][:registration_method] = :mobile
         validation_result = User.mobile_create_validate(params[:user][:mobile_number], params[:user][:first_name])
         if validation_result[:errored]

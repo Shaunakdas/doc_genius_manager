@@ -277,6 +277,16 @@ class User < ApplicationRecord
     }
   end
 
+  def self.generate_username
+    prefix = ['arjun','bheem','nakul','sahadev','krishna'].sample
+    suffix1 = rand(10000..99999)
+    suffix2 = rand(10000..99999)
+    suffix3 = rand(10000..99999)
+    return "#{prefix}#{suffix1}" if User.where(username: "#{prefix}#{suffix1}").count == 0 
+    return "#{prefix}#{suffix2}" if User.where(username: "#{prefix}#{suffix2}").count == 0 
+    return "#{prefix}#{suffix3}" if User.where(username: "#{prefix}#{suffix3}").count == 0 
+  end
+
   def self.create_mobile_user username, mobile_number
     u = User.create!(username: username, mobile_number: mobile_number)
     u.save!
