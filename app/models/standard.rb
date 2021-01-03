@@ -58,6 +58,14 @@ class Standard < AcadEntity
     first_topic.set_fresh_standing(user)
   end
 
+  def title
+    "Standard #{slug}"
+  end
+
+  def child_entities
+    Subject.all
+  end
+
   # def question_types(list_params)
   #   question_types = self.question_types
   #   total_count = question_types.count

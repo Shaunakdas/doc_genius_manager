@@ -56,4 +56,8 @@ class Chapter < AcadEntity
   def s3_slug
     "#{id}_c"
   end
+
+  def child_entities
+    topics
+  end
 end

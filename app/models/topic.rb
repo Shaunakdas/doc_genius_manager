@@ -87,4 +87,8 @@ class Topic < AcadEntity
   def background_area
     return background_list[id%8]
   end
+
+  def child_entities
+    sub_topics
+  end
 end

@@ -133,6 +133,31 @@ class Api::V1::StandardsController < Api::V1::ApiController
     end
   end
 
+  # GET /api/v1/home
+  # shows new homepage 
+  def home
+    subject = Subject.where(slug: params[:subject]).first if params.has_key?("subject")
+    standard = Standard.where(slug: params[:standard]).first if params.has_key?("standard") && (params[:standard].is_a? (String))
+    chapter = Chapter.where(slug: params[:chapter]).first if params.has_key?("chapter")
+    topic = Topic.where(slug: params[:topic]).first if params.has_key?("topic")
+    sub_topic = SubTopic.where(slug: params[:sub_topic]).first if params.has_key?("sub_topic")
+    
+    if !sub_topic.nil?
+      entity = sub_topic
+    elsif !topic.nil?
+      entity = topic
+    elsif !chapter.nil?
+      entity = chapter
+    elsif !subject.nil?
+      entity = subject
+    elsif !standard.nil?
+      entity = standard
+    end
+    child_entities = entity.child_entities
+    child_entities = subject.chapters.where(standard: standard) if subject && standard && chapter.nil? && topic.nil? && sub_topic.nil?
+    respond_with child_entities, each_serializer: Api::V1::QuizBlockSerializer
+  end
+
   private
 
   def standard_params

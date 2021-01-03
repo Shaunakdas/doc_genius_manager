@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       delete "standard/:id" => "standards#delete"
       # HomePage Req: ( AuthToken)
       get "homepage" => "standards#homepage"
+      # HomePage 
+      get "home" => "standards#home"
       # LevelMap Req: ( AuthToken)
       get "map" => "standards#level_map"
       # Streamwise Questions Req: ( AuthToken)

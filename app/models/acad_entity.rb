@@ -17,5 +17,17 @@ class AcadEntity < ApplicationRecord
     where('slug LIKE :search', search: "#{search}")
   end
 
+  def url_suffix
+    "&#{self.class.name.underscore}=#{slug}"
+  end
+
+  def sample_game_holders
+    return [] if game_holders.count == 0
+    game_holders.last(5)
+  end
+
+  def title
+    name.titleize
+  end
 
 end
