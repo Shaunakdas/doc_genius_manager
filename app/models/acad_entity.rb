@@ -23,7 +23,8 @@ class AcadEntity < ApplicationRecord
 
   def sample_game_holders
     return [] if game_holders.count == 0
-    game_holders.last(5)
+    practice_types = PracticeType.where(slug: ['agility','purchasing','conversion','discounting','inversion'])
+    game_holders.where(:game_id => practice_types.map(&:id)).last(5)
   end
 
   def title
