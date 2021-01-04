@@ -1,0 +1,2 @@
+class ExternalQuizSource < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201010073526) do
+ActiveRecord::Schema.define(version: 20210104112749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,37 @@ ActiveRecord::Schema.define(version: 20201010073526) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_difficulty_levels_on_slug", unique: true
+  end
+
+  create_table "external_questions", force: :cascade do |t|
+    t.string "question"
+    t.integer "time"
+    t.string "image_url"
+    t.string "s3_image_url"
+    t.string "audio_url"
+    t.string "s3_audio_url"
+    t.string "options"
+    t.integer "correct_option"
+    t.string "answer_url"
+    t.string "s3_answer_url"
+    t.bigint "external_quiz_source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_quiz_source_id"], name: "index_external_questions_on_external_quiz_source_id"
+  end
+
+  create_table "external_quiz_sources", force: :cascade do |t|
+    t.string "title"
+    t.string "quiz_type"
+    t.string "grade"
+    t.integer "accuracy"
+    t.integer "plays"
+    t.string "subject"
+    t.string "image_url"
+    t.string "s3_image_url"
+    t.string "source_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "game_holders", force: :cascade do |t|
@@ -662,6 +693,7 @@ ActiveRecord::Schema.define(version: 20201010073526) do
   add_foreign_key "character_dialogs", "characters"
   add_foreign_key "character_dialogs", "weapons", column: "left_weapon_id"
   add_foreign_key "character_dialogs", "weapons", column: "right_weapon_id"
+  add_foreign_key "external_questions", "external_quiz_sources"
   add_foreign_key "game_holders", "question_types"
   add_foreign_key "game_level_victory_cards", "game_levels"
   add_foreign_key "game_level_victory_cards", "victory_cards"
