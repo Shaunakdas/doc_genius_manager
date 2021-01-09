@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210104112749) do
+ActiveRecord::Schema.define(version: 20210109040325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,7 +190,9 @@ ActiveRecord::Schema.define(version: 20210104112749) do
     t.bigint "external_quiz_source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "question_id"
     t.index ["external_quiz_source_id"], name: "index_external_questions_on_external_quiz_source_id"
+    t.index ["question_id"], name: "index_external_questions_on_question_id"
   end
 
   create_table "external_quiz_sources", force: :cascade do |t|
@@ -205,6 +207,8 @@ ActiveRecord::Schema.define(version: 20210104112749) do
     t.string "source_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "game_holder_id"
+    t.index ["game_holder_id"], name: "index_external_quiz_sources_on_game_holder_id"
   end
 
   create_table "game_holders", force: :cascade do |t|
@@ -694,6 +698,8 @@ ActiveRecord::Schema.define(version: 20210104112749) do
   add_foreign_key "character_dialogs", "weapons", column: "left_weapon_id"
   add_foreign_key "character_dialogs", "weapons", column: "right_weapon_id"
   add_foreign_key "external_questions", "external_quiz_sources"
+  add_foreign_key "external_questions", "questions"
+  add_foreign_key "external_quiz_sources", "game_holders"
   add_foreign_key "game_holders", "question_types"
   add_foreign_key "game_level_victory_cards", "game_levels"
   add_foreign_key "game_level_victory_cards", "victory_cards"
