@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210109040325) do
+ActiveRecord::Schema.define(version: 20210110072213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,13 +177,13 @@ ActiveRecord::Schema.define(version: 20210109040325) do
   end
 
   create_table "external_questions", force: :cascade do |t|
-    t.string "question"
+    t.string "display"
     t.integer "time"
     t.string "image_url"
     t.string "s3_image_url"
     t.string "audio_url"
     t.string "s3_audio_url"
-    t.string "options"
+    t.string "joined_options"
     t.integer "correct_option"
     t.string "answer_url"
     t.string "s3_answer_url"
@@ -388,6 +388,8 @@ ActiveRecord::Schema.define(version: 20210109040325) do
     t.integer "reference_id"
     t.boolean "positive"
     t.string "prefix_url"
+    t.string "image_url"
+    t.string "audio_url"
   end
 
   create_table "practice_types", force: :cascade do |t|
@@ -428,6 +430,8 @@ ActiveRecord::Schema.define(version: 20210109040325) do
     t.string "post_submit_text"
     t.string "audio_url"
     t.string "prefix_url"
+    t.string "image_url"
+    t.integer "time"
     t.index ["code"], name: "index_questions_on_code", unique: true
     t.index ["marker_gap_id"], name: "index_questions_on_marker_gap_id"
     t.index ["parent_question_id"], name: "index_questions_on_parent_question_id"
