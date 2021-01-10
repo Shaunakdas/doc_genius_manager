@@ -40,9 +40,9 @@ end
 # remove_question_code(code)
 
 # Uploading basic acad entities
-def upload_basic_acad_entity(book, count, start, end)
+def upload_basic_acad_entity(book, count, start, finish)
   master_sheet = book[count]
-  master_sheet.each do |row|
+  master_sheet.each_with_index do |row,i|
 
     next if i < start
     if row.cells[0]  && row.cells[0].value
@@ -81,8 +81,14 @@ def upload_basic_acad_entity(book, count, start, end)
         subject = Subject.create!(:name => subject_name, :slug => subject_slug)
       end
 
+      if stream_slug.to_s == ""
+        stream_name = subject_name
+        stream_slug = subject_slug
+      end
+
       #Create or find stream
-      if not stream = Stream.find_by(:slug => stream_slug)
+      stream = Stream.find_by(:slug => stream_slug)
+      if stream.nil? && stream_name
         puts "Adding stream #{stream_name}"
         stream = Stream.create!(:name => stream_name, :slug => stream_slug, :subject => subject)
       end
@@ -95,21 +101,35 @@ def upload_basic_acad_entity(book, count, start, end)
         :sequence_stream => stream.chapters.length+1)
       end
 
+      if !topic_name
+        topic_name = chapter_name
+        topic_slug = chapter_slug
+      end
+
       #Create or find topic
-      if (not topic = Topic.find_by(:slug => topic_slug)) && topic_name  && chapter
+      if (not topic = Topic.find_by(:slug => topic_slug)) && topic_name.to_s != ""  && chapter
         puts "Adding topic #{topic_name}, slug: #{topic_slug}"
         topic = Topic.create!(:name => topic_name, :slug => topic_slug, :chapter => chapter,
           :sequence => chapter.topics.length+1)
       end
 
       #Create or find sub_topic
-      if (not sub_topic = SubTopic.find_by(:slug => sub_topic_slug)) && sub_topic_name && topic
+      if (not sub_topic = SubTopic.find_by(:slug => sub_topic_slug)) && (sub_topic_slug.to_s != "") && topic
         puts "Adding sub_topic #{sub_topic_name}, slug: #{sub_topic_slug}"
         sub_topic = SubTopic.create!(:name => sub_topic_name, :slug => sub_topic_slug, :topic => topic,
           :sequence => topic.sub_topics.length+1)
       end
+
+      external_index = 11
+      while (get_val(row.cells[external_index])) do 
+        external_quiz_link = get_val(row.cells[external_index])
+        external_quiz_source = ExternalQuizSource.where(source_url: external_quiz_link).first
+        puts "Adding QuizSource: #{external_quiz_source.to_json} with Topic: #{topic.to_json}"
+        external_quiz_source.game_holder.update_attributes!(acad_entity: topic) if topic && external_quiz_source
+        external_index = external_index + 1
+      end
     end
-    break if i == end
+    break if i == finish
   end
 end
 
@@ -125,9 +145,9 @@ end
 
 
 # Maths
-upload_basic_acad_entity(book, 0, 2, 1384)
+# upload_basic_acad_entity(book, 0, 2, 1384)
 # English
-upload_basic_acad_entity(book, 1, 2, 187)
+# upload_basic_acad_entity(book, 1, 2, 187)
 # Science
 upload_basic_acad_entity(book, 2, 2, 572)
 # upload_practice_types(book, 3)
