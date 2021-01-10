@@ -37,8 +37,8 @@ def upload_external_questions(book, count)
             while(!get_val(row.cells[question_index]).nil?)  do
                 options = get_val(row.cells[question_index+1])
                 question_params = {
-                    question: get_val(row.cells[question_index]),
-                    options: get_options(options,get_val(row.cells[question_index+2])),
+                    display: get_val(row.cells[question_index]),
+                    joined_options: get_options(options,get_val(row.cells[question_index+2])),
                     correct_option: check_option_index(options,get_val(row.cells[question_index+2])),
                     time: get_val(row.cells[question_index+3])[0..-9].to_i,
                     image_url: get_val(row.cells[question_index+4]),
