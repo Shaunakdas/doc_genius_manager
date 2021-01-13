@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PracticeQuestionSerializer < ActiveModel::Serializer
-    attributes :id, :entity_type, :_has_parent_question, :question_updated_at, :audio_url
+    attributes :id, :entity_type, :_has_parent_question, :question_updated_at, :audio_url, :image_url
 
     def _has_parent_question
       !object.parent_question.nil?
@@ -99,6 +99,10 @@ module Api::V1::PracticeQuestions
     end
 
     def audio_url
+      object.question.audio_url
+    end
+
+    def image_url
       object.question.audio_url
     end
   end

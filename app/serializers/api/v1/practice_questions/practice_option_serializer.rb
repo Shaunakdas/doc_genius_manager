@@ -1,6 +1,6 @@
 module Api::V1::PracticeQuestions
   class PracticeOptionSerializer < ActiveModel::Serializer
-    attributes :id, :entity_type
+    attributes :id, :entity_type, :image_url, :audio_url
 
     def entity_type
       "game_option"
@@ -68,6 +68,14 @@ module Api::V1::PracticeQuestions
 
     def title
       object.option.title
+    end
+
+    def image_url
+      object.option.image_url
+    end
+
+    def audio_url
+      object.option.audio_url
     end
 
   end
