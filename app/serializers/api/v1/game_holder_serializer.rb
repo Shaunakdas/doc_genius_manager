@@ -1,6 +1,6 @@
 module Api::V1
   class GameHolderSerializer < AcadEntitySerializer
-    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small
+    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small, :theme
     has_one :game, serializer: GameSerializer
 
     def question_input
@@ -60,6 +60,10 @@ module Api::V1
     def score_algo
       return object.score_structure.score_algo if object.score_structure
       return nil
+    end
+
+    def theme
+      GameHolder.theme_list[rand(GameHolder.theme_list.count)]
     end
   end
 end

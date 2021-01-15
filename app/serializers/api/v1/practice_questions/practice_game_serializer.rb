@@ -41,7 +41,7 @@ module Api::V1::PracticeQuestions
         return object.game_questions if object.game_questions.count > 0
         return object.game_holder.game_questions
       elsif object.class.name == "GameHolder"
-        return object.game_questions
+        return object.game_questions.first(10)
       else
         return []
       end

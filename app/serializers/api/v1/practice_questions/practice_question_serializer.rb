@@ -103,7 +103,7 @@ module Api::V1::PracticeQuestions
     end
 
     def image_url
-      object.question.audio_url
+      object.question.image_url
     end
   end
 end
