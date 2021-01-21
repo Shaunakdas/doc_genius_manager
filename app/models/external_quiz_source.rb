@@ -1,7 +1,7 @@
 require 'open-uri'
 class ExternalQuizSource < ApplicationRecord
   has_many :external_questions
-  belongs_to :game_holder
+  belongs_to :game_holder, optional: true
   def create_game_holder
     if game_holder
       puts "ExternalQuizSource #{id} GameHolder already exists"
@@ -36,7 +36,7 @@ class ExternalQuizSource < ApplicationRecord
   end
 
   def self.upload_quiz_to_s3_bulk
-    ExternalQuizSource.where(:id => 203..1238).each do |quiz|
+    ExternalQuizSource.all.each do |quiz|
       quiz.move_asset_to_s3
     end
   end

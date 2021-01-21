@@ -1,6 +1,6 @@
 class ExternalQuestion < ApplicationRecord
   belongs_to :external_quiz_source
-  belongs_to :question
+  belongs_to :question, optional: true
 
   def move_asset_to_s3
     return nil if image_url.nil? && audio_url.nil? && !joined_options.include?("quizizz.com")
@@ -36,8 +36,8 @@ class ExternalQuestion < ApplicationRecord
       ques = Question.create!(ques_params)
       update_attributes!(question: ques)
       gq = GameQuestion.create!(question: ques, game_holder: external_quiz_source.game_holder)
-      if ((!s3_image_url.nil?) && (s3_image_url.include? ("\n---\n")))
-        s3_image_url.split("\n---\n").each_with_index do |op,i|
+      if ((!s3_answer_url.nil?) && (s3_answer_url.include? ("\n---\n")))
+        s3_answer_url.split("\n---\n").each_with_index do |op,i|
           create_option(gq, nil,op,(i == correct_option))
         end
       else
