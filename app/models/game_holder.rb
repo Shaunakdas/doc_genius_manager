@@ -251,14 +251,14 @@ class GameHolder < ApplicationRecord
         url_suffix: "/games/game7/?theme=7",
         logo: "/gameLogos/bflvvkyvhwnni.png"
       },
-      {
-        url_suffix: "/games/game7/?theme=8",
-        logo: "/gameLogos/snchkavpwtoyn.png"
-      },
-      {
-        url_suffix: "/games/game7/?theme=9",
-        logo: "/gameLogos/bkhhitnehuhcv.png"
-      },
+      # {
+      #   url_suffix: "/games/game7/?theme=8",
+      #   logo: "/gameLogos/snchkavpwtoyn.png"
+      # },
+      # {
+      #   url_suffix: "/games/game7/?theme=9",
+      #   logo: "/gameLogos/bkhhitnehuhcv.png"
+      # },
       # {
       #   url_suffix: "/games/game7/?theme=10",
       #   logo: "/gameLogos/game7_theme9.png"

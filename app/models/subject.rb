@@ -32,5 +32,6 @@ class Subject  < AcadEntity
     next_game_holders = standard_chaps.second.practice_game_holders
     game_list = game_list + next_game_holders.where(:game_id => practice_types.map(&:id)).last(5) if next_game_holders.count > 0
     return game_list.first(5) if game_list.length > 5
+    return []
   end
 end
