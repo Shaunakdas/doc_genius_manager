@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210110072213) do
+ActiveRecord::Schema.define(version: 20210121134352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -535,6 +535,7 @@ ActiveRecord::Schema.define(version: 20210110072213) do
     t.integer "sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled"
     t.index ["slug"], name: "index_standards_on_slug", unique: true
   end
 
@@ -566,6 +567,7 @@ ActiveRecord::Schema.define(version: 20210110072213) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled"
     t.index ["slug"], name: "index_subjects_on_slug", unique: true
   end
 
