@@ -153,9 +153,27 @@ class Api::V1::StandardsController < Api::V1::ApiController
     elsif !standard.nil?
       entity = standard
     end
-    child_entities = entity.child_entities
-    child_entities = subject.chapters.where(standard: standard) if subject && standard && chapter.nil? && topic.nil? && sub_topic.nil?
-    respond_with child_entities, each_serializer: Api::V1::QuizBlockSerializer
+    
+    if entity.nil?
+      # Homepage
+      child_entities = Subject.where(name: ["Maths", "English","Science"])
+    elsif chapter.nil? && topic.nil? && sub_topic.nil?
+      # Only Subject is given
+      child_entities = entity.child_entities if standard.nil?
+      if subject.nil?
+        # Only Standard is given
+        child_entities = Subject.where(name: ["Maths", "English","Science"]) if (standard.name.to_i<9)
+        child_entities = Subject.where(name: ["Maths", "English","Physics", "Chemistry", "Biology"]) if (standard.name.to_i>8)
+        standard_id = standard.slug
+      end
+      # If Subject and Standard are given
+      child_entities = subject.chapters.where(standard: standard).where(enabled: true) if subject && standard
+      
+    else
+      # Child Entities
+      child_entities = entity.child_entities
+    end
+    respond_with child_entities, each_serializer: Api::V1::QuizBlockSerializer, scope: { standard_id: standard_id}
   end
 
   private

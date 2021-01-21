@@ -18,4 +18,19 @@ class Subject  < AcadEntity
   def child_entities
     Standard.all
   end
+
+  def standard_game_holders standard
+    return [] if game_holders.count == 0 && practice_game_holders.count == 0
+    practice_types = PracticeType.where(slug: ['agility','purchasing','conversion','discounting','inversion'])
+    standard_chaps = chapters.where(enabled: true).where(standard: standard).order('random()')
+    return game_holders.where(:game_id => practice_types.map(&:id)).last(5) if standard_chaps.count == 0
+
+    # Check for practice game holders in each chapter
+    standard_game_holders = standard_chaps.first.practice_game_holders
+    game_list = standard_game_holders.where(:game_id => practice_types.map(&:id)).last(5) if standard_game_holders.count > 0
+    return game_list if game_list.length > 5 || standard_chaps.length == 1
+    next_game_holders = standard_chaps.second.practice_game_holders
+    game_list = game_list + next_game_holders.where(:game_id => practice_types.map(&:id)).last(5) if next_game_holders.count > 0
+    return game_list.first(5) if game_list.length > 5
+  end
 end

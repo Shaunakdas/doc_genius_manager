@@ -199,74 +199,74 @@ class GameHolder < ApplicationRecord
 
   def self.theme_list
     [
+      # {
+      #   url_suffix: "/games/game1/",
+      #   logo: "/gameLogos/kffwmkjtzioiu.png"
+      # },
+      # {
+      #   url_suffix: "/games/game2/",
+      #   logo: "/gameLogos/rtadbxhmvxkwb.png"
+      # },
+      # {
+      #   url_suffix: "/games/game3/",
+      #   logo: "/gameLogos/qlkjxnzloejuq.png"
+      # },
+      # {
+      #   url_suffix: "/games/game4/",
+      #   logo: "/gameLogos/kmidbqqmhwcph.png"
+      # },
+      # {
+      #   url_suffix: "/games/game5/",
+      #   logo: "/gameLogos/game5.png"
+      # },
       {
-        url_suffix: "/games/game1",
-        logo: "/gameLogos/game1.png"
+        url_suffix: "/games/game7/?theme=0",
+        logo: "/gameLogos/tcimuqgncmzgj.png"
       },
       {
-        url_suffix: "/games/game2",
-        logo: "/gameLogos/game2.png"
+        url_suffix: "/games/game7/?theme=1",
+        logo: "/gameLogos/zhtzbjcfkvwca.png"
       },
       {
-        url_suffix: "/games/game3",
-        logo: "/gameLogos/game3.png"
+        url_suffix: "/games/game7/?theme=2",
+        logo: "/gameLogos/ypcnicfwhtffd.png"
       },
       {
-        url_suffix: "/games/game4",
-        logo: "/gameLogos/game4.png"
+        url_suffix: "/games/game7/?theme=3",
+        logo: "/gameLogos/nukeolidiszra.png"
       },
       {
-        url_suffix: "/games/game5",
-        logo: "/gameLogos/game5.png"
+        url_suffix: "/games/game7/?theme=4",
+        logo: "/gameLogos/toldxyiofdjtu.png"
       },
       {
-        url_suffix: "/games/game6?theme=0",
-        logo: "/gameLogos/game6_theme0.png"
+        url_suffix: "/games/game7/?theme=5",
+        logo: "/gameLogos/saguwbfpifzdc.png"
       },
       {
-        url_suffix: "/games/game6?theme=1",
-        logo: "/gameLogos/game6_theme0.png"
+        url_suffix: "/games/game7/?theme=6",
+        logo: "/gameLogos/chpulxqrhtrtr.png"
       },
       {
-        url_suffix: "/games/game6?theme=1",
-        logo: "/gameLogos/game6_theme1.png"
+        url_suffix: "/games/game7/?theme=7",
+        logo: "/gameLogos/bflvvkyvhwnni.png"
       },
       {
-        url_suffix: "/games/game6?theme=2",
-        logo: "/gameLogos/game6_theme2.png"
+        url_suffix: "/games/game7/?theme=8",
+        logo: "/gameLogos/snchkavpwtoyn.png"
       },
       {
-        url_suffix: "/games/game6?theme=3",
-        logo: "/gameLogos/game6_theme3.png"
+        url_suffix: "/games/game7/?theme=9",
+        logo: "/gameLogos/bkhhitnehuhcv.png"
       },
-      {
-        url_suffix: "/games/game6?theme=4",
-        logo: "/gameLogos/game6_theme4.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=5",
-        logo: "/gameLogos/game6_theme5.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=6",
-        logo: "/gameLogos/game6_theme6.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=7",
-        logo: "/gameLogos/game6_theme7.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=8",
-        logo: "/gameLogos/game6_theme8.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=9",
-        logo: "/gameLogos/game6_theme9.png"
-      },
-      {
-        url_suffix: "/games/game6?theme=10",
-        logo: "/gameLogos/game6_theme10.png"
-      }
+      # {
+      #   url_suffix: "/games/game7/?theme=10",
+      #   logo: "/gameLogos/game7_theme9.png"
+      # },
+      # {
+      #   url_suffix: "/games/game7/?theme=10",
+      #   logo: "/gameLogos/game7_theme10.png"
+      # }
     ]
   end
 end
