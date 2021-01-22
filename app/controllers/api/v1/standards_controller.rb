@@ -156,7 +156,7 @@ class Api::V1::StandardsController < Api::V1::ApiController
     
     if entity.nil?
       # Homepage
-      child_entities = Subject.where(name: ["Maths", "English","Science"])
+      child_entities = Subject.where(name: ["Maths", "English","Science"]).where(enabled: true)
     elsif chapter.nil? && topic.nil? && sub_topic.nil?
       # Only Subject is given
       child_entities = entity.child_entities if standard.nil?
