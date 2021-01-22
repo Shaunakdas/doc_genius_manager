@@ -162,8 +162,8 @@ class Api::V1::StandardsController < Api::V1::ApiController
       child_entities = entity.child_entities if standard.nil?
       if subject.nil?
         # Only Standard is given
-        child_entities = Subject.where(name: ["Maths", "English","Science"]) if (standard.name.to_i<9)
-        child_entities = Subject.where(name: ["Maths", "English","Physics", "Chemistry", "Biology"]) if (standard.name.to_i>8)
+        child_entities = Subject.where(name: ["Maths", "English","Science"]).where(enabled: true) if (standard.name.to_i<9)
+        child_entities = Subject.where(name: ["Maths", "English","Physics", "Chemistry", "Biology"]).where(enabled: true) if (standard.name.to_i>8)
         standard_id = standard.slug
       end
       # If Subject and Standard are given
