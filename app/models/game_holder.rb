@@ -251,22 +251,38 @@ class GameHolder < ApplicationRecord
         url_suffix: "/games/game7/?theme=7",
         logo: "/gameLogos/bflvvkyvhwnni.png"
       },
-      # {
-      #   url_suffix: "/games/game7/?theme=8",
-      #   logo: "/gameLogos/snchkavpwtoyn.png"
-      # },
-      # {
-      #   url_suffix: "/games/game7/?theme=9",
-      #   logo: "/gameLogos/bkhhitnehuhcv.png"
-      # },
-      # {
-      #   url_suffix: "/games/game7/?theme=10",
-      #   logo: "/gameLogos/game7_theme9.png"
-      # },
-      # {
-      #   url_suffix: "/games/game7/?theme=10",
-      #   logo: "/gameLogos/game7_theme10.png"
-      # }
+      {
+        url_suffix: "/games/game7/?theme=8",
+        logo: "/gameLogos/snchkavpwtoyn.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=9",
+        logo: "/gameLogos/pvyndkvcbidcw.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=10",
+        logo: "/gameLogos/lmrunadsvjpoj.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=11",
+        logo: "/gameLogos/brhhxhmtnkity.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=12",
+        logo: "/gameLogos/xhzeyxxaologn.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=13",
+        logo: "/gameLogos/suijfagzzyfkv.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=14",
+        logo: "/gameLogos/jlytrfrwnfaqb.png"
+      },
+      {
+        url_suffix: "/games/game7/?theme=15",
+        logo: "/gameLogos/qbgwekxhhmrky.png"
+      }
     ]
   end
 end
