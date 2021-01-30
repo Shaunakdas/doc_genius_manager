@@ -25,27 +25,41 @@ class GameHolder < ApplicationRecord
   end
 
   def self.search(search)
-    where('name LIKE :search', search: "%#{search}%")
+    where('title LIKE :search', search: "%#{search}%")
   end
 
   def self.search_slug(search)
     where('slug LIKE :search', search: "#{search}")
   end
 
-
-
   def self.list(list_params)
     game_holder_list = GameHolder.all
+
+    # Filtering Options
     if list_params["chapter_id"]
       chapter = Chapter.find(list_params["chapter_id"])
       game_holder_list = chapter.practice_game_holders
     elsif list_params["search"]
       query = list_params["search"]
-      game_holder_list = GameHolder.search(list_params[:search]).order('created_at DESC')
+      game_holder_list = GameHolder.search(list_params[:search])
     elsif list_params["slug"]
       query = list_params["slug"]
-      game_holder_list = GameHolder.search_slug(list_params[:slug]).order('created_at DESC')
+      game_holder_list = GameHolder.search_slug(list_params[:slug])
     end
+
+    # Owned by me
+    game_holder_list = game_holder_list.where(generated_by: User.find(list_params[:user_id])) if list_params["generated_by"] && list_params["generated_by"] == "me" 
+
+    # Sorting Params
+    sort_by_created = "desc"
+    sort_by_created = list_params["sort_order"] if list_params["sort_order"]
+    if list_params["sort_by"] && list_params["sort_by"] == "title"  
+      game_holder_list = game_holder_list.order('title ASC') 
+    else
+      game_holder_list = game_holder_list.order('created_at '+sort_by_created) 
+    end
+    
+    # Pagination Order
     total_count = game_holder_list.count
     page_num = (list_params.has_key?("page"))? (list_params["page"].to_i-1):(0)
     limit = (list_params.has_key?("limit"))? (list_params["limit"].to_i):(10)
