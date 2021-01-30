@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210130110420) do
+ActiveRecord::Schema.define(version: 20210130140605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,23 @@ ActiveRecord::Schema.define(version: 20210130110420) do
     t.datetime "updated_at", null: false
     t.bigint "game_holder_id"
     t.index ["game_holder_id"], name: "index_external_quiz_sources_on_game_holder_id"
+  end
+
+  create_table "game_holder_sessions", force: :cascade do |t|
+    t.bigint "game_holder_id"
+    t.bigint "user_id"
+    t.string "url_code"
+    t.string "join_code"
+    t.date "creation_date"
+    t.date "start_date"
+    t.date "completion_date"
+    t.integer "completion_status"
+    t.integer "attempt_type"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_holder_id"], name: "index_game_holder_sessions_on_game_holder_id"
+    t.index ["user_id"], name: "index_game_holder_sessions_on_user_id"
   end
 
   create_table "game_holders", force: :cascade do |t|
@@ -708,6 +725,8 @@ ActiveRecord::Schema.define(version: 20210130110420) do
   add_foreign_key "external_questions", "external_quiz_sources"
   add_foreign_key "external_questions", "questions"
   add_foreign_key "external_quiz_sources", "game_holders"
+  add_foreign_key "game_holder_sessions", "game_holders"
+  add_foreign_key "game_holder_sessions", "users"
   add_foreign_key "game_holders", "question_types"
   add_foreign_key "game_holders", "users", column: "generated_by_id"
   add_foreign_key "game_level_victory_cards", "game_levels"
