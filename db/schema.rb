@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210121134352) do
+ActiveRecord::Schema.define(version: 20210130110420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,8 +225,10 @@ ActiveRecord::Schema.define(version: 20210121134352) do
     t.bigint "acad_entity_id"
     t.boolean "enabled", default: false
     t.string "title", default: ""
+    t.bigint "generated_by_id"
     t.index ["acad_entity_type", "acad_entity_id"], name: "index_game_holders_on_acad_entity_type_and_acad_entity_id"
     t.index ["game_type", "game_id"], name: "index_game_holders_on_game_type_and_game_id"
+    t.index ["generated_by_id"], name: "index_game_holders_on_generated_by_id"
     t.index ["question_type_id"], name: "index_game_holders_on_question_type_id"
     t.index ["slug"], name: "index_game_holders_on_slug", unique: true
   end
@@ -707,6 +709,7 @@ ActiveRecord::Schema.define(version: 20210121134352) do
   add_foreign_key "external_questions", "questions"
   add_foreign_key "external_quiz_sources", "game_holders"
   add_foreign_key "game_holders", "question_types"
+  add_foreign_key "game_holders", "users", column: "generated_by_id"
   add_foreign_key "game_level_victory_cards", "game_levels"
   add_foreign_key "game_level_victory_cards", "victory_cards"
   add_foreign_key "game_levels", "character_discussions", column: "fail_discussion_id"
