@@ -12,6 +12,8 @@ class GameHolder < ApplicationRecord
   has_many :game_questions, -> { where(delete_status: :active).order('id asc') }
   has_many :all_game_questions, -> { order('id asc') }, class_name: "GameQuestion"
   has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
+
+  has_many :attempt_scores, through: :game_sessions
   # has_many :questions, through: :game_questions
 
   has_many :game_levels, -> { order('sequence asc') }
@@ -284,5 +286,17 @@ class GameHolder < ApplicationRecord
         logo: "/gameLogos/qbgwekxhhmrky.png"
       }
     ]
+  end
+
+  def user_ranking
+    sorted_scores = attempt_scores.sort_by{|score| score.total_value}.reverse
+    uniq_scores = []
+    sorted_scores.each do |score|
+      user = score.attempt_item.user
+      uniq_scores << { user_id: user.id,
+        username: user.first_name, 
+        score_value: score.total_value} 
+    end
+    return uniq_scores.uniq{|x| x[:user_id]}
   end
 end
