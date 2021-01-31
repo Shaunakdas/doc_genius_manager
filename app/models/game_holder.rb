@@ -316,4 +316,16 @@ class GameHolder < ApplicationRecord
     end
     return uniq_scores.uniq{|x| x[:user_id]}
   end
+
+  def create_session user, params
+    game_holder_session = GameHolderSession.create!(user: user,
+      creation_date: Time.now,
+      game_holder: self,
+      title: title,
+      attempt_type: params[:attempt_type],
+      completion_status: :created,
+    )
+    game_holder_session.save!
+    return game_holder_session
+  end
 end

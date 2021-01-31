@@ -126,6 +126,18 @@ Rails.application.routes.draw do
       # Post Result of GameLevel attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
       post "game/level_result" => "game_holders#level_result"
       
+      # Reports
+
+
+      # Game Holder Session
+      # Get Game Holder Sessions List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
+      get "reports" => "game_holder_sessions#index"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      get "report/:id/details" => "game_holder_sessions#details"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      post "reports/create" => "game_holder_sessions#create"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      put "report/:id" => "game_holder_sessions#edit"
       # Registrations
       # Sign up User by Number. Req: (Mobile  Number, Password). Response: (Auth Token)
       # post "registrations/sign_up_number" => "registrations#sign_up_number"
