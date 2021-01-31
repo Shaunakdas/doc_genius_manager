@@ -9,7 +9,9 @@ module Api::V1
         if user 
           error_response("Email already exists", :unprocessable_entity) 
         else
-          user = User.new(email: params[:email], encrypted_password: params[:password])
+          slug = params[:role].nil? ? "teacher" : params[:role] 
+          user_role = Role.find_by(slug: slug)
+          user = User.new(email: params[:email], encrypted_password: params[:password], role: user_role)
           user.save!
           json_response(payload(user), status = :ok)
         end
@@ -128,7 +130,7 @@ module Api::V1
       return nil unless user and user.id
       {
         auth_token: JsonWebToken.encode({user_id: user.id}),
-        user: {id: user.id, mobile_number: user.mobile_number, email: user.email}
+        user: {id: user.id, mobile_number: user.mobile_number, email: user.email, role: user.role.slug}
       }
     end
   end
