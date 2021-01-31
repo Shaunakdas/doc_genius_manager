@@ -5,12 +5,14 @@ module Api::V1
     # post "sign_up/email"
     def sign_up_email
       begin
-        params[:user][:registration_method] = :email
-        user = User.new(user_params)
-        user.save!
-        response = payload(user)
-        response[:standards] = Standard.list({})
-        render json: response
+        user = User.find_by(email: params[:email])
+        if user 
+          error_response("Email already exists", :unprocessable_entity) 
+        else
+          user = User.new(email: params[:email], encrypted_password: params[:password])
+          user.save!
+          json_response(payload(user), status = :ok)
+        end
       rescue ActiveRecord::RecordInvalid => invalid
         error_response(user.errors.full_messages[0], :unprocessable_entity) 
       end
@@ -95,9 +97,9 @@ module Api::V1
 
     # post "login/email"
     def login_email
-      user = User.find_for_database_authentication(email: params[:email])
+      user = User.find_by(email: params[:email])
       if user
-        if user.valid_password?(params[:password])
+        if User.find_by(encrypted_password: params[:password])
           json_response(payload(user), status = :ok)
         else
           error_response("Invalid Username/Password", :unauthorized) 
@@ -126,7 +128,7 @@ module Api::V1
       return nil unless user and user.id
       {
         auth_token: JsonWebToken.encode({user_id: user.id}),
-        user: {id: user.id, mobile_number: user.mobile_number}
+        user: {id: user.id, mobile_number: user.mobile_number, email: user.email}
       }
     end
   end
