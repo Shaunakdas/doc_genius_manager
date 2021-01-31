@@ -20,12 +20,23 @@ class Api::V1::GameHolderSessionsController < Api::V1::ApiController
     end
   end
 
+  # GET /api/v1/report/:id/
+  # shows one standard (based on the supplied id) 
+  def summary
+    begin
+      game_holder_session = GameHolderSession.find(params[:id])
+      respond_with Api::V1::ReportSerializer.new(game_holder_session, {scope: @current_user})
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameLevel with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
   # GET /api/v1/report/:id/details
   # shows one standard (based on the supplied id) 
   def details
     begin
       game_holder_session = GameHolderSession.find(params[:id])
-      respond_with Api::V1::ReportSerializer.new(game_holder_session, {scope: @current_user})
+      respond_with Api::V1::ReportDetailSerializer.new(game_holder_session, {scope: @current_user})
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameLevel with 'id'=#{params[:id]}", :not_found) 
     end
