@@ -39,4 +39,17 @@ class GameHolderSession < ApplicationRecord
     list_response = {result: session_list, page: page_num+1, limit: limit, total_count: total_count, search: query}
   end
 
+  def change_status params
+    if params['report_action'] == "start"
+      update_attributes!(completion_status: :started, start_date: Time.now)
+    elsif params['report_action'] == "complete"
+      update_attributes!(completion_status: :completed, completion_date: Time.now)
+    end
+  end
+
+  def parse_result user, result_json
+    session = GameSession.create!(user: user, start: Time.now, game_holder: game_holder, game_holder_session: self)
+    session.parse_result(result_json)
+    return session
+  end
 end
