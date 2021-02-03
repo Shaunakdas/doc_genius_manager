@@ -7,7 +7,7 @@ module Api::V1
       begin
         user = User.find_by(email: params[:email])
         if user 
-          error_response("Email already exists", :unprocessable_entity) 
+          error_response("Email already exists. Kindly login using your email.", :ok) 
         else
           slug = params[:role].nil? ? "teacher" : params[:role] 
           user_role = Role.find_by(slug: slug)
