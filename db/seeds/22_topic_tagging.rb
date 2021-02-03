@@ -120,13 +120,27 @@ def upload_basic_acad_entity(book, count, start, finish)
           :sequence => topic.sub_topics.length+1)
       end
 
-      external_index = 11
-      while (get_val(row.cells[external_index])) do 
-        external_quiz_link = get_val(row.cells[external_index])
-        external_quiz_source = ExternalQuizSource.where(source_url: external_quiz_link).first
-        puts "Adding QuizSource: #{external_quiz_source.to_json} with Topic: #{topic.to_json}"
-        external_quiz_source.game_holder.update_attributes!(acad_entity: topic) if topic && external_quiz_source
-        external_index = external_index + 1
+      # internal_index = 11
+      # while (get_val(row.cells[external_index])) do 
+      #   external_quiz_link = get_val(row.cells[external_index])
+      #   external_quiz_source = ExternalQuizSource.where(source_url: external_quiz_link).first
+      #   puts "Adding QuizSource: #{external_quiz_source.to_json} with Topic: #{topic.to_json}"
+      #   external_quiz_source.game_holder.update_attributes!(acad_entity: topic) if topic && external_quiz_source
+      #   external_index = external_index + 1
+      # end
+
+      internal_index = 16
+      while (get_val(row.cells[internal_index])) do 
+        game_holder_slug = get_val(row.cells[internal_index])
+
+        if (not game_holder = GameHolder.find_by(:slug => game_holder_slug)) && topic 
+          puts "Tagging slug: #{game_holder_slug}, Topic: #{topic.slug}"
+          game_holder = GameHolder.create!(:slug => game_holder_slug, acad_entity: topic)
+        elsif !game_holder.nil?
+          puts "Updating game_holder #{game_holder_name} , slug: #{game_holder_slug}, Topic: #{topic.slug}"
+          game_holder.update_attributes!(acad_entity: topic)
+        end
+        internal_index = internal_index + 1
       end
     end
     break if i == finish
@@ -143,13 +157,36 @@ def set_acad_entity_enabled(enabled)
   end
 end
 
+def set_game_holder_title(book, count, start, finish)
+  master_sheet = book[count]
+  master_sheet.each_with_index do |row,i|
+
+    next if i < start
+    if row.cells[0]  && row.cells[0].value
+
+      game_holder_slug = get_val(row.cells[0])
+      game_holder_title = get_val(row.cells[1])
+
+      break if game_holder_slug.nil? && game_holder_title.nil?
+
+      if game_holder = GameHolder.find_by(:slug => game_holder_slug)
+        puts "Adding title for slug: #{game_holder_slug}, Title: #{game_holder_title}"
+        game_holder.update_attributes!(title: game_holder_title)
+      end
+    end
+    break if i == finish
+  end
+end
+
 
 # Maths
-# upload_basic_acad_entity(book, 0, 2, 1384)
+# upload_basic_acad_entity(book, 0, 2, 10) 
 # English
 # upload_basic_acad_entity(book, 1, 2, 187)
 # Science
-upload_basic_acad_entity(book, 2, 2, 572)
+# upload_basic_acad_entity(book, 2, 2, 572)
+# Internal GameHolder Title
+# set_game_holder_title(book, 3, 1, 4) #406
 # upload_practice_types(book, 3)
 # upload_game_holder_details(book, 3)
 # set_acad_entity_enabled(true)
