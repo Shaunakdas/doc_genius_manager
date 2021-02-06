@@ -19,7 +19,7 @@ class GameHolder < ApplicationRecord
 
   has_many :game_levels, -> { order('sequence asc') }
 
-  belongs_to :generated_by, class_name: "User"
+  belongs_to :generated_by, class_name: "User", optional: true
 
   def to_s
     "#{self.name}"
