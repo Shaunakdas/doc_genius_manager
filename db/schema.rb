@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210207101925) do
+ActiveRecord::Schema.define(version: 20210207103236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 20210207101925) do
     t.datetime "updated_at", null: false
     t.bigint "question_id"
     t.string "correct_answer_text"
+    t.string "question_type"
     t.index ["external_quiz_source_id"], name: "index_external_questions_on_external_quiz_source_id"
     t.index ["question_id"], name: "index_external_questions_on_question_id"
   end
