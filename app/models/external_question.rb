@@ -3,6 +3,7 @@ class ExternalQuestion < ApplicationRecord
   belongs_to :question, optional: true
 
   def move_asset_to_s3
+    return nil if question_type != "Multiple Choice"
     return nil if image_url.nil? && audio_url.nil? && !joined_options.include?("quizizz.com")
     update_attributes!(s3_image_url: ExternalQuizSource.upload_to_s3(image_url),
     s3_audio_url: ExternalQuizSource.upload_to_s3(audio_url),
@@ -12,6 +13,7 @@ class ExternalQuestion < ApplicationRecord
   end
 
   def move_options_image_to_s3
+    return nil if joined_options.nil?
     return nil if !joined_options.include?("quizizz.com")
     option_urls = []
     joined_options.split("\n---\n").each_with_index do |op,i|
@@ -23,6 +25,7 @@ class ExternalQuestion < ApplicationRecord
   end
 
   def create_question
+    return nil if question_type != "Multiple Choice"
     if question
       ques = question
       gq = GameQuestion.where(question: question).first
@@ -37,11 +40,11 @@ class ExternalQuestion < ApplicationRecord
       update_attributes!(question: ques)
       gq = GameQuestion.create!(question: ques, game_holder: external_quiz_source.game_holder)
       if ((!s3_answer_url.nil?) && (s3_answer_url.include? ("\n---\n")))
-        s3_answer_url.split("\n---\n").each_with_index do |op,i|
+        s3_answer_url.split("\n---\n").each {|x| x.slice!("\n---") }.each_with_index do |op,i|
           create_option(gq, nil,op,(i == correct_option))
         end
       else
-        joined_options.split("\n---\n").each_with_index do |op,i|
+        joined_options.split("\n---\n").each {|x| x.slice!("\n---") }.each_with_index do |op,i|
           create_option(gq, op,nil,(i == correct_option))
         end
       end

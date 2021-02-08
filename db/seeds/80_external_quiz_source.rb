@@ -13,7 +13,7 @@ end
 def upload_external_questions(book, count)
     master_sheet = book[count]
     master_sheet.each_with_index do |row,i|
-        next if i < 640
+        next if i < 5
         if row.cells[0]  && row.cells[0].value
             quiz_index = 0
             quiz_url = get_val(row.cells[quiz_index+7])
@@ -39,18 +39,20 @@ def upload_external_questions(book, count)
                 question_params = {
                     display: get_val(row.cells[question_index]),
                     joined_options: get_options(options,get_val(row.cells[question_index+2])),
+                    correct_answer_text: get_val(row.cells[question_index+2]),
                     correct_option: check_option_index(options,get_val(row.cells[question_index+2])),
                     time: get_val(row.cells[question_index+3])[0..-9].to_i,
-                    image_url: get_val(row.cells[question_index+4]),
-                    audio_url: get_val(row.cells[question_index+5]),
+                    question_type: get_val(row.cells[question_index+4]),
+                    image_url: get_val(row.cells[question_index+5]),
+                    audio_url: get_val(row.cells[question_index+6]),
                     external_quiz_source: external_quiz_source
                 }
                 puts "Adding ExternalQuestion #{question_params.to_json} "
                 ExternalQuestion.create!(question_params)
-                question_index = question_index+6
+                question_index = question_index+7
             end
         end
-        break if i == 1231
+        break if i == 4091
     end
 end
 
@@ -67,8 +69,22 @@ end
 def check_option_index(options,answer)
     answer = answer.titleize if answer == "TRUE"
     return -1 if options.to_s == ""
-    return options.split("\n---\n").find_index(answer)
+    op_i = options.split("\n---\n").each {|x| x.slice!("\n---") }.find_index(answer)
+    # op_i = options.split("\n---\n").each {|x| x.slice!("\n---") }.find_index(answer.to_i.to_s) if op_i == -1
 end
 
-game_start = 0
-upload_external_questions(book, game_start)
+
+def check_correct_index_nil
+    # ExternalQuestion.where(question_type: "Multiple Choice").where(correct_option: nil)
+    ExternalQuestion.all.each do |eq|
+        next if eq.question.nil?
+        x << eq.id if GameQuestion.where(question: eq.question).first.game_options.index{ |item| item.option.correct == true }.nil?
+    end
+end
+
+def remove_end_newline
+    Option.where('display LIKE :search', search: "%#{"\n---"}").count
+end
+
+# game_start = 0
+# upload_external_questions(book, game_start)
