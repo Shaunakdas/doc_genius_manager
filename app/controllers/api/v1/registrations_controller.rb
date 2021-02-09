@@ -20,6 +20,16 @@ module Api::V1
       end
     end
 
+    # post "sign_up/guest"
+    def sign_up_guest
+      begin
+        user = User.last
+        json_response(payload(user), status = :ok)
+      rescue ActiveRecord::RecordInvalid => invalid
+        error_response(user.errors.full_messages[0], :unprocessable_entity) 
+      end
+    end
+
     # post "sign_up/phone"
     def sign_up_phone
       begin
