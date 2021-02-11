@@ -239,67 +239,67 @@ class GameHolder < ApplicationRecord
       #   logo: "/gameLogos/game5.png"
       # },
       {
-        url_suffix: "/games/game7/?theme=0",
+        url_suffix: "/game/?theme=0",
         logo: "/gameLogos/tcimuqgncmzgj.png"
       },
       {
-        url_suffix: "/games/game7/?theme=1",
+        url_suffix: "/game/?theme=1",
         logo: "/gameLogos/zhtzbjcfkvwca.png"
       },
       {
-        url_suffix: "/games/game7/?theme=2",
+        url_suffix: "/game/?theme=2",
         logo: "/gameLogos/ypcnicfwhtffd.png"
       },
       {
-        url_suffix: "/games/game7/?theme=3",
+        url_suffix: "/game/?theme=3",
         logo: "/gameLogos/nukeolidiszra.png"
       },
       {
-        url_suffix: "/games/game7/?theme=4",
+        url_suffix: "/game/?theme=4",
         logo: "/gameLogos/toldxyiofdjtu.png"
       },
       {
-        url_suffix: "/games/game7/?theme=5",
+        url_suffix: "/game/?theme=5",
         logo: "/gameLogos/saguwbfpifzdc.png"
       },
       {
-        url_suffix: "/games/game7/?theme=6",
+        url_suffix: "/game/?theme=6",
         logo: "/gameLogos/chpulxqrhtrtr.png"
       },
       {
-        url_suffix: "/games/game7/?theme=7",
+        url_suffix: "/game/?theme=7",
         logo: "/gameLogos/bflvvkyvhwnni.png"
       },
       {
-        url_suffix: "/games/game7/?theme=8",
+        url_suffix: "/game/?theme=8",
         logo: "/gameLogos/snchkavpwtoyn.png"
       },
       {
-        url_suffix: "/games/game7/?theme=9",
+        url_suffix: "/game/?theme=9",
         logo: "/gameLogos/pvyndkvcbidcw.png"
       },
       {
-        url_suffix: "/games/game7/?theme=10",
+        url_suffix: "/game/?theme=10",
         logo: "/gameLogos/lmrunadsvjpoj.png"
       },
       {
-        url_suffix: "/games/game7/?theme=11",
+        url_suffix: "/game/?theme=11",
         logo: "/gameLogos/brhhxhmtnkity.png"
       },
       {
-        url_suffix: "/games/game7/?theme=12",
+        url_suffix: "/game/?theme=12",
         logo: "/gameLogos/xhzeyxxaologn.png"
       },
       {
-        url_suffix: "/games/game7/?theme=13",
+        url_suffix: "/game/?theme=13",
         logo: "/gameLogos/suijfagzzyfkv.png"
       },
       {
-        url_suffix: "/games/game7/?theme=14",
+        url_suffix: "/game/?theme=14",
         logo: "/gameLogos/jlytrfrwnfaqb.png"
       },
       {
-        url_suffix: "/games/game7/?theme=15",
+        url_suffix: "/game/?theme=15",
         logo: "/gameLogos/qbgwekxhhmrky.png"
       }
     ]
