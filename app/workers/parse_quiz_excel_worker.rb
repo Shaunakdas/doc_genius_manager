@@ -1,4 +1,4 @@
-class AddEndangeredWorker
+class ParseQuizExcelWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
   require 'rubyXL'
