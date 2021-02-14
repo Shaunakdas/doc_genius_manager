@@ -127,6 +127,9 @@ Rails.application.routes.draw do
       post "game/level_result" => "game_holders#level_result"
       # Post Result of GameLevel attempts at Game End Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
       post "game/session_result" => "game_holders#session_result"
+      # upload excel for game_holders
+      post "game/upload_file" => "game_holders#upload_file"
+
       
       # Reports
 

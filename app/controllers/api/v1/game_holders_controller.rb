@@ -72,6 +72,18 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
     end
   end
 
+  # POST /api/v1/game/upload_file
+  # upload excel for game_holders
+  def upload_file
+    begin
+      game_holder = GameHolder.find(params[:id])
+      parse_job = ParseQuizExcelWorker.perform_async(game_holder,params[:file_url]) if params[:file_url].nil?
+      render json: {job_id: parse_job}, status: :ok
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
   private
 
   def standard_params
