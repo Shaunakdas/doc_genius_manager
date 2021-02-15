@@ -129,6 +129,8 @@ Rails.application.routes.draw do
       post "game/session_result" => "game_holders#session_result"
       # upload excel for game_holders
       post "game/upload_file" => "game_holders#upload_file"
+      # user can take action
+      get "game/:id/action/:action_type" => "game_holders#user_action"
 
       
       # Reports

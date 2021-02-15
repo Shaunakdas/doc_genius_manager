@@ -1,5 +1,5 @@
 class Api::V1::GameHoldersController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage, :result,:level_details, :level_result, :index ]
+  before_action :authenticate_request!, :only => [ :homepage, :result,:level_details, :level_result, :index, :user_action ]
   respond_to :json
   # GET /api/v1/games
   def index
@@ -79,6 +79,18 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
       game_holder = GameHolder.find(params[:id])
       parse_job = ParseQuizExcelWorker.perform_async(game_holder,params[:file_url]) if params[:file_url].nil?
       render json: {job_id: parse_job}, status: :ok
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
+  # PUT /api/v1/game/:id/action/:action_type
+  # upload excel for game_holders
+  def user_action
+    begin
+      game_holder = GameHolder.find(params[:id])
+      game_action = game_holder.user_action(@current_user, params[:action_type])
+      render json: {done: true, game_action: game_action}, status: :ok
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
     end

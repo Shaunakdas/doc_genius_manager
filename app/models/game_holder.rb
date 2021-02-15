@@ -334,4 +334,25 @@ class GameHolder < ApplicationRecord
     game_holder_session.save!
     return game_holder_session
   end
+
+  def user_action user, action_type
+    if action_type == "like"
+      if !liked_users.find_index(user)
+        game_action = GameHolderAction.new(user: user, game_holder: self, action_type: :like)
+      end
+    elsif action_type == "save"
+      if !saved_users.find_index(user)
+        game_action = GameHolderAction.new(user: user, game_holder: self, action_type: :save_action)
+      end
+    elsif action_type == "unlike"
+      if liked_users.find_index(user)
+        liked_action = game_holder_actions.where(action_type: :like).first
+        liked_action.delete
+      end
+    end
+    if game_action
+      game_action.save!
+      return game_action
+    end
+  end
 end
