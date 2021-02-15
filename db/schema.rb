@@ -214,9 +214,9 @@ ActiveRecord::Schema.define(version: 20210214155302) do
   end
 
   create_table "game_holder_actions", force: :cascade do |t|
+    t.bigint "game_holder_id"
     t.bigint "user_id"
     t.integer "action_type"
-    t.bigint "game_holder_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_holder_id"], name: "index_game_holder_actions_on_game_holder_id"
