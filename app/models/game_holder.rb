@@ -14,6 +14,12 @@ class GameHolder < ApplicationRecord
   has_one :linked_victory_card, as: :acad_entity, class_name: "VictoryCard"
   has_many :game_holders
 
+  has_many :game_holder_actions
+  has_many :liked_game_holder_actions , -> { where(action_type: :like) }, class_name: 'GameHolderAction'
+  has_many :liked_users , through: :liked_game_holder_actions, source: :users
+  has_many :saved_game_holder_actions , -> { where(action_type: :save) }, class_name: 'GameHolderAction'
+  has_many :saved_users , through: :saved_game_holder_actions, class_name: "User"
+
   has_many :attempt_scores, through: :game_sessions
   # has_many :questions, through: :game_questions
 
