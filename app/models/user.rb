@@ -24,9 +24,9 @@ class User < ApplicationRecord
 
   has_many :game_holder_actions
   has_many :liked_game_holder_actions , -> { where(action_type: :like) }, class_name: 'GameHolderAction'
-  has_many :liked_game_holders , through: :liked_game_holder_actions, class_name: "GameHolder"
-  has_many :saved_game_holder_actions , -> { where(action_type: :save) }, class_name: 'GameHolderAction'
-  has_many :saved_game_holders , through: :saved_game_holder_actions, class_name: "GameHolder"
+  has_many :liked_game_holders , through: :liked_game_holder_actions, source: :game_holder
+  has_many :saved_game_holder_actions , -> { where(action_type: :save_action) }, class_name: 'GameHolderAction'
+  has_many :saved_game_holders , through: :saved_game_holder_actions, source: :game_holder
 
   # scope :male, where(sex: :male)
   # attr_accessor :first_name, :last_name, :email
