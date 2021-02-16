@@ -1,13 +1,10 @@
 module Api::V1
   class GameSessionSerializer < ActiveModel::Serializer
-    attributes :id,:start, :finish, :recent_scores
+    attributes :id,:start, :finish, :recent_scores, :game_question_attempts
     has_one :user, serializer: UserSerializer
 
-    has_one :session_score, serializer: SessionScoreSerializer
+    has_one :attempt_score, serializer: AttemptScoreSerializer
 
-    # has_many :recent_scores, serializer: SessionScoreSerializer
-    # def question_type
-    #   object.game_holder.question_type, serializer: QuestionTypeSerializer
-    # end
+    has_many :game_question_attempts, serializer:  GameQuestionAttemptSerializer
   end
 end
