@@ -42,20 +42,26 @@ class GameHolder < ApplicationRecord
   def self.list(list_params)
     game_holder_list = GameHolder.all
 
+    # Owned by me
+    if list_params["generated_by"] && list_params["generated_by"] == "me"
+      game_holder_list = game_holder_list.where(generated_by: User.find(list_params[:user_id]))
+    elsif list_params["saved_by"] && list_params["saved_by"] == "me"
+      game_holder_list = User.find(list_params[:user_id]).saved_game_holders
+    elsif list_params["liked_by"] && list_params["liked_by"] == "me"
+      game_holder_list = User.find(list_params[:user_id]).liked_game_holders
+    end
+
     # Filtering Options
     if list_params["chapter_id"]
       chapter = Chapter.find(list_params["chapter_id"])
       game_holder_list = chapter.practice_game_holders
     elsif list_params["search"]
       query = list_params["search"]
-      game_holder_list = GameHolder.search(list_params[:search])
+      game_holder_list = game_holder_list.where('title LIKE :search', search: "%#{list_params[:search]}%")
     elsif list_params["slug"]
       query = list_params["slug"]
-      game_holder_list = GameHolder.search_slug(list_params[:slug])
+      game_holder_list = game_holder_list.where('title LIKE :search', search: "%#{list_params[:slug]}%")
     end
-
-    # Owned by me
-    game_holder_list = game_holder_list.where(generated_by: User.find(list_params[:user_id])) if list_params["generated_by"] && list_params["generated_by"] == "me" 
 
     # Sorting Params
     sort_by_created = "desc"
