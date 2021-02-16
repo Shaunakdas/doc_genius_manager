@@ -8,6 +8,7 @@ module Api::V1
       return nil if object.game_level.nil? if object.game_level.nil? && object.game_holder.nil?
       user_ranking = object.game_holder.user_ranking  if !object.game_holder.nil?
       user_ranking = object.game_level.user_ranking  if !object.game_level.nil?
+      user_ranking = object.game_holder_session.user_ranking  if !object.game_holder_session.nil?
       current_ranking = user_ranking.find_index{ |user| user[:user_id] == object.user.id}
       return {
         top: user_ranking.first(3),

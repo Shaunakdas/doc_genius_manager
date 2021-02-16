@@ -1,5 +1,5 @@
 class Api::V1::GameHoldersController < Api::V1::ApiController
-  before_action :authenticate_request!, :only => [ :homepage, :result,:level_details, :level_result, :index, :user_action ]
+  before_action :authenticate_request!, :only => [ :homepage, :result,:level_details, :level_result, :session_result, :index, :user_action ]
   respond_to :json
   # GET /api/v1/games
   def index

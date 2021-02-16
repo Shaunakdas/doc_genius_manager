@@ -3,7 +3,8 @@ class GameHolderSession < ApplicationRecord
   belongs_to :user
   enum completion_status: [ :created, :started, :completed]
   enum attempt_type: [ :homework, :permanent, :live]
-
+  has_many :game_sessions
+  has_many :attempt_scores, through: :game_sessions
 
 
   def self.search(search)
@@ -51,5 +52,17 @@ class GameHolderSession < ApplicationRecord
     session = GameSession.create!(user: user, start: Time.now, game_holder: game_holder, game_holder_session: self)
     session.parse_result(result_json)
     return session
+  end
+
+  def user_ranking
+    sorted_scores = attempt_scores.sort_by{|score| score.total_value}.reverse
+    uniq_scores = []
+    sorted_scores.each do |score|
+      user = score.attempt_item.user
+      uniq_scores << { user_id: user.id,
+        username: user.first_name, 
+        score_value: score.total_value} 
+    end
+    return uniq_scores.uniq{|x| x[:user_id]}
   end
 end
