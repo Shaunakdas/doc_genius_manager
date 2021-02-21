@@ -77,8 +77,8 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   def upload_file
     begin
       game_holder = GameHolder.find(params[:id])
-      parse_job = ParseQuizExcelWorker.perform_async(game_holder,params[:file_url]) if params[:file_url].nil?
-      render json: {job_id: parse_job}, status: :ok
+      ParseQuizExcelWorker.perform_async(game_holder.id,params[:file_url])
+      respond_with game_holder, serializer: Api::V1::GameHolderDetailSerializer, location: '/game_session'
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
     end
@@ -87,10 +87,32 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   # PUT /api/v1/game/:id/action/:action_type
   # upload excel for game_holders
   def user_action
+    puts params
     begin
       game_holder = GameHolder.find(params[:id])
-      game_action = game_holder.user_action(@current_user, params[:action_type])
-      render json: {done: true, game_action: game_action}, status: :ok
+      game_holder.user_action(@current_user,params[:action_type])
+      respond_with game_holder, serializer: Api::V1::GameHolderSerializer
+    rescue ActiveRecord::RecordNotFound
+      error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
+    end
+  end
+
+  # POST /api/v1/game/
+  # create game_holder 
+  def create
+    game = PracticeType.find_by(slug: "agility")
+    game_holder = GameHolder.create!(:title => params[:title],name: params[:title], game: game,
+      slug: params[:title].parameterize(separator: '-')+'-'+((0...6).map { ('a'..'z').to_a[rand(26)] }.join))
+    respond_with game_holder, serializer: Api::V1::GameHolderDetailSerializer, location: '/game_session'
+  end
+
+  # PUT /api/v1/game/:id/
+  # update game_holder
+  def update
+    begin
+      game_holder = GameHolder.find(params[:id])
+      game_holder.update_attributes!(game_holder_params)
+      respond_with game_holder, serializer: Api::V1::GameHolderSummarySerializer
     rescue ActiveRecord::RecordNotFound
       error_response("Couldn't find GameHolder with 'id'=#{params[:id]}", :not_found) 
     end
@@ -98,7 +120,7 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
 
   private
 
-  def standard_params
-    params.require(:standard).permit(:name, :slug)
+  def game_holder_params
+    params.require(:game_holder).permit(:name, :slug, :title, :image_url)
   end
 end
