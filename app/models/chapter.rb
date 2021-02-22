@@ -1,4 +1,5 @@
 class Chapter < AcadEntity
+  searchkick
   belongs_to :standard
   belongs_to :stream
   has_many :topics

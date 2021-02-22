@@ -54,6 +54,10 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'jwt'
 
 gem 'rb-readline' 
+gem 'faraday_middleware-aws-signers-v4'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+gem 'searchkick'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution
