@@ -5,7 +5,7 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   def index
     params[:user_id] = @current_user.id
     list_response = GameHolder.list(params)
-    respond_with list_response[:result], each_serializer: Api::V1::GameHolderSerializer, meta: list_response.except!(:result), location: '/game_holder'
+    respond_with list_response[:result], each_serializer: Api::V1::GameHolderSummarySerializer, meta: list_response.except!(:result), location: '/game_holder'
   end
 
   # GET /api/v1/game/:id/details
