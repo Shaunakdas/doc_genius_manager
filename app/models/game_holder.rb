@@ -341,6 +341,7 @@ class GameHolder < ApplicationRecord
       game_holder: self,
       title: title,
       attempt_type: params[:attempt_type],
+      game_theme_id: params[:game_theme_id],
       completion_status: :created,
     )
     game_holder_session.save!

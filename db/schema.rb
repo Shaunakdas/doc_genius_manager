@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210228072633) do
+ActiveRecord::Schema.define(version: 20210228104501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,7 +236,9 @@ ActiveRecord::Schema.define(version: 20210228072633) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "game_theme_id"
     t.index ["game_holder_id"], name: "index_game_holder_sessions_on_game_holder_id"
+    t.index ["game_theme_id"], name: "index_game_holder_sessions_on_game_theme_id"
     t.index ["user_id"], name: "index_game_holder_sessions_on_user_id"
   end
 
@@ -758,6 +760,7 @@ ActiveRecord::Schema.define(version: 20210228072633) do
   add_foreign_key "game_holder_actions", "game_holders"
   add_foreign_key "game_holder_actions", "users"
   add_foreign_key "game_holder_sessions", "game_holders"
+  add_foreign_key "game_holder_sessions", "game_themes"
   add_foreign_key "game_holder_sessions", "users"
   add_foreign_key "game_holders", "question_types"
   add_foreign_key "game_holders", "users", column: "generated_by_id"
