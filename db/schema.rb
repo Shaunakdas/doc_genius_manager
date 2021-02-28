@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210214155302) do
+ActiveRecord::Schema.define(version: 20210228072359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -368,6 +368,13 @@ ActiveRecord::Schema.define(version: 20210214155302) do
     t.index ["game_holder_session_id"], name: "index_game_sessions_on_game_holder_session_id"
     t.index ["game_level_id"], name: "index_game_sessions_on_game_level_id"
     t.index ["user_id"], name: "index_game_sessions_on_user_id"
+  end
+
+  create_table "game_themes", force: :cascade do |t|
+    t.string "title"
+    t.json "payload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "hint_contents", force: :cascade do |t|
