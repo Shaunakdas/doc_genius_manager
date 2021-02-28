@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210228072359) do
+ActiveRecord::Schema.define(version: 20210228072633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -635,6 +635,15 @@ ActiveRecord::Schema.define(version: 20210228072359) do
     t.index ["slug"], name: "index_topics_on_slug", unique: true
   end
 
+  create_table "user_game_themes", force: :cascade do |t|
+    t.bigint "game_theme_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_theme_id"], name: "index_user_game_themes_on_game_theme_id"
+    t.index ["user_id"], name: "index_user_game_themes_on_user_id"
+  end
+
   create_table "user_regions", force: :cascade do |t|
     t.date "registration_date"
     t.bigint "user_id"
@@ -785,6 +794,8 @@ ActiveRecord::Schema.define(version: 20210228072359) do
   add_foreign_key "topic_level_standings", "topics"
   add_foreign_key "topic_level_standings", "users"
   add_foreign_key "topics", "chapters"
+  add_foreign_key "user_game_themes", "game_themes"
+  add_foreign_key "user_game_themes", "users"
   add_foreign_key "user_regions", "regions"
   add_foreign_key "user_regions", "users"
   add_foreign_key "user_victory_cards", "users"

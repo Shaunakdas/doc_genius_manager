@@ -28,6 +28,9 @@ class User < ApplicationRecord
   has_many :saved_game_holder_actions , -> { where(action_type: :save_action) }, class_name: 'GameHolderAction'
   has_many :saved_game_holders , through: :saved_game_holder_actions, source: :game_holder
 
+  has_many :user_game_themes
+  has_many :saved_game_themes , through: :user_game_themes, source: :game_theme
+
   # scope :male, where(sex: :male)
   # attr_accessor :first_name, :last_name, :email
   def to_s
