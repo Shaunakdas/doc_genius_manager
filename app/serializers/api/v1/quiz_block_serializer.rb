@@ -11,7 +11,15 @@ module Api::V1
         subject = Subject.find(scope[:subject_id])
         game_holders = subject.standard_game_holders(object) if !subject.nil?
       end
-      {
+      if !scope.nil? && !scope[:search].nil?
+        game_holders = GameHolder.search_results(scope[:search]).last(20)
+        return {
+          title: "Search Results",
+          url_suffix: "",
+          quizzes: ActiveModel::ArraySerializer.new(game_holders, each_serializer: QuizSerializer)
+        }
+      end
+      return {
         title: object.title,
         url_suffix: object.url_suffix,
         quizzes: ActiveModel::ArraySerializer.new(game_holders, each_serializer: QuizSerializer)

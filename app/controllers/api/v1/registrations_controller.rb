@@ -132,7 +132,7 @@ module Api::V1
     def user_params
       params.require(:user).permit(:first_name, :email, :last_name,
         :mobile_number, :password, :password_confirmation, :birth,
-        :sex, :registration_method)
+        :sex, :registration_method, :role_id)
     end
 
 

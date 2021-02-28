@@ -1,7 +1,7 @@
 require 'faraday_middleware/aws_signers_v4'
 es_client = Elasticsearch::Client.new({
   log: true,
-  url: 'https://search-drona-quizova-piay5wk7oh5yu55lpoazuybmae.ap-south-1.es.amazonaws.com',
+  url: ENV['ELASTICSEARCH_URL'],
   port: 443,
   scheme: "https",
   retry_on_failure: true,
@@ -17,7 +17,6 @@ es_client = Elasticsearch::Client.new({
   )
 end
 
-ENV['ELASTICSEARCH_URL'] = "https://search-drona-quizova-piay5wk7oh5yu55lpoazuybmae.ap-south-1.es.amazonaws.com"
 Searchkick.aws_credentials = {
   access_key_id: ENV['AWS_ACCESS_KEY_ID'],
   secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],

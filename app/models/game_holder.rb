@@ -1,4 +1,5 @@
 class GameHolder < ApplicationRecord
+  searchkick
   belongs_to :game, polymorphic: true
   belongs_to :question_type, optional: true
   validates :image_url, format: {with: /\.(png|jpg|jpeg|svg|gif)\Z/i}, :allow_blank => true
@@ -31,12 +32,16 @@ class GameHolder < ApplicationRecord
     "#{self.name}"
   end
 
-  def self.search(search)
+  def self.search_title(search)
     where('title LIKE :search', search: "%#{search}%")
   end
 
   def self.search_slug(search)
     where('slug LIKE :search', search: "#{search}")
+  end
+
+  def self.search_results(search)
+    where(id: GameHolder.search(search, fields: ["title"], where: {created_at: { gt: Date.today.beginning_of_year }}).hits.map{|bar| bar["_id"]})
   end
 
   def self.list(list_params)
@@ -57,7 +62,8 @@ class GameHolder < ApplicationRecord
       game_holder_list = chapter.practice_game_holders
     elsif list_params["search"]
       query = list_params["search"]
-      game_holder_list = game_holder_list.where('title LIKE :search', search: "%#{list_params[:search]}%")
+      game_holder_list = GameHolder.search_results(list_params[:search])
+      # game_holder_list = game_holder_list.where('title LIKE :search', search: "%#{list_params[:search]}%")
     elsif list_params["slug"]
       query = list_params["slug"]
       game_holder_list = game_holder_list.where('title LIKE :search', search: "%#{list_params[:slug]}%")
