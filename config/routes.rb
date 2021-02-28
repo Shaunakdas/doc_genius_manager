@@ -137,10 +137,17 @@ Rails.application.routes.draw do
       get "game/:id/action/:action_type" => "game_holders#user_action"
 
       
-      # Reports
+      # Game Themes
+      # Get Game Themes List
+      get "game_themes" => "game_themes#index"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      get "game_theme/:id" => "game_themes#summary"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      get "game_theme/:id/save" => "game_themes#save"
+      # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)
+      get "game_themes/saved" => "game_themes#saved_list"
 
-
-      # Game Holder Session
+      # Reports: Game Holder Session
       # Get Game Holder Sessions List using search, filter and pagination. Req: (Auth token, Role, Standard, Region, TargetExam, Query, Board, Page, Limit). Response: (Standard Array)
       get "reports" => "game_holder_sessions#index"
       # Get GameHolder Session Details for Start Screen. Req: (Game Holder Id, Auth Token). Response: (Game Holder Details)

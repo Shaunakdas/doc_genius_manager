@@ -63,7 +63,7 @@ module Api::V1
     end
 
     def theme
-      GameHolder.theme_list[rand(GameHolder.theme_list.count)]
+      GameTheme.all.sample.theme_fields
     end
   end
 end

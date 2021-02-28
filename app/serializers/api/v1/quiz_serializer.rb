@@ -10,7 +10,8 @@ module Api::V1
     end
 
     def theme
-      GameHolder.theme_list[rand(GameHolder.theme_list.count)] if object.class.name == "GameHolder"
+      GameTheme.all.sample.theme_fields if object.class.name == "GameHolder"
+      # GameTheme.theme_list[rand(GameHolder.theme_list.count)] if object.class.name == "GameHolder"
     end
   end
 end
