@@ -1,6 +1,6 @@
 module Api::V1
   class ReportDetailSerializer < ActiveModel::Serializer
-    attributes :id, :title, :completion_status, :attempt_type, :completion_date, :start_date, :game_theme_fields
+    attributes :id, :title, :completion_status, :attempt_type, :completion_date, :start_date, :game_theme_fields, :game_theme_payload
     has_one :game_holder, serializer: GameHolderDetailSerializer
     has_many :game_sessions, serializer: GameSessionSerializer
     def creation_date
@@ -9,6 +9,10 @@ module Api::V1
 
     def game_theme_fields
       object.game_theme.theme_fields if !object.game_theme.nil?
+    end
+
+    def game_theme_payload
+      object.game_theme.payload if !object.game_theme.nil?
     end
   end
 end

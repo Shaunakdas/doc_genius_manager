@@ -1,6 +1,6 @@
 module Api::V1
   class GameHolderSerializer < AcadEntitySerializer
-    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small, :theme
+    attributes :id, :title, :sub_title, :name, :slug, :sequence, :game, :image_url, :enabled, :score_small, :theme, :game_theme_payload
     has_one :game, serializer: GameSerializer
 
     def question_input
@@ -64,6 +64,10 @@ module Api::V1
 
     def theme
       GameTheme.all.sample.theme_fields
+    end
+
+    def game_theme_payload
+      GameTheme.all.sample.payload
     end
   end
 end

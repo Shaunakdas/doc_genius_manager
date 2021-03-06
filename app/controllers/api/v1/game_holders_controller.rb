@@ -61,10 +61,11 @@ class Api::V1::GameHoldersController < Api::V1::ApiController
   # uploads result of a game (based on the supplied id) 
   def session_result
     begin
-      game_level = GameHolderSession.find(params[:game_id] || params[:id])
+      game = GameHolderSession.find(params[:report_id]) if params[:report_id]
+      game = GameHolder.find(params[:game_id]) if params[:game_id]
       game_session = nil
       ActiveRecord::Base.transaction do
-        game_session = game_level.parse_result(@current_user, params)
+        game_session = game.parse_result(@current_user, params)
       end
       respond_with game_session, serializer: Api::V1::GameEndSerializer, location: '/game_session'
     rescue ActiveRecord::RecordNotFound
