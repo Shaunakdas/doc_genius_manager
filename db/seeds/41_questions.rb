@@ -1244,7 +1244,7 @@ def update_question_text
 end
 
 def update_gameholder_question_text(name)
-  GameHolder.search(name).each do |g|
+  GameHolder.search_title(name).each do |g|
     g.game_questions.each do |g_q|
       replace_question_slash(g_q.question)
       g_q.sub_questions.each do |s_q|
@@ -1270,7 +1270,7 @@ def update_option_text
 end
 
 def update_gameholder_option_text(name)
-  GameHolder.search(name).each do |g|
+  GameHolder.search_title(name).each do |g|
     g.game_questions.each do |g_q|
       g_q.game_options.each do |g_o|
         replace_option_slash(g_o.option)
