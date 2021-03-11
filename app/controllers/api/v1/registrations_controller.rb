@@ -24,6 +24,10 @@ module Api::V1
     def sign_up_guest
       begin
         user = User.last
+        user_role = Role.find_by(slug: 'guest')
+        username = params[:name].parameterize(separator: '_') + '_' + rand(10000..99999).to_s
+        user = User.new(first_name: params[:name], username: username, role: user_role)
+        user.save!
         json_response(payload(user), status = :ok)
       rescue ActiveRecord::RecordInvalid => invalid
         error_response(user.errors.full_messages[0], :unprocessable_entity) 

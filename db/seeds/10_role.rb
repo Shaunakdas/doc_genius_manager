@@ -1,4 +1,4 @@
-['student', 'teacher', 'admin'].each do |role|
+['student', 'teacher', 'admin', 'guest'].each do |role|
   Role.create_with(
     name: role.capitalize
   ).find_or_create_by(
