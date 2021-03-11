@@ -37,8 +37,4 @@ class Subject  < AcadEntity
     return game_list.first(5) if game_list.length > 5
     return []
   end
-
-  def title
-    "Chapter: "+name.titleize
-  end
 end
