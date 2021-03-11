@@ -5,7 +5,11 @@ require 'rubyXL'
 # book = RubyXL::Parser.parse('db/seeds/excels/WorkingRules_Shaunak_v0.14.xlsx')
 book = RubyXL::Parser.parse('question_source/screenplays/scripts/Base_WorkingRule.xlsx')
 
-
+def update_standard_sequence
+  Standard.all.each do |std|
+    std.update_attributes!(sequence: std.slug.to_i)
+  end
+end
 
 def remove_game_question_references
   GameHolder.all.each do |g|

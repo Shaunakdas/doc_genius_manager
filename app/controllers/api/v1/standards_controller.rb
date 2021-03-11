@@ -163,7 +163,7 @@ class Api::V1::StandardsController < Api::V1::ApiController
       child_entities = Subject.where(name: ["Maths"]).where(enabled: true)
     elsif chapter.nil? && topic.nil? && sub_topic.nil?
       # Only Subject is given
-      child_entities = entity.child_entities if standard.nil?
+      child_entities = entity.child_entities(params[:standard_group]) if standard.nil?
       if subject.nil?
         # Only Standard is given
         child_entities = Subject.where(name: ["Maths", "English","Science"]).where(enabled: true) if (standard.name.to_i<9)

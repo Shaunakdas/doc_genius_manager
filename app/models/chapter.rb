@@ -61,4 +61,8 @@ class Chapter < AcadEntity
   def child_entities
     topics
   end
+
+  def title
+    "Chapter: "+name.titleize
+  end
 end

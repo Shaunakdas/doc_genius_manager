@@ -15,8 +15,11 @@ class Subject  < AcadEntity
   has_many :region_percentile_scores, as: :acad_entity
   has_many :practice_game_holders, through: :streams, as: :acad_entity, class_name: "GameHolder"
 
-  def child_entities
-    Standard.all
+  def child_entities standard_group
+    return Standard.all if standard_group.nil?
+    return Standard.where(slug: ["1","2","3","4"]).order("sequence DESC") if standard_group == "junior"
+    return Standard.where(slug: ["5","6","7","8"]).order("sequence DESC") if standard_group == "middle"
+    return Standard.where(slug: ["9","10","11","12"]).order("sequence DESC") if standard_group == "senior"
   end
 
   def standard_game_holders standard
@@ -33,5 +36,9 @@ class Subject  < AcadEntity
     game_list = game_list + next_game_holders.where(:game_id => practice_types.map(&:id)).last(5) if next_game_holders.count > 0
     return game_list.first(5) if game_list.length > 5
     return []
+  end
+
+  def title
+    "Chapter: "+name.titleize
   end
 end
