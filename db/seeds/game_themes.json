@@ -2,12 +2,12 @@
   {
      "id":0,
      "title": "Explore the Wild!",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_boJRmE.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/lfqqozmbqeznq.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/tcimuqgncmzgj.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf20_oq1nx4ip.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_558b7b.json",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_boJRmE.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/lfqqozmbqeznq.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/tcimuqgncmzgj.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf20_oq1nx4ip.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_558b7b.json",
      "commentBoxColor":"#558b7b",
      "answerButtonBgColour":"#7b269b",
      "answerButtonBgShadowColour":"#9d7fa9"
@@ -15,13 +15,13 @@
   {
      "id":1,
      "title": "Euro Train",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_FhFjqS.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/nreehkderghyg.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/zhtzbjcfkvwca.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/funny_cooking_section_b_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_FhFjqS.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/nreehkderghyg.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/zhtzbjcfkvwca.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/funny_cooking_section_b_loop.mp3",
      "introMessage":"Answer all the questions to keep Euro Rail running!",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_fxjz1nl5.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_2f4c5c.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_fxjz1nl5.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_2f4c5c.json",
      "commentBoxColor":"#2f4c5c",
      "answerButtonBgColour":"#522276",
      "answerButtonBgShadowColour":"#a28fb1"
@@ -29,12 +29,12 @@
   {
      "id":2,
      "title": "Night in the Forest",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_HlhzUG.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/logo.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/ypcnicfwhtffd.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/happy_farm_intro_loop.mp3",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_hrc0i25p.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_32396d.json",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_HlhzUG.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/logo.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/ypcnicfwhtffd.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/happy_farm_intro_loop.mp3",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_hrc0i25p.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_32396d.json",
      "commentBoxColor":"#32396d",
      "answerButtonBgColour":"#292474",
      "answerButtonBgShadowColour":"#5c597d"
@@ -42,12 +42,12 @@
   {
      "id":3,
      "title": "Space Night",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_cch6XX.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/inwbpcxziysja.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/nukeolidiszra.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/in_a_hurry_section_a_loop.mp3",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_sr4qaofa.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_d95c5a.json",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_cch6XX.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/inwbpcxziysja.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/nukeolidiszra.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/in_a_hurry_section_a_loop.mp3",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_sr4qaofa.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_d95c5a.json",
      "commentBoxColor":"#d95c5a",
      "answerButtonBgColour":"#620970",
      "answerButtonBgShadowColour":"#77607b"
@@ -55,13 +55,13 @@
   {
      "id":4,
      "title": "Delivery Truck",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf30_yrriqz6u.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/ydagcwiokdwxp.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/toldxyiofdjtu.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/playground_section_b_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf30_yrriqz6u.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/ydagcwiokdwxp.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/toldxyiofdjtu.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/playground_section_b_loop.mp3",
      "introMessage":"Answer all the questions to keep your Delivery Car running!",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_fxjz1nl5.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_702015.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_fxjz1nl5.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_702015.json",
      "commentBoxColor":"#702015",
      "answerButtonBgColour":"#4f28ac",
      "answerButtonBgShadowColour":"#8572b2"
@@ -69,12 +69,12 @@
   {
      "id":5,
      "title": "",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_RXVCcO.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/epkocmvdjcvjq.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/saguwbfpifzdc.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/the_explorer_section_a_loop.mp3",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_sr4qaofa.json",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_8d31da.json",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_RXVCcO.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/epkocmvdjcvjq.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/saguwbfpifzdc.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/the_explorer_section_a_loop.mp3",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_sr4qaofa.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_8d31da.json",
      "commentBoxColor":"#8d31da",
      "answerButtonBgColour":"#659bb8",
      "answerButtonBgShadowColour":"#3b447c"
@@ -82,36 +82,36 @@
   {
      "id":6,
      "title": "Euro Tour",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_434-gradient-animated-background.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/hhsciwxwposru.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/chpulxqrhtrtr.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/the_gateway_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_434-gradient-animated-background.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/hhsciwxwposru.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/chpulxqrhtrtr.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/the_gateway_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
      "introMessage":"Time to travel the dreamy cities of Europe. Answer questions visit all the cities!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_ad7179.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_ad7179.json",
      "commentBoxColor":"#ad7179",
      "answerButtonBgColour":"#754f9c",
      "answerButtonBgShadowColour":"#8b66b1",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/berllin-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/berllin-skylines.json",
            "message":"You have reached Berlin!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/london-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/london-skylines.json",
            "message":"You have reached London!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/madrid-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/madrid-skylines.json",
            "message":"You have reached Madrid!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/paris-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/paris-skylines.json",
            "message":"You have reached Paris!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/rome-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/rome-skylines.json",
            "message":"You have reached Roman!"
         }
      ]
@@ -119,36 +119,36 @@
   {
      "id":7,
      "title": "Euro Tour: Night Life",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_YN73eT.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/wpkddvpycicak.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/bflvvkyvhwnni.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_YN73eT.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/wpkddvpycicak.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/bflvvkyvhwnni.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
      "introMessage":"Time to travel the night life of Europe. Answer questions to visit all the cities!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_4a3c6f.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_4a3c6f.json",
      "commentBoxColor":"#4a3c6f",
      "answerButtonBgColour":"#002b6b",
      "answerButtonBgShadowColour":"#3c557a",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/copenhagen-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/copenhagen-skylines.json",
            "message":"You have reached Copenhagen!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/dublin-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/dublin-skylines.json",
            "message":"You have reached Dublin!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/helsinki-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/helsinki-skylines.json",
            "message":"You have reached Helsinki!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/prague-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/prague-skylines.json",
            "message":"You have reached Prague!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/vienna-skylines.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/vienna-skylines.json",
            "message":"You have reached Vienna!"
         }
      ]
@@ -156,36 +156,36 @@
   {
      "id":8,
      "title": "Indian Cities",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf30_2p1gk2v4.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/dhrltqjevlrqk.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/snchkavpwtoyn.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/playground_section_b_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf30_2p1gk2v4.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/dhrltqjevlrqk.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/snchkavpwtoyn.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/playground_section_b_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_photographer_lf20_x0mpsmsj.json",
      "introMessage":"Time for some Bharat Bhraman. Answer questions to visit all the major Indian cities!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_234060.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_234060.json",
      "commentBoxColor":"#234060",
      "answerButtonBgColour":"#964063",
      "answerButtonBgShadowColour":"#a15675",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/Banglore.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/Banglore.json",
            "message":"You have reached Bangalore!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/Delhi.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/Delhi.json",
            "message":"You have reached Delhi!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/Jaipur.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/Jaipur.json",
            "message":"You have reached Jaipur!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/Kolkata.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/Kolkata.json",
            "message":"You have reached Kolkata!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/Mumbai.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/Mumbai.json",
            "message":"You have reached Mumbai!"
         }
      ]
@@ -194,37 +194,37 @@
      "id":9,
      "name":"Build A Snowman",
      "title": "Build A Snowman",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf20_WAPsSQ.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/gmvwjilgdztdp.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/pvyndkvcbidcw.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/the_explorer_section_a_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf20_WAPsSQ.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/gmvwjilgdztdp.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/pvyndkvcbidcw.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/the_explorer_section_a_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_santa_lf20_qaintgs5.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_santa_lf20_qaintgs5.json",
      "introMessage":"Answer all the questions to build a Snowman!!",
      "finalMessage":"Yayy! We got the snowman!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_d24e49.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_d24e49.json",
      "commentBoxColor":"#d24e49",
      "answerButtonBgColour":"#8e264b",
      "answerButtonBgShadowColour":"#804057",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_2_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_2_37956.json",
            "message":"Step 1: Roll the ball along the ground to make the bottom section."
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_4_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_4_37956.json",
            "message":"Step 2: For the head, roll some more snow and make a small snow ball!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_6_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_6_37956.json",
            "message":"Step 3: Add two sticks for the snowman’s arms."
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_3_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_3_37956.json",
            "message":"Step 4: Use a Carrot to make its nose!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_8_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_8_37956.json",
            "message":"Step 5: Finally put the hat on top of your snow man!"
         }
      ]
@@ -233,37 +233,37 @@
      "id":10,
      "name":"So Many Snowmans!",
      "title": "So Many Snowmans!",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf20_WAPsSQ.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/hdwqjsxmsodhg.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/lmrunadsvjpoj.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/the_gateway_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf20_WAPsSQ.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/hdwqjsxmsodhg.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/lmrunadsvjpoj.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/the_gateway_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_santa_lf20_qaintgs5.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_santa_lf20_qaintgs5.json",
      "introMessage":"Answer all the questions to build as many Snow mans as possible!!",
      "finalMessage":"Yayy! We got 5 snowmans!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_ae4639.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_ae4639.json",
      "commentBoxColor":"#ae4639",
      "answerButtonBgColour":"#b23e65",
      "answerButtonBgShadowColour":"#814056",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_7_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_7_37956.json",
            "message":"This is your first Snowman!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_4_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_4_37956.json",
            "message":"Snowmans Built: 2"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_6_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_6_37956.json",
            "message":"Snowmans Built: 3"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_3_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_3_37956.json",
            "message":"Snowmans Built: 4"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/snowman_8_37956.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/snowman_8_37956.json",
            "message":"Snowmans Built: 5"
         }
      ]
@@ -272,37 +272,37 @@
      "id":11,
      "name":"Cat Yoga!",
      "title": "Cat Yoga",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf30_2p1gk2v4.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/uzgfbbrzeuqlf.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/brhhxhmtnkity.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf30_2p1gk2v4.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/uzgfbbrzeuqlf.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/brhhxhmtnkity.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/a_day_in_the_village_main_section_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_cat_39579.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_cat_39579.json",
      "introMessage":"Time to do some stretching. My Cat will teach you Yoga Asanas!!",
      "finalMessage":"Yayy! Today's exercise is done! Thanks Kitty Cat!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_514573.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_514573.json",
      "commentBoxColor":"#514573",
      "answerButtonBgColour":"#3a2478",
      "answerButtonBgShadowColour":"#514573",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/cat-yoga-adomuka-39574.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/cat-yoga-adomuka-39574.json",
            "message":"First Yoga Asana: Adomukha"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/cat-yoga-bakasana-39575.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/cat-yoga-bakasana-39575.json",
            "message":"Next Yoga Asana: Bakasana"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/cat-yoga-sarvangasana-39576.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/cat-yoga-sarvangasana-39576.json",
            "message":"Next Yoga Asana: Sarvangasana"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/cat-yoga-trikonasana-39578.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/cat-yoga-trikonasana-39578.json",
            "message":"Next Yoga Asana: Vrksasana"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/cat-yoga-vrksasana-39577.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/cat-yoga-vrksasana-39577.json",
            "message":"Next Yoga Asana: Trikonasana"
         }
      ]
@@ -311,37 +311,37 @@
      "id":12,
      "name":"Smart Home Builder!",
      "title": "Smart Home Builder",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf20_WAPsSQ.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/ccjfthrbxwlki.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/xhzeyxxaologn.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/happy_farm_intro_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf20_WAPsSQ.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/ccjfthrbxwlki.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/xhzeyxxaologn.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/happy_farm_intro_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_robot_lf20_IlQERS.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_robot_lf20_IlQERS.json",
      "introMessage":"Gather smart gadgets to build your smart home by answering all questions!",
      "finalMessage":"Yayy! You have built the best Smart Home!!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_4f3b6a.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_4f3b6a.json",
      "commentBoxColor":"#4f3b6a",
      "answerButtonBgColour":"#5d2ca0",
      "answerButtonBgShadowColour":"#4f3b6a",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-watch-43113.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-watch-43113.json",
            "message":"Smart Gadget Won: Smart Watch"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-tv-43114.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-tv-43114.json",
            "message":"Smart Gadget Won: Smart Television"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-restroom-smart-43115.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-restroom-smart-43115.json",
            "message":"Smart Gadget Won: Smart Toilet"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-door-lock-43118.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-door-lock-43118.json",
            "message":"Smart Gadget Won: Smart Door Lock"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-home-control-app-43119.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-home-control-app-43119.json",
            "message":"Smart Gadget Won: Home Control App"
         }
      ]
@@ -350,37 +350,37 @@
      "id":13,
      "name":"Smart Home Builder 2",
      "title": "Smart Home Builder 2",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf20_MaCIv3.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/nxswiobkwfyqt.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/suijfagzzyfkv.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/funny_cooking_section_b_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf20_MaCIv3.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/nxswiobkwfyqt.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/suijfagzzyfkv.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/funny_cooking_section_b_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_robot_lf20_IlQERS.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_robot_lf20_IlQERS.json",
      "introMessage":"Gather smart gadgets to build your smart home by answering all questions!",
      "finalMessage":"Yayy! You have built the best Smart Home!!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_551724.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_551724.json",
      "commentBoxColor":"#551724",
      "answerButtonBgColour":"#3c93ca",
      "answerButtonBgShadowColour":"#7eb0d0",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-vacuum-cleaner-43120.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-vacuum-cleaner-43120.json",
            "message":"Smart Gadget Won: Smart Vacuum Cleaner"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-coffee-machine-43133.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-coffee-machine-43133.json",
            "message":"Smart Gadget Won: Smart Coffee Machine"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-home-intercom-security-43123.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-home-intercom-security-43123.json",
            "message":"Smart Gadget Won: Smart Intercomm Security"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-fingerprint-smart-lock-43127.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-fingerprint-smart-lock-43127.json",
            "message":"Smart Gadget Won: Smart Fingerprint Lock"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/smart-surveillance-cctv-43134.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/smart-surveillance-cctv-43134.json",
            "message":"Smart Gadget Won: Smart CCTV"
         }
      ]
@@ -389,37 +389,37 @@
      "id":14,
      "name":"Sports Balls!",
      "title": "Sports Balls!",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/lf20_cch6XX.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/xkvakdxtibvfh.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/jlytrfrwnfaqb.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/in_a_hurry_section_a_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/lf20_cch6XX.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/xkvakdxtibvfh.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/jlytrfrwnfaqb.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/in_a_hurry_section_a_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_footballer_lf20_dSdZzy.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_footballer_lf20_dSdZzy.json",
      "introMessage":"Answer all questions to gather as many sports balles as possible",
      "finalMessage":"Yayy! You have built the best Smart Home!!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_372145.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_372145.json",
      "commentBoxColor":"#372145",
      "answerButtonBgColour":"#90319c",
      "answerButtonBgShadowColour":"#905997",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/ball-table-tennis-43091.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/ball-table-tennis-43091.json",
            "message":"This is your first sports ball: Table Tennis Ball!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/ball-baseball-43085.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/ball-baseball-43085.json",
            "message":"You won: Baseball"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/ball-bowling-43087.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/ball-bowling-43087.json",
            "message":"You won: Bowling Ball"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/ball-golf-43089.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/ball-golf-43089.json",
            "message":"You won: Golf Ball"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/ball-pool-43092.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/ball-pool-43092.json",
            "message":"You won: Pool Ball"
         }
      ]
@@ -428,37 +428,37 @@
      "id":15,
      "name":"Break your Fever!",
      "title": "Break your Fever",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_lf20_MaCIv3.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/irgnqwyntlmrl.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/qbgwekxhhmrky.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/playground_section_b_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_lf20_MaCIv3.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/irgnqwyntlmrl.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/qbgwekxhhmrky.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/playground_section_b_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_sr4qaofa.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_sr4qaofa.json",
      "introMessage":"I have got 100 C Fever! Answer all the questions to help break my Fever!!",
      "finalMessage":"Yayy! I broke my fever!!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_504d90.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_504d90.json",
      "commentBoxColor":"#504d90",
      "answerButtonBgColour":"#348cbb",
      "answerButtonBgShadowColour":"#6aaccf",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medical-care-7-scene.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medical-care-7-scene.json",
            "message":"Step 1: Get to a nearby hospital and get an appointment!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medicine-character-5-43152.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medicine-character-5-43152.json",
            "message":"Step 2: See the doctor and explain your symptoms."
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medicine-character-4-43152.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medicine-character-4-43152.json",
            "message":"Step 3: Time for a Blood Test!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medical-care-5-scene.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medical-care-5-scene.json",
            "message":"Step 4: Test says I have got Viral Fever! The Doctor is explaining my symptoms!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medicine-character-2-43152.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medicine-character-2-43152.json",
            "message":"Step 5: Time for me to get the injection!"
         }
      ]
@@ -467,37 +467,37 @@
      "id":16,
      "name":"Tooth Pain!",
      "title": "Tooth Pain",
-     "backgroundSrc":"http://demo.dronagames.com/lottieJsons/background_434-gradient-animated-background.json",
-     "gameIcon":"http://demo.dronagames.com/gameLogos/nzjniyekvcero.png",
-     "gameLogo": "http://demo.dronagames.com/gameLogos/nzjniyekvcero.png",
-     "gameAudio":"http://demo.dronagames.com/gameAudios/the_explorer_section_a_loop.mp3",
+     "backgroundSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/background_434-gradient-animated-background.json",
+     "gameIcon":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/nzjniyekvcero.png",
+     "gameLogo": "https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameLogos/nzjniyekvcero.png",
+     "gameAudio":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/gameAudios/the_explorer_section_a_loop.mp3",
      "backgroundColor":"#000000",
-     "characterSrc":"http://demo.dronagames.com/lottieJsons/avatar_lf30_sr4qaofa.json",
+     "characterSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/avatar_lf30_sr4qaofa.json",
      "introMessage":"My tooth is paining! Answer all the questions to treat my tooth pain!!",
      "finalMessage":"Yayy! My tooth is not paining any more!!",
-     "startButtonSrc":"http://demo.dronagames.com/lottieJsons/start_button_858585.json",
+     "startButtonSrc":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/start_button_858585.json",
      "commentBoxColor":"#858585",
      "answerButtonBgColour":"#8452a7",
      "answerButtonBgShadowColour":"#659bb8",
      "stepAnimationJsons":[
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medical-care-4-scene.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medical-care-4-scene.json",
            "message":"Step 1: Get to a nearby Dental Hospital and get an appointment!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medicine-character-5-43152.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medicine-character-5-43152.json",
            "message":"Step 2: See the Dentist and explain your symptoms."
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medical-care-2-scene.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medical-care-2-scene.json",
            "message":"Step 3: Time for a Blood Test!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medical-care-5-scene.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medical-care-5-scene.json",
            "message":"Step 4: Test says I have got Wisdom Tooth! The Doctor is explaining my symptoms!"
         },
         {
-           "src":"http://demo.dronagames.com/lottieJsons/medicine-character-2-43152.json",
+           "src":"https://s3.ap-south-1.amazonaws.com/app.quizova.com/lottieJsons/medicine-character-2-43152.json",
            "message":"Step 5: Time for me to extract wisdom tooth!"
         }
      ]
